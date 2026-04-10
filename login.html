@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In — Online Hospital</title>
+    <meta name="description" content="Sign in to your Online Hospital account. Access your physician dashboard or patient portal securely.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚕</text></svg>">
+
+    <style>
+        /* ── Reset ────────────────────────────────── */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        ::selection {
+            background: #B8956A;
+            color: #FFFFFF;
+        }
+
+        /* ── Design Tokens ───────────────────────── */
+        :root {
+            --color-bg-image:     #E2DFD2;
+            --color-bg-form:      #FFFFFF;
+            --color-text:         #111111;
+            --color-text-muted:   #6B6B6B;
+            --color-text-light:   #999999;
+            --color-accent:       #111111;
+            --color-accent-warm:  #B8956A;
+            --color-border:       #E8E4DF;
+            --color-border-focus: #111111;
+            --color-error:        #C43E3E;
+            --color-error-bg:     #FEF2F2;
+
+            --font-serif: 'Playfair Display', 'Georgia', serif;
+            --font-sans:  'Inter', 'Helvetica Neue', Arial, sans-serif;
+
+            --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* ── Split Layout ────────────────────────── */
+        .login-split {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ── Left Panel: Editorial Image ─────────── */
+        .login-image {
+            position: relative;
+            flex: 1 1 50%;
+            background-color: var(--color-bg-image);
+            overflow: hidden;
+        }
+
+        .login-image__photo {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 40%;
+            opacity: 0;
+            transition: opacity 1.2s var(--ease-smooth);
+        }
+
+        .login-image__photo--loaded {
+            opacity: 1;
+        }
+
+        .login-image__overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                180deg,
+                rgba(17, 17, 17, 0.08) 0%,
+                rgba(17, 17, 17, 0.25) 100%
+            );
+        }
+
+        .login-image__brand {
+            position: absolute;
+            top: 40px;
+            left: 44px;
+            z-index: 2;
+        }
+
+        .login-image__brand a {
+            font-family: var(--font-serif);
+            font-weight: 700;
+            font-size: 1.15rem;
+            letter-spacing: 0.04em;
+            color: var(--color-bg-form);
+            text-decoration: none;
+        }
+
+        .login-image__quote {
+            position: absolute;
+            bottom: 56px;
+            left: 44px;
+            right: 44px;
+            z-index: 2;
+            max-width: 400px;
+        }
+
+        .login-image__quote blockquote {
+            font-family: var(--font-serif);
+            font-size: 1.35rem;
+            font-weight: 400;
+            font-style: italic;
+            line-height: 1.5;
+            color: var(--color-bg-form);
+            margin-bottom: 1rem;
+        }
+
+        .login-image__quote cite {
+            font-family: var(--font-sans);
+            font-style: normal;
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* ── Right Panel: Form ───────────────────── */
+        .login-form-panel {
+            flex: 1 1 50%;
+            background-color: var(--color-bg-form);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem;
+        }
+
+        .login-form-container {
+            width: 100%;
+            max-width: 380px;
+            opacity: 0;
+            transform: translateY(16px);
+            animation: formFadeIn 0.8s var(--ease-smooth) 0.3s forwards;
+        }
+
+        /* ── Form Header ─────────────────────────── */
+        .login-header {
+            margin-bottom: 2.5rem;
+        }
+
+        .login-header__overline {
+            font-family: var(--font-sans);
+            font-weight: 500;
+            font-size: 0.68rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--color-accent-warm);
+            display: block;
+            margin-bottom: 0.75rem;
+        }
+
+        .login-header__title {
+            font-family: var(--font-serif);
+            font-weight: 700;
+            font-size: 1.85rem;
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+            color: var(--color-text);
+        }
+
+        /* ── Form Elements ───────────────────────── */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-family: var(--font-sans);
+            font-weight: 500;
+            font-size: 0.7rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--color-text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.875rem 0;
+            border: none;
+            border-bottom: 1px solid var(--color-border);
+            background: transparent;
+            font-family: var(--font-sans);
+            font-size: 0.95rem;
+            font-weight: 400;
+            color: var(--color-text);
+            outline: none;
+            transition: border-color 0.3s var(--ease-smooth);
+        }
+
+        .form-input::placeholder {
+            color: var(--color-text-light);
+            font-weight: 300;
+        }
+
+        .form-input:focus {
+            border-bottom-color: var(--color-border-focus);
+        }
+
+        .form-input--error {
+            border-bottom-color: var(--color-error);
+        }
+
+        /* ── Password Toggle ─────────────────────── */
+        .form-group--password {
+            position: relative;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 0;
+            bottom: 0.875rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-family: var(--font-sans);
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--color-text-light);
+            transition: color 0.3s var(--ease-smooth);
+            padding: 0;
+        }
+
+        .password-toggle:hover {
+            color: var(--color-text);
+        }
+
+        /* ── Submit Button ───────────────────────── */
+        .form-submit {
+            width: 100%;
+            padding: 1rem;
+            margin-top: 0.5rem;
+            background-color: var(--color-accent);
+            color: var(--color-bg-form);
+            border: none;
+            cursor: pointer;
+            font-family: var(--font-sans);
+            font-weight: 600;
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            transition: background-color 0.3s var(--ease-smooth),
+                        transform 0.15s var(--ease-smooth);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-submit:hover {
+            background-color: #1A1A2E;
+        }
+
+        .form-submit:active {
+            transform: scale(0.985);
+        }
+
+        .form-submit:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Loading spinner inside button */
+        .form-submit__text {
+            transition: opacity 0.3s var(--ease-smooth);
+        }
+
+        .form-submit--loading .form-submit__text {
+            opacity: 0;
+        }
+
+        .form-submit__spinner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 18px;
+            height: 18px;
+            margin: -9px 0 0 -9px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: #FFFFFF;
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.3s var(--ease-smooth);
+            animation: spin 0.7s linear infinite;
+        }
+
+        .form-submit--loading .form-submit__spinner {
+            opacity: 1;
+        }
+
+        /* ── Error Message ───────────────────────── */
+        .form-error {
+            margin-top: 1.25rem;
+            padding: 0.85rem 1rem;
+            background-color: var(--color-error-bg);
+            border-left: 3px solid var(--color-error);
+            font-family: var(--font-sans);
+            font-size: 0.82rem;
+            color: var(--color-error);
+            line-height: 1.5;
+            opacity: 0;
+            transform: translateY(-6px);
+            transition: opacity 0.35s var(--ease-smooth),
+                        transform 0.35s var(--ease-smooth);
+            display: none;
+        }
+
+        .form-error--visible {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ── Form Footer ─────────────────────────── */
+        .form-footer {
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .form-footer__text {
+            font-family: var(--font-sans);
+            font-size: 0.82rem;
+            color: var(--color-text-light);
+        }
+
+        .form-footer__link {
+            color: var(--color-text);
+            font-weight: 500;
+            text-decoration: none;
+            border-bottom: 1px solid var(--color-border);
+            transition: border-color 0.3s var(--ease-smooth);
+        }
+
+        .form-footer__link:hover {
+            border-bottom-color: var(--color-text);
+        }
+
+        .form-divider {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 1.75rem 0;
+            color: var(--color-text-light);
+            font-family: var(--font-sans);
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .form-divider::before,
+        .form-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background-color: var(--color-border);
+        }
+
+        /* ── Back to Home Link ───────────────────── */
+        .back-home {
+            position: absolute;
+            top: 40px;
+            right: 44px;
+            z-index: 2;
+            font-family: var(--font-sans);
+            font-weight: 500;
+            font-size: 0.68rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--color-text-light);
+            text-decoration: none;
+            transition: color 0.3s var(--ease-smooth);
+        }
+
+        .back-home:hover {
+            color: var(--color-text);
+        }
+
+        /* ── Animations ──────────────────────────── */
+        @keyframes formFadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ── Responsive ──────────────────────────── */
+        @media (max-width: 960px) {
+            .login-split {
+                flex-direction: column;
+            }
+
+            .login-image {
+                flex: none;
+                height: 280px;
+            }
+
+            .login-image__quote {
+                display: none;
+            }
+
+            .login-image__brand {
+                top: 24px;
+                left: 24px;
+            }
+
+            .login-form-panel {
+                flex: 1;
+                padding: 2.5rem 1.5rem;
+            }
+
+            .back-home {
+                top: 24px;
+                right: 24px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .login-image {
+                height: 200px;
+            }
+
+            .login-header__title {
+                font-size: 1.5rem;
+            }
+
+            .login-form-panel {
+                padding: 2rem 1.25rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-split">
+
+        <!-- ════════════════════════════════════════════
+             LEFT PANEL — Editorial Image
+             ════════════════════════════════════════════ -->
+        <div class="login-image">
+            <img class="login-image__photo"
+                 id="editorial-photo"
+                 src="https://images.unsplash.com/photo-1551076805-e1869033e561?q=80&w=1600&auto=format&fit=crop"
+                 alt="Medical professional in a modern clinical environment"
+                 loading="eager">
+            <div class="login-image__overlay"></div>
+
+            <div class="login-image__brand">
+                <a href="index.html">ONLINE HOSPITAL</a>
+            </div>
+
+            <div class="login-image__quote">
+                <blockquote>"The best doctor gives the least medicine."</blockquote>
+                <cite>— Benjamin Franklin</cite>
+            </div>
+        </div>
+
+
+        <!-- ════════════════════════════════════════════
+             RIGHT PANEL — Login Form
+             ════════════════════════════════════════════ -->
+        <div class="login-form-panel">
+            <a href="index.html" class="back-home">← Back to Home</a>
+
+            <div class="login-form-container">
+                <header class="login-header">
+                    <span class="login-header__overline">Welcome Back</span>
+                    <h1 class="login-header__title">Client & Partner<br>Portal</h1>
+                </header>
+
+                <form id="login-form" novalidate>
+                    <div class="form-group">
+                        <label for="email" class="form-label">Email Address</label>
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            class="form-input"
+                            placeholder="you@example.com"
+                            autocomplete="email"
+                            required>
+                    </div>
+
+                    <div class="form-group form-group--password">
+                        <label for="password" class="form-label">Password</label>
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            class="form-input"
+                            placeholder="Enter your password"
+                            autocomplete="current-password"
+                            required>
+                        <button type="button" class="password-toggle" id="password-toggle">Show</button>
+                    </div>
+
+                    <button type="submit" class="form-submit" id="submit-btn">
+                        <span class="form-submit__text">Sign In</span>
+                        <span class="form-submit__spinner"></span>
+                    </button>
+
+                    <div class="form-error" id="form-error" role="alert"></div>
+                </form>
+
+                <div class="form-divider">or</div>
+
+                <div class="form-footer">
+                    <p class="form-footer__text">
+                        Don't have an account?
+                        <a href="register.html" class="form-footer__link">Apply Now</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- ════════════════════════════════════════════
+         JAVASCRIPT — Auth Logic
+         ════════════════════════════════════════════ -->
+    <script>
+    (function () {
+        'use strict';
+
+        // ── Configuration ───────────────────────────
+        const API_LOGIN_URL = 'api/login.php';
+        const REDIRECT_MAP  = {
+            doctor:  'doctor-dashboard.html',
+            patient: 'patient-dashboard.html',
+        };
+
+        // ── DOM References ──────────────────────────
+        const form           = document.getElementById('login-form');
+        const emailInput     = document.getElementById('email');
+        const passwordInput  = document.getElementById('password');
+        const submitBtn      = document.getElementById('submit-btn');
+        const errorBox       = document.getElementById('form-error');
+        const passwordToggle = document.getElementById('password-toggle');
+        const editorialPhoto = document.getElementById('editorial-photo');
+
+
+        // ── 1. Image Fade-In on Load ────────────────
+        editorialPhoto.addEventListener('load', () => {
+            editorialPhoto.classList.add('login-image__photo--loaded');
+        });
+
+        // If cached and already complete
+        if (editorialPhoto.complete && editorialPhoto.naturalWidth > 0) {
+            editorialPhoto.classList.add('login-image__photo--loaded');
+        }
+
+
+        // ── 2. Password Visibility Toggle ───────────
+        passwordToggle.addEventListener('click', () => {
+            const isPassword = passwordInput.type === 'password';
+            passwordInput.type = isPassword ? 'text' : 'password';
+            passwordToggle.textContent = isPassword ? 'Hide' : 'Show';
+        });
+
+
+        // ── 3. Clear Error on Input ─────────────────
+        [emailInput, passwordInput].forEach(input => {
+            input.addEventListener('input', () => {
+                hideError();
+                input.classList.remove('form-input--error');
+            });
+        });
+
+
+        // ── 4. Form Submission ──────────────────────
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            hideError();
+
+            const email    = emailInput.value.trim();
+            const password = passwordInput.value;
+
+            // ── Client-side validation ──
+            if (!email) {
+                showError('Please enter your email address.');
+                emailInput.classList.add('form-input--error');
+                emailInput.focus();
+                return;
+            }
+
+            if (!isValidEmail(email)) {
+                showError('Please enter a valid email address.');
+                emailInput.classList.add('form-input--error');
+                emailInput.focus();
+                return;
+            }
+
+            if (!password) {
+                showError('Please enter your password.');
+                passwordInput.classList.add('form-input--error');
+                passwordInput.focus();
+                return;
+            }
+
+            // ── Submit to API ──
+            setLoading(true);
+
+            try {
+                const response = await fetch(API_LOGIN_URL, {
+                    method:  'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body:    JSON.stringify({ email, password }),
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    // API returned an error (401, 400, 500, etc.)
+                    const message = data.message || 'Invalid credentials. Please try again.';
+                    showError(message);
+                    setLoading(false);
+                    return;
+                }
+
+                // ── Success — redirect based on role ──
+                const role = data.role;
+                const destination = REDIRECT_MAP[role];
+
+                if (!destination) {
+                    showError('Account role not recognized. Please contact support.');
+                    setLoading(false);
+                    return;
+                }
+
+                // Brief pause so the user sees the button state change
+                setTimeout(() => {
+                    window.location.href = destination;
+                }, 400);
+
+            } catch (err) {
+                console.error('Login error:', err);
+                showError('Unable to connect to the server. Please try again later.');
+                setLoading(false);
+            }
+        });
+
+
+        // ── 5. Helpers ──────────────────────────────
+        function isValidEmail(email) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        }
+
+        function showError(message) {
+            errorBox.textContent = message;
+            errorBox.classList.add('form-error--visible');
+        }
+
+        function hideError() {
+            errorBox.classList.remove('form-error--visible');
+            // Delay display:none to allow fade-out transition
+            setTimeout(() => {
+                if (!errorBox.classList.contains('form-error--visible')) {
+                    errorBox.style.display = 'none';
+                }
+            }, 350);
+            errorBox.style.display = 'block';
+        }
+
+        function setLoading(isLoading) {
+            submitBtn.disabled = isLoading;
+            if (isLoading) {
+                submitBtn.classList.add('form-submit--loading');
+            } else {
+                submitBtn.classList.remove('form-submit--loading');
+            }
+        }
+
+    })();
+    </script>
+
+</body>
+
+</html>

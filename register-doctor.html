@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apply for Practice — Online Hospital</title>
+    <meta name="description"
+        content="Apply for practice privileges on Online Hospital. Join our exclusive network of verified medical professionals.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚕</text></svg>">
+    <link rel="stylesheet" href="css/register-doctor.css">
+</head>
+
+<body>
+    <div class="register-split">
+        <!-- LEFT PANEL — Editorial Image -->
+        <div class="register-image">
+            <img class="register-image__photo" id="editorial-photo"
+                src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?q=80&w=1600&auto=format&fit=crop"
+                alt="Medical professional reviewing patient records" loading="eager">
+            <div class="register-image__overlay"></div>
+            <div class="register-image__brand"><a href="index.html">ONLINE HOSPITAL</a></div>
+            <div class="register-image__badge">
+                <span class="register-image__badge-icon">✦</span>
+                <span class="register-image__badge-text">Verified Network · 500+ Specialists</span>
+            </div>
+        </div>
+
+        <!-- RIGHT PANEL — Application Form -->
+        <div class="register-form-panel">
+            <div class="register-form-container">
+                <a href="register.html" class="back-link">← Back to options</a>
+
+                <header class="register-header">
+                    <span class="register-header__overline">Physician Application</span>
+                    <h1 class="register-header__title">Apply for Practice<br>Privileges</h1>
+                    <p class="register-header__subtitle">
+                        Complete the form below to begin your verification process.
+                        Our credentialing team will review your application within 48 hours.
+                    </p>
+                </header>
+
+                <form id="register-form" novalidate>
+                    <div class="form-group">
+                        <label for="full-name" class="form-label">Full Name</label>
+                        <input type="text" id="full-name" name="name" class="form-input" placeholder="Dr. Jane Smith"
+                            autocomplete="name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email" class="form-label">Professional Email</label>
+                        <input type="email" id="email" name="email" class="form-input" placeholder="you@hospital.org"
+                            autocomplete="email" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="license" class="form-label">Medical License No.</label>
+                            <input type="text" id="license" name="license_number" class="form-input"
+                                placeholder="e.g. MD-123456" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="specialty" class="form-label">Specialty</label>
+                            <div class="form-select-wrapper">
+                                <select id="specialty" name="specialty" class="form-select" required>
+                                    <option value="" disabled selected>Select specialty</option>
+                                    <option value="General Practice">General Practice</option>
+                                    <option value="Cardiology">Cardiology</option>
+                                    <option value="Dermatology">Dermatology</option>
+                                    <option value="Endocrinology">Endocrinology</option>
+                                    <option value="Gastroenterology">Gastroenterology</option>
+                                    <option value="Neurology">Neurology</option>
+                                    <option value="Obstetrics & Gynecology">Obstetrics &amp; Gynecology</option>
+                                    <option value="Oncology">Oncology</option>
+                                    <option value="Ophthalmology">Ophthalmology</option>
+                                    <option value="Orthopedics">Orthopedics</option>
+                                    <option value="Pediatrics">Pediatrics</option>
+                                    <option value="Psychiatry">Psychiatry</option>
+                                    <option value="Pulmonology">Pulmonology</option>
+                                    <option value="Radiology">Radiology</option>
+                                    <option value="Urology">Urology</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group form-group--password">
+                        <label for="password" class="form-label">Create Password</label>
+                        <input type="password" id="password" name="password" class="form-input"
+                            placeholder="Minimum 8 characters" autocomplete="new-password" required>
+                        <button type="button" class="password-toggle" id="password-toggle">Show</button>
+                        <div class="password-strength" id="password-strength">
+                            <div class="password-strength__bar" id="str-bar-1"></div>
+                            <div class="password-strength__bar" id="str-bar-2"></div>
+                            <div class="password-strength__bar" id="str-bar-3"></div>
+                            <div class="password-strength__bar" id="str-bar-4"></div>
+                        </div>
+                        <div class="password-strength__label" id="strength-label"></div>
+                    </div>
+
+                    <button type="submit" class="form-submit" id="submit-btn">
+                        <span class="form-submit__text">Submit Application</span>
+                        <span class="form-submit__spinner"></span>
+                    </button>
+
+                    <div class="form-alert form-alert--error" id="form-error" role="alert"></div>
+                    <div class="form-alert form-alert--success" id="form-success" role="status"></div>
+
+                    <p class="form-terms">
+                        By applying you agree to our
+                        <a href="#">Terms of Service</a>,
+                        <a href="#">Privacy Policy</a>, and
+                        <a href="#">Practitioner Guidelines</a>.
+                    </p>
+                </form>
+
+                <div class="form-footer">
+                    <p class="form-footer__text">
+                        Already have an account?
+                        <a href="login.html" class="form-footer__link">Sign in</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/register-doctor.js"></script>
+</body>
+
+</html>

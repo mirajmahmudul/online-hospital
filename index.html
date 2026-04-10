@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Hospital — A New Standard in Healthcare</title>
+    <meta name="description" content="Experience world-class medical consultations with rigorously vetted specialists. Online Hospital connects you with verified doctors in a premium, secure telehealth environment.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Favicon (inline SVG) -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚕</text></svg>">
+</head>
+
+<body>
+
+    <!-- ═══════════════════════════════════════════════
+         NAVIGATION
+         ═══════════════════════════════════════════════ -->
+    <nav class="nav" id="main-nav" role="navigation" aria-label="Main navigation">
+        <div class="nav__inner">
+            <a href="#" class="nav__logo">ONLINE HOSPITAL</a>
+
+            <ul class="nav__links">
+                <li><a href="#doctors" class="nav__link">Doctors</a></li>
+                <li><a href="#standards" class="nav__link">Our Standards</a></li>
+                <li><a href="#specialties" class="nav__link">Specialties</a></li>
+                <li><a href="#contact" class="nav__link">Contact</a></li>
+            </ul>
+
+            <div class="nav__auth">
+                <a href="login.html" class="nav__link nav__auth-link">Sign In</a>
+                <a href="register.html" class="nav__link nav__auth-link nav__auth-link--join">Join</a>
+            </div>
+
+            <button class="nav__toggle" id="nav-toggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+
+    <!-- ═══════════════════════════════════════════════
+         HERO SECTION
+         ═══════════════════════════════════════════════ -->
+    <section class="hero" id="hero">
+        <div class="hero__media">
+            <img src="https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?q=80&w=2791&auto=format&fit=crop"
+                 alt="Modern luxury medical facility"
+                 loading="eager">
+        </div>
+        <div class="hero__overlay"></div>
+
+        <div class="hero__content">
+            <span class="text-overline hero__subtitle">The Future of Private Healthcare</span>
+            <h1 class="heading-serif heading-serif--hero hero__title">
+                A New Standard<br>in Healthcare
+            </h1>
+            <a href="#doctors" class="hero__cta" id="hero-cta">
+                Meet Our Physicians
+                <span class="hero__cta-arrow">→</span>
+            </a>
+        </div>
+
+        <div class="hero__scroll-indicator">
+            <span>Scroll</span>
+            <div class="hero__scroll-line"></div>
+        </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════════════════════
+         STATS BAR
+         ═══════════════════════════════════════════════ -->
+    <section class="stats-bar" aria-label="Platform statistics">
+        <div class="stats-bar__inner">
+            <div class="stats-bar__item animate-on-scroll">
+                <span class="stats-bar__number" data-count="500">0</span>
+                <span class="stats-bar__label">Verified Specialists</span>
+            </div>
+            <div class="stats-bar__item animate-on-scroll">
+                <span class="stats-bar__number" data-count="45">0</span>
+                <span class="stats-bar__label">Medical Specialties</span>
+            </div>
+            <div class="stats-bar__item animate-on-scroll">
+                <span class="stats-bar__number" data-count="98">0%</span>
+                <span class="stats-bar__label">Satisfaction Rate</span>
+            </div>
+            <div class="stats-bar__item animate-on-scroll">
+                <span class="stats-bar__number" data-count="12">0</span>
+                <span class="stats-bar__label">Countries Served</span>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════════════════════
+         DOCTORS GRID ("Bestseller" Section)
+         ═══════════════════════════════════════════════ -->
+    <section class="section" id="doctors">
+        <div class="section__inner">
+            <div class="section__header animate-on-scroll">
+                <span class="text-overline">Curated Excellence</span>
+                <h2 class="heading-serif heading-serif--section">Our Physicians</h2>
+                <div class="divider"></div>
+                <p class="text-sans">
+                    Every specialist on our platform has undergone rigorous credential verification,
+                    background checks, and peer review — so you don't have to.
+                </p>
+            </div>
+
+            <!-- Dynamic content loaded via JS -->
+            <div id="doctors-container">
+                <!-- Loading skeleton injected by JS -->
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════════════════════
+         OUR STANDARDS (Editorial Section)
+         ═══════════════════════════════════════════════ -->
+    <section class="section section--alt" id="standards">
+        <div class="section__inner">
+            <div class="standards animate-on-scroll">
+                <div class="standards__content">
+                    <span class="text-overline standards__overline">Why Choose Us</span>
+                    <h2 class="heading-serif heading-serif--section standards__title">
+                        Uncompromising<br>Standards of Care
+                    </h2>
+                    <p class="standards__text">
+                        We believe that trust is the foundation of every medical relationship.
+                        That's why every physician on our platform undergoes a verification
+                        process modeled after the most prestigious private clinics in the world.
+                    </p>
+                    <ul class="standards__list">
+                        <li>
+                            <span class="standards__list-icon">✦</span>
+                            <span><strong>Board Certification Verified</strong> — Every credential is cross-referenced with national and international medical boards.</span>
+                        </li>
+                        <li>
+                            <span class="standards__list-icon">✦</span>
+                            <span><strong>Malpractice Insurance Required</strong> — Mandatory proof of active coverage before activation on the platform.</span>
+                        </li>
+                        <li>
+                            <span class="standards__list-icon">✦</span>
+                            <span><strong>End-to-End Encryption</strong> — All consultations and medical data are protected with military-grade E2EE protocols.</span>
+                        </li>
+                        <li>
+                            <span class="standards__list-icon">✦</span>
+                            <span><strong>Transparent Pricing</strong> — A flat 10% platform fee with no hidden costs. Doctors set their own consultation rates.</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="standards__image">
+                    <img src="https://images.unsplash.com/photo-1666214280557-f1b5022eb634?q=80&w=2070&auto=format&fit=crop"
+                         alt="Modern medical consultation environment"
+                         loading="lazy">
+                    <div class="standards__image-border"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════════════════════
+         FOOTER
+         ═══════════════════════════════════════════════ -->
+    <footer class="footer" id="contact">
+        <div class="footer__inner">
+            <div class="footer__brand">
+                <div class="footer__brand-name">Online Hospital</div>
+                <p class="footer__brand-text">
+                    A new paradigm in telehealth — connecting patients with world-class
+                    physicians through a platform built on trust, transparency, and technology.
+                </p>
+            </div>
+
+            <div class="footer__col">
+                <div class="footer__col-title">Platform</div>
+                <ul class="footer__links">
+                    <li><a href="#doctors">Find a Doctor</a></li>
+                    <li><a href="#specialties">Specialties</a></li>
+                    <li><a href="#standards">Our Standards</a></li>
+                    <li><a href="#">For Physicians</a></li>
+                </ul>
+            </div>
+
+            <div class="footer__col">
+                <div class="footer__col-title">Company</div>
+                <ul class="footer__links">
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Press</a></li>
+                    <li><a href="#">Blog</a></li>
+                </ul>
+            </div>
+
+            <div class="footer__col">
+                <div class="footer__col-title">Legal</div>
+                <ul class="footer__links">
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">HIPAA Compliance</a></li>
+                    <li><a href="#">Cookie Policy</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer__bottom">
+            <span>&copy; 2026 Online Hospital. All rights reserved.</span>
+            <span>Built with care, everywhere.</span>
+        </div>
+    </footer>
+
+
+    <!-- ═══════════════════════════════════════════════
+         NON-EMERGENCY LEGAL GATEKEEPER
+         ═══════════════════════════════════════════════ -->
+    <div class="emergency-banner" id="emergency-banner" role="alert">
+        <p class="emergency-banner__text">
+            <strong>Important:</strong> This platform is for <strong>non-emergency</strong> medical consultations only.
+            If you are experiencing a medical emergency, please call your local emergency services immediately.
+        </p>
+        <button class="emergency-banner__btn" id="emergency-confirm" onclick="dismissEmergencyBanner()">
+            I Understand
+        </button>
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════════
+         JAVASCRIPT
+         ═══════════════════════════════════════════════ -->
+    <script>
+    (function () {
+        'use strict';
+
+        // ── Configuration ───────────────────────────
+        const API_URL = 'api/get_doctors.php';
+        const SKELETON_COUNT = 6;
+
+        // High-quality portrait placeholders (medical professional style)
+        const PORTRAIT_POOL = [
+            'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?q=80&w=600&auto=format&fit=crop&crop=face',
+            'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=600&auto=format&fit=crop&crop=face',
+            'https://images.unsplash.com/photo-1622253692010-333f2da6031d?q=80&w=600&auto=format&fit=crop&crop=face',
+            'https://images.unsplash.com/photo-1594824476967-48c8b964273f?q=80&w=600&auto=format&fit=crop&crop=face',
+            'https://images.unsplash.com/photo-1537368910025-700350fe46c7?q=80&w=600&auto=format&fit=crop&crop=face',
+            'https://images.unsplash.com/photo-1582750433449-648ed127bb54?q=80&w=600&auto=format&fit=crop&crop=face',
+        ];
+
+        // ── DOM References ──────────────────────────
+        const doctorsContainer = document.getElementById('doctors-container');
+        const nav = document.getElementById('main-nav');
+        const emergencyBanner = document.getElementById('emergency-banner');
+
+
+        // ── 1. Navigation Scroll Effect ─────────────
+        let lastScroll = 0;
+        window.addEventListener('scroll', () => {
+            const scrollY = window.scrollY;
+            if (scrollY > 80) {
+                nav.classList.add('nav--scrolled');
+            } else {
+                nav.classList.remove('nav--scrolled');
+            }
+            lastScroll = scrollY;
+        }, { passive: true });
+
+
+        // ── 2. Scroll Animations (IntersectionObserver) ──
+        const animateElements = document.querySelectorAll('.animate-on-scroll');
+        if ('IntersectionObserver' in window) {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-on-scroll--visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.15,
+                rootMargin: '0px 0px -50px 0px'
+            });
+
+            animateElements.forEach(el => observer.observe(el));
+        } else {
+            // Fallback: make all visible
+            animateElements.forEach(el => el.classList.add('animate-on-scroll--visible'));
+        }
+
+
+        // ── 3. Counter Animation for Stats ──────────
+        const counters = document.querySelectorAll('[data-count]');
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const el = entry.target;
+                    const target = parseInt(el.dataset.count, 10);
+                    const suffix = el.textContent.replace(/[0-9]/g, '');
+                    animateCounter(el, target, suffix);
+                    counterObserver.unobserve(el);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        counters.forEach(c => counterObserver.observe(c));
+
+        function animateCounter(el, target, suffix) {
+            const duration = 1800;
+            const start = performance.now();
+
+            function tick(now) {
+                const elapsed = now - start;
+                const progress = Math.min(elapsed / duration, 1);
+                // Ease out cubic
+                const ease = 1 - Math.pow(1 - progress, 3);
+                const current = Math.round(ease * target);
+                el.textContent = current.toLocaleString() + suffix;
+                if (progress < 1) requestAnimationFrame(tick);
+            }
+            requestAnimationFrame(tick);
+        }
+
+
+        // ── 4. Emergency Banner ─────────────────────
+        window.dismissEmergencyBanner = function () {
+            emergencyBanner.classList.add('emergency-banner--hidden');
+            sessionStorage.setItem('emergency_confirmed', 'true');
+        };
+
+        // Check if already confirmed this session
+        if (sessionStorage.getItem('emergency_confirmed') === 'true') {
+            emergencyBanner.classList.add('emergency-banner--hidden');
+        }
+
+
+        // ── 5. Skeleton Loader ──────────────────────
+        function renderSkeletons() {
+            let html = '<div class="loading-grid">';
+            for (let i = 0; i < SKELETON_COUNT; i++) {
+                html += `
+                    <div class="skeleton-card">
+                        <div class="skeleton-card__img"></div>
+                        <div class="skeleton-card__body">
+                            <div class="skeleton-card__line skeleton-card__line--short"></div>
+                            <div class="skeleton-card__line"></div>
+                            <div class="skeleton-card__line skeleton-card__line--xs"></div>
+                        </div>
+                    </div>`;
+            }
+            html += '</div>';
+            doctorsContainer.innerHTML = html;
+        }
+
+
+        // ── 6. Doctor Card Builder ──────────────────
+        function buildDoctorCard(doctor, index) {
+            // Derive display name from email (before @), or use fallback
+            const rawName = doctor.email
+                ? doctor.email.split('@')[0].replace(/[._]/g, ' ')
+                : 'Physician';
+            const displayName = rawName
+                .split(' ')
+                .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+                .join(' ');
+
+            const initials = displayName.split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase();
+
+            const specialty = doctor.specialties || 'General Medicine';
+            const fee = doctor.consultation_fee
+                ? `$${parseFloat(doctor.consultation_fee).toFixed(0)}`
+                : 'Inquire';
+
+            const portrait = PORTRAIT_POOL[index % PORTRAIT_POOL.length];
+
+            return `
+            <article class="doctor-card animate-on-scroll" data-uuid="${doctor.uuid || ''}">
+                <div class="doctor-card__image-wrapper">
+                    <img src="${portrait}"
+                         alt="Dr. ${displayName}"
+                         loading="lazy"
+                         onerror="this.parentElement.innerHTML='<div class=\\'doctor-card__avatar-placeholder\\'>${initials}</div>'">
+                    <span class="doctor-card__badge">Verified</span>
+                </div>
+                <div class="doctor-card__body">
+                    <span class="text-label doctor-card__specialty">${specialty}</span>
+                    <h3 class="heading-serif heading-serif--card doctor-card__name">Dr. ${displayName}</h3>
+                    <div class="doctor-card__meta">
+                        <span class="doctor-card__fee">${fee} <span>/ consult</span></span>
+                        <span class="doctor-card__cta">Book Now →</span>
+                    </div>
+                </div>
+            </article>`;
+        }
+
+
+        // ── 7. Render Empty State ───────────────────
+        function renderEmptyState() {
+            doctorsContainer.innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-state__icon">⚕</div>
+                    <h3 class="empty-state__title">Coming Soon</h3>
+                    <p class="empty-state__text">
+                        Our verification team is currently reviewing physician applications.<br>
+                        Check back shortly to meet our curated specialists.
+                    </p>
+                </div>`;
+        }
+
+
+        // ── 8. Render Demo Doctors (Fallback) ───────
+        function renderDemoDoctors() {
+            const demoDoctors = [
+                { email: 'sarah.chen@hospital.com', specialties: 'Cardiology', consultation_fee: '250', uuid: 'demo-1' },
+                { email: 'james.wilson@hospital.com', specialties: 'Neurology', consultation_fee: '300', uuid: 'demo-2' },
+                { email: 'amara.okafor@hospital.com', specialties: 'Dermatology', consultation_fee: '180', uuid: 'demo-3' },
+                { email: 'elena.rodriguez@hospital.com', specialties: 'Pediatrics', consultation_fee: '200', uuid: 'demo-4' },
+                { email: 'david.park@hospital.com', specialties: 'Orthopedics', consultation_fee: '275', uuid: 'demo-5' },
+                { email: 'sofia.muller@hospital.com', specialties: 'Psychiatry', consultation_fee: '220', uuid: 'demo-6' },
+            ];
+
+            let html = '<div class="doctor-grid">';
+            demoDoctors.forEach((doc, i) => {
+                html += buildDoctorCard(doc, i);
+            });
+            html += '</div>';
+            doctorsContainer.innerHTML = html;
+
+            // Re-observe new cards for scroll animation
+            requestAnimationFrame(() => {
+                document.querySelectorAll('.doctor-card.animate-on-scroll').forEach(el => {
+                    if ('IntersectionObserver' in window) {
+                        const obs = new IntersectionObserver((entries) => {
+                            entries.forEach(entry => {
+                                if (entry.isIntersecting) {
+                                    entry.target.style.animationDelay = `${Array.from(entry.target.parentElement.children).indexOf(entry.target) * 0.1}s`;
+                                    entry.target.classList.add('animate-on-scroll--visible');
+                                    obs.unobserve(entry.target);
+                                }
+                            });
+                        }, { threshold: 0.1 });
+                        obs.observe(el);
+                    } else {
+                        el.classList.add('animate-on-scroll--visible');
+                    }
+                });
+            });
+        }
+
+
+        // ── 9. Fetch Doctors from API ───────────────
+        async function fetchDoctors() {
+            renderSkeletons();
+
+            try {
+                const response = await fetch(API_URL);
+
+                if (response.status === 404) {
+                    // No verified doctors yet — show demo data
+                    setTimeout(() => renderDemoDoctors(), 800);
+                    return;
+                }
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                if (!data.records || data.records.length === 0) {
+                    setTimeout(() => renderDemoDoctors(), 800);
+                    return;
+                }
+
+                // Render real doctors
+                let html = '<div class="doctor-grid">';
+                data.records.forEach((doc, i) => {
+                    html += buildDoctorCard(doc, i);
+                });
+                html += '</div>';
+
+                setTimeout(() => {
+                    doctorsContainer.innerHTML = html;
+
+                    // Stagger card animations
+                    requestAnimationFrame(() => {
+                        document.querySelectorAll('.doctor-card.animate-on-scroll').forEach((el, idx) => {
+                            setTimeout(() => {
+                                el.classList.add('animate-on-scroll--visible');
+                            }, idx * 100);
+                        });
+                    });
+                }, 600);
+
+            } catch (err) {
+                console.warn('API unavailable, using demo data:', err.message);
+                setTimeout(() => renderDemoDoctors(), 800);
+            }
+        }
+
+
+        // ── 10. Smooth Scroll for Anchor Links ──────
+        document.querySelectorAll('a[href^="#"]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                const targetId = link.getAttribute('href');
+                if (targetId === '#') return;
+                const target = document.querySelector(targetId);
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+
+        // ── Initialize ─────────────────────────────
+        fetchDoctors();
+
+    })();
+    </script>
+
+</body>
+
+</html>

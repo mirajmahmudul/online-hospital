@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join — Online Hospital</title>
+    <meta name="description"
+        content="Join Online Hospital as a patient seeking world-class care or as a medical professional looking to expand your practice. Choose your path.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+        rel="stylesheet">
+
+    <!-- Favicon -->
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚕</text></svg>">
+
+    <style>
+        /* ── Reset ────────────────────────────────── */
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        ::selection {
+            background: #B8956A;
+            color: #FFFFFF;
+        }
+
+        /* ── Design Tokens ───────────────────────── */
+        :root {
+            --color-bg: #FAFAFA;
+            --color-bg-pure: #FFFFFF;
+            --color-text: #111111;
+            --color-text-muted: #6B6B6B;
+            --color-text-light: #999999;
+            --color-accent: #1A1A2E;
+            --color-accent-warm: #B8956A;
+            --color-border: #E8E4DF;
+            --color-border-light: #F0ECE8;
+
+            --font-serif: 'Playfair Display', 'Georgia', serif;
+            --font-sans: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+
+            --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: var(--font-sans);
+            color: var(--color-text);
+            background-color: var(--color-bg);
+            line-height: 1.7;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+
+        /* ── Page Shell ──────────────────────────── */
+        .register-page {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem 1.5rem;
+        }
+
+
+        /* ── Top Bar ─────────────────────────────── */
+        .topbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 3rem;
+            background-color: rgba(250, 250, 250, 0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--color-border-light);
+        }
+
+        .topbar__inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 1280px;
+        }
+
+        .topbar__logo {
+            font-family: var(--font-serif);
+            font-weight: 700;
+            font-size: 1.15rem;
+            letter-spacing: 0.04em;
+            color: var(--color-text);
+        }
+
+        .topbar__link {
+            font-family: var(--font-sans);
+            font-weight: 500;
+            font-size: 0.68rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--color-text-light);
+            transition: color 0.3s var(--ease-smooth);
+        }
+
+        .topbar__link:hover {
+            color: var(--color-text);
+        }
+
+
+        /* ── Header ──────────────────────────────── */
+        .register-header {
+            text-align: center;
+            margin-bottom: 3.5rem;
+            opacity: 0;
+            transform: translateY(16px);
+            animation: fadeInUp 0.7s var(--ease-smooth) 0.15s forwards;
+        }
+
+        .register-header__overline {
+            font-family: var(--font-sans);
+            font-weight: 500;
+            font-size: 0.72rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--color-accent-warm);
+            display: block;
+            margin-bottom: 0.75rem;
+        }
+
+        .register-header__title {
+            font-family: var(--font-serif);
+            font-weight: 700;
+            font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+            color: var(--color-text);
+            margin-bottom: 1rem;
+        }
+
+        .register-header__subtitle {
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            font-weight: 400;
+            color: var(--color-text-muted);
+            max-width: 460px;
+            margin: 0 auto;
+            line-height: 1.65;
+        }
+
+
+        /* ── Choice Grid ─────────────────────────── */
+        .choice-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            width: 100%;
+            max-width: 860px;
+        }
+
+
+        /* ── Choice Card ─────────────────────────── */
+        .choice-card {
+            position: relative;
+            background: var(--color-bg-pure);
+            border: 1px solid var(--color-border);
+            padding: 3rem 2.5rem;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.5s var(--ease-smooth);
+            cursor: pointer;
+            overflow: hidden;
+
+            /* Staggered animation */
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .choice-card:nth-child(1) {
+            animation: fadeInUp 0.7s var(--ease-smooth) 0.3s forwards;
+        }
+
+        .choice-card:nth-child(2) {
+            animation: fadeInUp 0.7s var(--ease-smooth) 0.45s forwards;
+        }
+
+        .choice-card:hover {
+            border-color: var(--color-accent-warm);
+            box-shadow: 0 24px 80px rgba(0, 0, 0, 0.07),
+                0 4px 16px rgba(0, 0, 0, 0.03);
+            transform: translateY(-6px);
+        }
+
+        /* Subtle top-edge accent on hover */
+        .choice-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--color-accent-warm);
+            transform: scaleX(0);
+            transform-origin: center;
+            transition: transform 0.5s var(--ease-smooth);
+        }
+
+        .choice-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        /* ── Card Icon ───────────────────────────── */
+        .choice-card__icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.75rem;
+            transition: all 0.4s var(--ease-smooth);
+        }
+
+        .choice-card__icon svg {
+            width: 28px;
+            height: 28px;
+            transition: transform 0.4s var(--ease-smooth);
+        }
+
+        .choice-card:hover .choice-card__icon svg {
+            transform: scale(1.1);
+        }
+
+        /* Patient icon styling */
+        .choice-card--patient .choice-card__icon {
+            background-color: #F7F4F0;
+            color: var(--color-accent-warm);
+        }
+
+        .choice-card--patient:hover .choice-card__icon {
+            background-color: var(--color-accent-warm);
+            color: var(--color-bg-pure);
+        }
+
+        /* Doctor icon styling */
+        .choice-card--doctor .choice-card__icon {
+            background-color: #EDEFF5;
+            color: var(--color-accent);
+        }
+
+        .choice-card--doctor:hover .choice-card__icon {
+            background-color: var(--color-accent);
+            color: var(--color-bg-pure);
+        }
+
+        /* ── Card Content ────────────────────────── */
+        .choice-card__title {
+            font-family: var(--font-serif);
+            font-weight: 700;
+            font-size: 1.35rem;
+            line-height: 1.25;
+            color: var(--color-text);
+            margin-bottom: 0.75rem;
+        }
+
+        .choice-card__text {
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            font-weight: 400;
+            color: var(--color-text-muted);
+            line-height: 1.6;
+            max-width: 280px;
+            margin: 0 auto 2rem;
+        }
+
+        /* ── Card Button ─────────────────────────── */
+        .choice-card__btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.9rem 2.2rem;
+            font-family: var(--font-sans);
+            font-weight: 600;
+            font-size: 0.68rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            border: 1px solid transparent;
+            transition: all 0.4s var(--ease-smooth);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .choice-card__btn-arrow {
+            transition: transform 0.3s var(--ease-smooth);
+            font-size: 0.9rem;
+        }
+
+        .choice-card:hover .choice-card__btn-arrow {
+            transform: translateX(3px);
+        }
+
+        /* Patient button */
+        .choice-card--patient .choice-card__btn {
+            background-color: var(--color-text);
+            color: var(--color-bg-pure);
+            border-color: var(--color-text);
+        }
+
+        .choice-card--patient .choice-card__btn:hover {
+            background-color: #2a2a2a;
+        }
+
+        /* Doctor button */
+        .choice-card--doctor .choice-card__btn {
+            background-color: var(--color-accent);
+            color: var(--color-bg-pure);
+            border-color: var(--color-accent);
+        }
+
+        .choice-card--doctor .choice-card__btn:hover {
+            background-color: #252548;
+        }
+
+
+        /* ── Divider Between Cards ───────────────── */
+        .choice-divider {
+            display: none;
+            /* Grid handles separation; visible on mobile stacking */
+        }
+
+
+        /* ── Footer Note ─────────────────────────── */
+        .register-footer {
+            margin-top: 3rem;
+            text-align: center;
+            opacity: 0;
+            animation: fadeInUp 0.7s var(--ease-smooth) 0.6s forwards;
+        }
+
+        .register-footer__text {
+            font-family: var(--font-sans);
+            font-size: 0.82rem;
+            color: var(--color-text-light);
+        }
+
+        .register-footer__link {
+            color: var(--color-text);
+            font-weight: 500;
+            border-bottom: 1px solid var(--color-border);
+            transition: border-color 0.3s var(--ease-smooth);
+        }
+
+        .register-footer__link:hover {
+            border-bottom-color: var(--color-text);
+        }
+
+
+        /* ── Animations ──────────────────────────── */
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+        /* ── Responsive ──────────────────────────── */
+        @media (max-width: 768px) {
+            .choice-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                max-width: 420px;
+            }
+
+            .choice-card {
+                padding: 2.5rem 2rem;
+            }
+
+            .topbar {
+                padding: 0 1.5rem;
+            }
+
+            .register-page {
+                padding: 2rem 1rem;
+                padding-top: calc(72px + 2rem);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .choice-card {
+                padding: 2rem 1.5rem;
+            }
+
+            .choice-card__title {
+                font-size: 1.2rem;
+            }
+
+            .register-header__subtitle {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* ── Ensure hero-hidden top padding on desktop too ── */
+        .register-page {
+            padding-top: calc(72px + 3rem);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ════════════════════════════════════════════
+         TOP BAR
+         ════════════════════════════════════════════ -->
+    <header class="topbar">
+        <div class="topbar__inner">
+            <a href="index.html" class="topbar__logo">ONLINE HOSPITAL</a>
+            <a href="login.html" class="topbar__link">Already a member? Sign In</a>
+        </div>
+    </header>
+
+
+    <!-- ════════════════════════════════════════════
+         MAIN CONTENT
+         ════════════════════════════════════════════ -->
+    <main class="register-page">
+
+        <!-- Header -->
+        <div class="register-header">
+            <span class="register-header__overline">Get Started</span>
+            <h1 class="register-header__title">How Would You Like<br>to Join Us?</h1>
+            <p class="register-header__subtitle">
+                Choose your path below. Whether you're seeking exceptional care
+                or looking to practice on a global stage — we've built a place for you.
+            </p>
+        </div>
+
+        <!-- Choice Cards -->
+        <div class="choice-grid">
+
+            <!-- PATIENT Card -->
+            <a href="register-patient.html" class="choice-card choice-card--patient" id="choice-patient">
+                <div class="choice-card__icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                        <circle cx="12" cy="7" r="4" />
+                    </svg>
+                </div>
+                <h2 class="choice-card__title">I Am a Patient</h2>
+                <p class="choice-card__text">
+                    Book consultations with world-class specialists from the comfort of your home.
+                </p>
+                <span class="choice-card__btn">
+                    <span>Join as Patient</span>
+                    <span class="choice-card__btn-arrow">→</span>
+                </span>
+            </a>
+
+            <!-- DOCTOR Card -->
+            <a href="register-doctor.html" class="choice-card choice-card--doctor" id="choice-doctor">
+                <div class="choice-card__icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path
+                            d="M4.8 2.3A2 2 0 0 0 3 4.3v15.4a2 2 0 0 0 1.8 2h14.4a2 2 0 0 0 1.8-2V4.3a2 2 0 0 0-1.8-2H4.8z" />
+                        <path d="M8 10h8" />
+                        <path d="M8 14h4" />
+                        <path d="M8 6h8" />
+                    </svg>
+                </div>
+                <h2 class="choice-card__title">I Am a Medical<br>Professional</h2>
+                <p class="choice-card__text">
+                    Join our exclusive network of verified practitioners and reach patients worldwide.
+                </p>
+                <span class="choice-card__btn">
+                    <span>Apply as Doctor</span>
+                    <span class="choice-card__btn-arrow">→</span>
+                </span>
+            </a>
+
+        </div>
+
+        <!-- Footer Note -->
+        <div class="register-footer">
+            <p class="register-footer__text">
+                Already have an account?
+                <a href="login.html" class="register-footer__link">Sign in here</a>
+            </p>
+        </div>
+
+    </main>
+
+</body>
+
+</html>

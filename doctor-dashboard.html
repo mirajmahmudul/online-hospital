@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Command Center — Online Hospital</title>
+    <meta name="description" content="Your personal physician command center. Manage appointments, credentials, earnings, and patient consultations from one elegant dashboard.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚕</text></svg>">
+
+    <style>
+        /* ═══════════════════════════════════════════════════════
+           DOCTOR DASHBOARD — Luxury Concierge Aesthetic
+           Playfair Display (Serif) + Inter (Sans)
+           Pure White / Alabaster / Deep Charcoal / Soft Gold
+           ═══════════════════════════════════════════════════════ */
+
+        /* ── 0. Reset & Design Tokens ────────────────────── */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        ::selection {
+            background: #B8956A;
+            color: #FFFFFF;
+        }
+
+        :root {
+            /* Palette */
+            --color-bg:             #FAFAFA;
+            --color-bg-pure:        #FFFFFF;
+            --color-bg-sidebar:     #111111;
+            --color-text:           #1A1A1A;
+            --color-text-muted:     #6B6B6B;
+            --color-text-light:     #999999;
+            --color-text-sidebar:   rgba(255, 255, 255, 0.55);
+            --color-accent-warm:    #B8956A;
+            --color-accent-gold:    #C9A96E;
+            --color-accent-taupe:   #C4B5A0;
+            --color-accent-navy:    #1A1A2E;
+            --color-border:         #E8E4DF;
+            --color-border-light:   #F0ECE8;
+            --color-success:        #3D8B5F;
+            --color-success-bg:     #F0F9F4;
+            --color-pending:        #9A8355;
+            --color-pending-bg:     #FBF8F1;
+            --color-pending-border: #E8DFC8;
+            --color-error:          #C43E3E;
+            --color-error-bg:       #FEF2F2;
+
+            /* Typography */
+            --font-serif: 'Playfair Display', 'Georgia', serif;
+            --font-sans:  'Inter', 'Helvetica Neue', Arial, sans-serif;
+
+            /* Spacing */
+            --space-xs:  0.5rem;
+            --space-sm:  1rem;
+            --space-md:  1.5rem;
+            --space-lg:  2.5rem;
+            --space-xl:  4rem;
+
+            /* Layout */
+            --sidebar-width: 280px;
+
+            /* Transitions */
+            --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+            --ease-out:    cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+
+        /* ── 1. Layout Shell ─────────────────────────────── */
+        body {
+            font-family: var(--font-sans);
+            color: var(--color-text);
+            background-color: var(--color-bg);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        .dashboard {
+            display: flex;
+            min-height: 100vh;
+        }
+
+
+        /* ── 2. Sidebar ──────────────────────────────────── */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: var(--sidebar-width);
+            background-color: var(--color-bg-sidebar);
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+            transition: transform 0.4s var(--ease-smooth);
+        }
+
+        .sidebar__brand {
+            padding: 2.25rem 2rem 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .sidebar__brand a {
+            font-family: var(--font-serif);
+            font-weight: 700;
+            font-size: 1.1rem;
+            letter-spacing: 0.04em;
+            color: var(--color-bg-pure);
+            text-decoration: none;
+        }
+
+        .sidebar__nav {
+            flex: 1;
+            padding: 2rem 0;
+            overflow-y: auto;
+        }
+
+        .sidebar__label {
+            font-family: var(--font-sans);
+            font-weight: 500;
+            font-size: 0.6rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.2);
+            padding: 0 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .sidebar__menu {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+
+        .sidebar__link {
+            display: flex;
+            align-items: center;
+            gap: 0.9rem;
+            padding: 0.75rem 2rem;
+            font-family: var(--font-sans);
+            font-weight: 400;
+            font-size: 0.82rem;
+            color: var(--color-text-sidebar);
+            text-decoration: none;
+            transition: all 0.25s var(--ease-smooth);
+            position: relative;
+            letter-spacing: 0.01em;
+        }
+
+        .sidebar__link::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 3px;
+            height: 0;
+            background: var(--color-accent-warm);
+            border-radius: 0 2px 2px 0;
+            transition: height 0.25s var(--ease-smooth);
+        }
+
+        .sidebar__link:hover {
+            color: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .sidebar__link--active {
+            color: var(--color-bg-pure);
+            font-weight: 500;
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .sidebar__link--active::before {
+            height: 24px;
+        }
+
+        .sidebar__icon {
+            width: 18px;
+            height: 18px;
+            opacity: 0.6;
+            flex-shrink: 0;
+        }
+
+        .sidebar__link--active .sidebar__icon {
+            opacity: 1;
+        }
+
+        .sidebar__footer {
+            padding: 1.5rem 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .sidebar__logout {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-family: var(--font-sans);
+            font-size: 0.78rem;
+            color: rgba(255, 255, 255, 0.35);
+            text-decoration: none;
+            transition: color 0.3s var(--ease-smooth);
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .sidebar__logout:hover {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+
+        /* ── 3. Main Content ─────────────────────────────── */
+        .main {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            min-height: 100vh;
+        }
+
+        .main__inner {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: var(--space-xl) var(--space-lg);
+        }
+
+
+        /* ── 4. Header / Welcome ─────────────────────────── */
+        .dash-header {
+            margin-bottom: var(--space-xl);
+            opacity: 0;
+            transform: translateY(16px);
+            animation: fadeInUp 0.7s var(--ease-smooth) 0.1s forwards;
+        }
+
+        .dash-header__overline {
+            font-family: var(--font-sans);
+            font-weight: 500;
+            font-size: 0.65rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--color-accent-warm);
+            margin-bottom: 0.6rem;
+            display: block;
+        }
+
+        .dash-header__title {
+            font-family: var(--font-serif);
+            font-weight: 700;
+            font-size: clamp(1.6rem, 3vw, 2.2rem);
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+            color: var(--color-text);
+            margin-bottom: 0.5rem;
+        }
+
+        .dash-header__welcome {
+            font-family: var(--font-sans);
+            font-size: 0.92rem;
+            color: var(--color-text-muted);
+            font-weight: 400;
+        }
+
+        .dash-header__welcome strong {
+            color: var(--color-text);
+            font-weight: 600;
+        }
+
+
+        /* ── 5. Verification Status Banner ───────────────── */
+        .status-banner {
+            padding: 1.25rem 1.5rem;
+            border-radius: 2px;
+            margin-bottom: var(--space-lg);
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            opacity: 0;
+            transform: translateY(16px);
+            animation: fadeInUp 0.7s var(--ease-smooth) 0.2s forwards;
+        }
+
+        .status-banner--pending {
+            background: var(--color-pending-bg);
+            border: 1px solid var(--color-pending-border);
+        }
+
+        .status-banner--verified {
+            background: var(--color-success-bg);
+            border: 1px solid #C8E6D5;
+        }
+
+        .status-banner--rejected {
+            background: var(--color-error-bg);
+            border: 1px solid #F5D5D5;
+        }
+
+        .status-banner__icon {
+            font-size: 1.2rem;
+            flex-shrink: 0;
+            margin-top: 0.1rem;
+        }
+
+        .status-banner__content {
+            flex: 1;
+        }
+
+        .status-banner__label {
+            font-family: var(--font-sans);
+            font-weight: 600;
+            font-size: 0.7rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 0.3rem;
+            display: block;
+        }
+
+        .status-banner--pending .status-banner__label {
+            color: var(--color-pending);
+        }
+
+        .status-banner--verified .status-banner__label {
+            color: var(--color-success);
+        }
+
+        .status-banner--rejected .status-banner__label {
+            color: var(--color-error);
+        }
+
+        .status-banner__text {
+            font-size: 0.84rem;
+            line-height: 1.55;
+            color: var(--color-text-muted);
+        }
+
+
+        /* ── 6. Metrics Grid ─────────────────────────────── */
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.25rem;
+            margin-bottom: var(--space-xl);
+            opacity: 0;
+            transform: translateY(16px);
+            animation: fadeInUp 0.7s var(--ease-smooth) 0.3s forwards;
+        }
+
+        .metric-card {
+            background: var(--color-bg-pure);
+            border: 1px solid var(--color-border-light);
+            padding: 1.75rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s var(--ease-smooth);
+        }
+
+        .metric-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--color-accent-warm);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s var(--ease-smooth);
+        }
+
+        .metric-card:hover {
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .metric-card:hover::after {
+            transform: scaleX(1);
+        }
+
+        .metric-card__label {
+            font-family: var(--font-sans);
+            font-weight: 500;
+            font-size: 0.6rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--color-text-light);
+            margin-bottom: 0.75rem;
+            display: block;
+        }
+
+        .metric-card__value {
+            font-family: var(--font-serif);
+            font-weight: 700;
+            font-size: 2rem;
+            line-height: 1.1;
+            color: var(--color-text);
+            letter-spacing: -0.02em;
+        }
+
+        .metric-card__value span {
+            font-family: var(--font-sans);
+            font-weight: 400;
+            font-size: 0.85rem;
+            color: var(--color-text-light);
+            margin-left: 0.15rem;
+        }
+
+        .metric-card__sub {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            margin-top: 0.6rem;
+            font-family: var(--font-sans);
+            font-size: 0.72rem;
+            color: var(--color-text-light);
+        }
+
+        .metric-card__sub .star {
+            color: var(--color-accent-warm);
+            font-size: 0.8rem;
+        }
+
+
+        /* ── 7. Section Titles ────────────────────────────── */
+        .section-title {
+            margin-bottom: var(--space-lg);
+            opacity: 0;
+            transform: translateY(16px);
+            animation: fadeInUp 0.7s var(--ease-smooth) 0.4s forwards;
+        }
+
+        .section-title__overline {
+            font-family: var(--font-sans);
+            font-weight: 500;
+            font-size: 0.6rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--color-accent-warm);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-title__heading {
+            font-family: var(--font-serif);
+            font-weight: 700;
+            font-size: 1.4rem;
+            line-height: 1.25;
+            letter-spacing: -0.01em;
+            color: var(--color-text);
+        }
+
+        .section-title__desc {
+            font-size: 0.88rem;
+            color: var(--color-text-muted);
+            margin-top: 0.4rem;
+            line-height: 1.6;
+        }
+
+
+        /* ── 8. The Vault — Upload Zones ─────────────────── */
+        .vault {
+            opacity: 0;
+            transform: translateY(16px);
+            animation: fadeInUp 0.7s var(--ease-smooth) 0.45s forwards;
+        }
+
+        .vault__grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.25rem;
+        }
+
+        .upload-zone {
+            background: var(--color-bg-pure);
+            border: 1.5px dashed var(--color-border);
+            padding: 2.5rem 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s var(--ease-smooth);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .upload-zone::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(184, 149, 106, 0.03) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.4s var(--ease-smooth);
+        }
+
+        .upload-zone:hover {
+            border-color: var(--color-accent-warm);
+            border-style: solid;
+            background: #FDFCFB;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(184, 149, 106, 0.08);
+        }
+
+        .upload-zone:hover::before {
+            opacity: 1;
+        }
+
+        .upload-zone--dragover {
+            border-color: var(--color-accent-warm);
+            border-style: solid;
+            background: var(--color-pending-bg);
+            transform: scale(1.01);
+        }
+
+        .upload-zone__icon {
+            position: relative;
+            z-index: 1;
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: var(--color-bg);
+            color: var(--color-accent-warm);
+            font-size: 1.2rem;
+            transition: all 0.3s var(--ease-smooth);
+        }
+
+        .upload-zone:hover .upload-zone__icon {
+            background: rgba(184, 149, 106, 0.12);
+            transform: scale(1.05);
+        }
+
+        .upload-zone__title {
+            position: relative;
+            z-index: 1;
+            font-family: var(--font-serif);
+            font-weight: 600;
+            font-size: 1rem;
+            color: var(--color-text);
+            margin-bottom: 0.5rem;
+        }
+
+        .upload-zone__text {
+            position: relative;
+            z-index: 1;
+            font-family: var(--font-sans);
+            font-size: 0.78rem;
+            color: var(--color-text-light);
+            line-height: 1.55;
+            margin-bottom: 1.25rem;
+        }
+
+        .upload-zone__btn {
+            position: relative;
+            z-index: 1;
+            display: inline-block;
+            padding: 0.6rem 1.6rem;
+            border: 1px solid var(--color-text);
+            background: transparent;
+            font-family: var(--font-sans);
+            font-weight: 600;
+            font-size: 0.62rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--color-text);
+            cursor: pointer;
+            transition: all 0.35s var(--ease-smooth);
+        }
+
+        .upload-zone__btn:hover {
+            background: var(--color-text);
+            color: var(--color-bg-pure);
+        }
+
+        .upload-zone__formats {
+            position: relative;
+            z-index: 1;
+            margin-top: 0.85rem;
+            font-family: var(--font-sans);
+            font-size: 0.65rem;
+            color: var(--color-text-light);
+            letter-spacing: 0.06em;
+        }
+
+        /* Hidden file inputs */
+        .upload-zone input[type="file"] {
+            display: none;
+        }
+
+
+        /* ── 9. Profile Overview Cards ───────────────────── */
+        .profile-section {
+            margin-top: var(--space-xl);
+            opacity: 0;
+            transform: translateY(16px);
+            animation: fadeInUp 0.7s var(--ease-smooth) 0.55s forwards;
+        }
+
+        .profile-card {
+            background: var(--color-bg-pure);
+            border: 1px solid var(--color-border-light);
+            padding: 2rem;
+        }
+
+        .profile-card__row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--color-border-light);
+        }
+
+        .profile-card__row:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .profile-card__row:first-child {
+            padding-top: 0;
+        }
+
+        .profile-card__key {
+            font-family: var(--font-sans);
+            font-weight: 500;
+            font-size: 0.68rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--color-text-light);
+        }
+
+        .profile-card__value {
+            font-family: var(--font-sans);
+            font-weight: 500;
+            font-size: 0.92rem;
+            color: var(--color-text);
+            text-align: right;
+        }
+
+
+        /* ── 10. Loading / Skeleton ───────────────────────── */
+        .skeleton {
+            background: linear-gradient(110deg, #F0ECE8 30%, #FAF8F6 50%, #F0ECE8 70%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: 2px;
+        }
+
+        .skeleton--text {
+            height: 14px;
+            width: 60%;
+            margin-bottom: 0.5rem;
+        }
+
+        .skeleton--heading {
+            height: 28px;
+            width: 45%;
+            margin-bottom: 0.75rem;
+        }
+
+        .skeleton--block {
+            height: 80px;
+            width: 100%;
+        }
+
+        .loading-overlay {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 60vh;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .loading-spinner {
+            width: 32px;
+            height: 32px;
+            border: 2px solid var(--color-border);
+            border-top-color: var(--color-accent-warm);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        .loading-text {
+            font-family: var(--font-sans);
+            font-size: 0.78rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--color-text-light);
+        }
+
+
+        /* ── 11. Mobile Toggle ───────────────────────────── */
+        .mobile-toggle {
+            display: none;
+            position: fixed;
+            top: 1.25rem;
+            left: 1.25rem;
+            z-index: 200;
+            width: 40px;
+            height: 40px;
+            background: var(--color-bg-pure);
+            border: 1px solid var(--color-border);
+            border-radius: 2px;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            flex-direction: column;
+            gap: 4px;
+            padding: 0;
+        }
+
+        .mobile-toggle span {
+            display: block;
+            width: 16px;
+            height: 1.5px;
+            background: var(--color-text);
+            transition: all 0.3s var(--ease-smooth);
+        }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 90;
+            opacity: 0;
+            transition: opacity 0.3s var(--ease-smooth);
+        }
+
+        .sidebar-overlay--visible {
+            opacity: 1;
+        }
+
+
+        /* ── 12. Animations ──────────────────────────────── */
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes shimmer {
+            0%   { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+
+        /* ── 13. Responsive ──────────────────────────────── */
+        @media (max-width: 1024px) {
+            :root {
+                --sidebar-width: 240px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-toggle {
+                display: flex;
+            }
+
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar--open {
+                transform: translateX(0);
+            }
+
+            .main {
+                margin-left: 0;
+            }
+
+            .main__inner {
+                padding: 5rem 1.25rem 2.5rem;
+            }
+
+            .metrics {
+                grid-template-columns: 1fr;
+            }
+
+            .vault__grid {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar-overlay--visible {
+                display: block;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main__inner {
+                padding: 4.5rem 1rem 2rem;
+            }
+
+            .metric-card {
+                padding: 1.25rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- ════════════════════════════════════════════════════
+         MOBILE SIDEBAR TOGGLE
+         ════════════════════════════════════════════════════ -->
+    <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+
+    <div class="dashboard">
+
+        <!-- ════════════════════════════════════════════════
+             SIDEBAR — Persistent Navigation
+             ════════════════════════════════════════════════ -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar__brand">
+                <a href="index.html">ONLINE HOSPITAL</a>
+            </div>
+
+            <nav class="sidebar__nav">
+                <p class="sidebar__label">Navigation</p>
+                <ul class="sidebar__menu">
+                    <li>
+                        <a href="#overview" class="sidebar__link sidebar__link--active" data-section="overview">
+                            <svg class="sidebar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="3" width="7" height="7"/>
+                                <rect x="14" y="3" width="7" height="7"/>
+                                <rect x="3" y="14" width="7" height="7"/>
+                                <rect x="14" y="14" width="7" height="7"/>
+                            </svg>
+                            Overview
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#appointments" class="sidebar__link" data-section="appointments">
+                            <svg class="sidebar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                                <line x1="16" y1="2" x2="16" y2="6"/>
+                                <line x1="8"  y1="2" x2="8"  y2="6"/>
+                                <line x1="3"  y1="10" x2="21" y2="10"/>
+                            </svg>
+                            Appointments
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#credentials" class="sidebar__link" data-section="credentials">
+                            <svg class="sidebar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                <circle cx="12" cy="7" r="4"/>
+                            </svg>
+                            Profile &amp; Credentials
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#earnings" class="sidebar__link" data-section="earnings">
+                            <svg class="sidebar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="12" y1="1" x2="12" y2="23"/>
+                                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                            </svg>
+                            Earnings
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar__footer">
+                <button class="sidebar__logout" id="btn-logout">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                        <polyline points="16 17 21 12 16 7"/>
+                        <line x1="21" y1="12" x2="9" y2="12"/>
+                    </svg>
+                    Sign Out
+                </button>
+            </div>
+        </aside>
+
+
+        <!-- ════════════════════════════════════════════════
+             MAIN CONTENT AREA
+             ════════════════════════════════════════════════ -->
+        <main class="main">
+
+            <!-- Loading State -->
+            <div class="loading-overlay" id="loading-state">
+                <div class="loading-spinner"></div>
+                <p class="loading-text">Preparing your command center</p>
+            </div>
+
+            <!-- Dashboard Content (hidden until data loads) -->
+            <div class="main__inner" id="dashboard-content" style="display: none;">
+
+                <!-- ── Header / Welcome ──────────────────── -->
+                <header class="dash-header">
+                    <span class="dash-header__overline">Doctor Command Center</span>
+                    <h1 class="dash-header__title" id="dash-title">Welcome Back</h1>
+                    <p class="dash-header__welcome" id="dash-welcome">Loading your profile...</p>
+                </header>
+
+
+                <!-- ── Verification Status Banner ────────── -->
+                <div class="status-banner" id="status-banner" style="display: none;">
+                    <span class="status-banner__icon" id="status-icon"></span>
+                    <div class="status-banner__content">
+                        <span class="status-banner__label" id="status-label"></span>
+                        <p class="status-banner__text" id="status-text"></p>
+                    </div>
+                </div>
+
+
+                <!-- ── Metrics Grid ──────────────────────── -->
+                <div class="metrics" id="metrics-grid">
+                    <div class="metric-card">
+                        <span class="metric-card__label">Consultation Fee</span>
+                        <div class="metric-card__value" id="metric-fee">—</div>
+                        <div class="metric-card__sub">Per session</div>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-card__label">Star Rating</span>
+                        <div class="metric-card__value" id="metric-rating">—</div>
+                        <div class="metric-card__sub">
+                            <span class="star">★★★★★</span>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-card__label">Reviews</span>
+                        <div class="metric-card__value" id="metric-reviews">—</div>
+                        <div class="metric-card__sub">Patient reviews</div>
+                    </div>
+                </div>
+
+
+                <!-- ── The Vault — Document Upload Zone ──── -->
+                <div class="section-title">
+                    <span class="section-title__overline">The Vault</span>
+                    <h2 class="section-title__heading">Credential Documents</h2>
+                    <p class="section-title__desc">Upload your medical license and insurance documents securely. All files are encrypted and stored with bank-grade security.</p>
+                </div>
+
+                <div class="vault">
+                    <div class="vault__grid">
+                        <!-- Medical License -->
+                        <div class="upload-zone" id="upload-license">
+                            <input type="file" id="file-license" accept=".pdf,.jpg,.jpeg,.png">
+                            <div class="upload-zone__icon">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                    <polyline points="14 2 14 8 20 8"/>
+                                    <line x1="12" y1="18" x2="12" y2="12"/>
+                                    <line x1="9" y1="15" x2="15" y2="15"/>
+                                </svg>
+                            </div>
+                            <h3 class="upload-zone__title">Medical License</h3>
+                            <p class="upload-zone__text">Upload a clear scan or photograph of your current and valid medical license issued by your governing body.</p>
+                            <button type="button" class="upload-zone__btn" id="btn-upload-license">Select File</button>
+                            <p class="upload-zone__formats">PDF, JPG, PNG · Max 10MB</p>
+                        </div>
+
+                        <!-- Malpractice Insurance -->
+                        <div class="upload-zone" id="upload-insurance">
+                            <input type="file" id="file-insurance" accept=".pdf,.jpg,.jpeg,.png">
+                            <div class="upload-zone__icon">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                                </svg>
+                            </div>
+                            <h3 class="upload-zone__title">Malpractice Insurance</h3>
+                            <p class="upload-zone__text">Upload proof of active malpractice insurance or professional liability coverage documentation.</p>
+                            <button type="button" class="upload-zone__btn" id="btn-upload-insurance">Select File</button>
+                            <p class="upload-zone__formats">PDF, JPG, PNG · Max 10MB</p>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- ── Profile Details Card ──────────────── -->
+                <div class="profile-section">
+                    <div class="section-title" style="animation-delay: 0.55s;">
+                        <span class="section-title__overline">Your Profile</span>
+                        <h2 class="section-title__heading">Account Details</h2>
+                    </div>
+
+                    <div class="profile-card">
+                        <div class="profile-card__row">
+                            <span class="profile-card__key">Full Name</span>
+                            <span class="profile-card__value" id="profile-name">—</span>
+                        </div>
+                        <div class="profile-card__row">
+                            <span class="profile-card__key">Email Address</span>
+                            <span class="profile-card__value" id="profile-email">—</span>
+                        </div>
+                        <div class="profile-card__row">
+                            <span class="profile-card__key">Specialty</span>
+                            <span class="profile-card__value" id="profile-specialty">—</span>
+                        </div>
+                        <div class="profile-card__row">
+                            <span class="profile-card__key">License Number</span>
+                            <span class="profile-card__value" id="profile-license">—</span>
+                        </div>
+                        <div class="profile-card__row">
+                            <span class="profile-card__key">Verification</span>
+                            <span class="profile-card__value" id="profile-verification">—</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!-- /main__inner -->
+        </main>
+
+    </div><!-- /dashboard -->
+
+
+    <!-- ════════════════════════════════════════════════════
+         JAVASCRIPT — Dashboard Logic
+         ════════════════════════════════════════════════════ -->
+    <script>
+    (function () {
+        'use strict';
+
+        // ── Configuration ──────────────────────────────────
+        const API_PROFILE_URL = 'api/doctor_profile.php';
+        const LOGIN_REDIRECT  = 'login.html';
+
+        // ── DOM References ─────────────────────────────────
+        const loadingState      = document.getElementById('loading-state');
+        const dashboardContent  = document.getElementById('dashboard-content');
+        const dashTitle         = document.getElementById('dash-title');
+        const dashWelcome       = document.getElementById('dash-welcome');
+        const statusBanner      = document.getElementById('status-banner');
+        const statusIcon        = document.getElementById('status-icon');
+        const statusLabel       = document.getElementById('status-label');
+        const statusText        = document.getElementById('status-text');
+        const metricFee         = document.getElementById('metric-fee');
+        const metricRating      = document.getElementById('metric-rating');
+        const metricReviews     = document.getElementById('metric-reviews');
+        const profileName       = document.getElementById('profile-name');
+        const profileEmail      = document.getElementById('profile-email');
+        const profileSpecialty  = document.getElementById('profile-specialty');
+        const profileLicense    = document.getElementById('profile-license');
+        const profileVerification = document.getElementById('profile-verification');
+        const sidebar           = document.getElementById('sidebar');
+        const mobileToggle      = document.getElementById('mobile-toggle');
+        const sidebarOverlay    = document.getElementById('sidebar-overlay');
+        const btnLogout         = document.getElementById('btn-logout');
+
+
+        // ── 1. Fetch Doctor Profile on Load ────────────────
+        async function loadDoctorProfile() {
+            try {
+                const response = await fetch(API_PROFILE_URL, {
+                    method: 'GET',
+                    credentials: 'same-origin',
+                    headers: { 'Accept': 'application/json' }
+                });
+
+                // 401 = Not logged in or not a doctor → redirect
+                if (response.status === 401) {
+                    window.location.href = LOGIN_REDIRECT;
+                    return;
+                }
+
+                if (!response.ok) {
+                    throw new Error(`Server returned ${response.status}`);
+                }
+
+                const data = await response.json();
+                populateDashboard(data);
+
+            } catch (err) {
+                console.error('Failed to load profile:', err);
+                loadingState.innerHTML = `
+                    <div style="text-align:center; padding: 2rem;">
+                        <p style="font-family: var(--font-serif); font-size: 1.2rem; margin-bottom: 0.75rem; color: var(--color-text);">Unable to Load Dashboard</p>
+                        <p style="font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 1.5rem;">We couldn't connect to the server. Please try again.</p>
+                        <button onclick="location.reload()" style="padding: 0.7rem 2rem; border: 1px solid #111; background: transparent; cursor: pointer; font-family: var(--font-sans); font-weight: 600; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; transition: all 0.3s;">Retry</button>
+                    </div>
+                `;
+            }
+        }
+
+
+        // ── 2. Populate the Dashboard DOM ──────────────────
+        function populateDashboard(data) {
+            // Extract first name for friendly welcome
+            const fullName  = data.name || 'Doctor';
+            const firstName = fullName.split(' ')[0];
+            const lastName  = fullName.includes(' ') ? fullName.split(' ').slice(1).join(' ') : '';
+
+            // Build a dynamic greeting based on time of day
+            const hour     = new Date().getHours();
+            let greeting   = 'Good evening';
+            if (hour < 12)      greeting = 'Good morning';
+            else if (hour < 17) greeting = 'Good afternoon';
+
+            dashTitle.textContent  = `Welcome, Dr. ${lastName || firstName}`;
+            dashWelcome.innerHTML  = `${greeting}, <strong>Dr. ${fullName}</strong>. Here's your practice at a glance.`;
+
+            // ── Verification Status ──
+            const status = (data.verification_status || 'pending').toLowerCase();
+            statusBanner.style.display = 'flex';
+
+            if (status === 'pending') {
+                statusBanner.className = 'status-banner status-banner--pending';
+                statusIcon.textContent  = '◉';
+                statusLabel.textContent = 'Verification Pending';
+                statusText.textContent  = 'Your medical credentials and certificates are currently under review by our verification team. This typically takes 1–3 business days. You will be notified once your profile is approved.';
+            } else if (status === 'verified') {
+                statusBanner.className = 'status-banner status-banner--verified';
+                statusIcon.textContent  = '✓';
+                statusLabel.textContent = 'Verified Practitioner';
+                statusText.textContent  = 'Your credentials have been verified. Your profile is now live and visible to patients on the marketplace.';
+            } else {
+                statusBanner.className = 'status-banner status-banner--rejected';
+                statusIcon.textContent  = '✕';
+                statusLabel.textContent = 'Verification Issue';
+                statusText.textContent  = 'There was an issue verifying your credentials. Please re-upload your documents or contact our support team for assistance.';
+            }
+
+            // ── Metrics ──
+            const fee = parseFloat(data.consultation_fee) || 0;
+            metricFee.innerHTML     = `$${fee.toFixed(0)}<span>/session</span>`;
+            metricRating.innerHTML  = `${parseFloat(data.rating || 5.0).toFixed(1)}`;
+            metricReviews.innerHTML = `${parseInt(data.review_count || 0).toLocaleString()}`;
+
+            // Update star display based on rating
+            const ratingVal    = parseFloat(data.rating || 5.0);
+            const fullStars    = Math.floor(ratingVal);
+            const emptyStars   = 5 - fullStars;
+            const starContainer = metricRating.closest('.metric-card').querySelector('.star');
+            if (starContainer) {
+                starContainer.textContent = '★'.repeat(fullStars) + '☆'.repeat(emptyStars);
+            }
+
+            // ── Profile Details ──
+            profileName.textContent         = fullName;
+            profileEmail.textContent        = data.email || '—';
+            profileSpecialty.textContent     = data.specialty || 'Not specified';
+            profileLicense.textContent      = data.medical_license || '—';
+            profileVerification.textContent = status.charAt(0).toUpperCase() + status.slice(1);
+
+            // ── Reveal Dashboard ──
+            loadingState.style.display     = 'none';
+            dashboardContent.style.display = 'block';
+        }
+
+
+        // ── 3. Sidebar Navigation ──────────────────────────
+        document.querySelectorAll('.sidebar__link').forEach(link => {
+            link.addEventListener('click', function (e) {
+                // Remove active from all
+                document.querySelectorAll('.sidebar__link').forEach(l => l.classList.remove('sidebar__link--active'));
+                this.classList.add('sidebar__link--active');
+
+                // Close mobile sidebar
+                closeSidebar();
+            });
+        });
+
+
+        // ── 4. Mobile Sidebar ──────────────────────────────
+        mobileToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('sidebar--open');
+            sidebarOverlay.classList.toggle('sidebar-overlay--visible');
+            sidebarOverlay.style.display = sidebar.classList.contains('sidebar--open') ? 'block' : 'none';
+        });
+
+        sidebarOverlay.addEventListener('click', closeSidebar);
+
+        function closeSidebar() {
+            sidebar.classList.remove('sidebar--open');
+            sidebarOverlay.classList.remove('sidebar-overlay--visible');
+            setTimeout(() => { sidebarOverlay.style.display = 'none'; }, 300);
+        }
+
+
+        // ── 5. Upload Zone Interactions (UI Only) ──────────
+        setupUploadZone('upload-license', 'file-license', 'btn-upload-license');
+        setupUploadZone('upload-insurance', 'file-insurance', 'btn-upload-insurance');
+
+        function setupUploadZone(zoneId, fileId, btnId) {
+            const zone    = document.getElementById(zoneId);
+            const fileInp = document.getElementById(fileId);
+            const btn     = document.getElementById(btnId);
+
+            // Click to upload
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                fileInp.click();
+            });
+
+            zone.addEventListener('click', () => {
+                fileInp.click();
+            });
+
+            // File selected
+            fileInp.addEventListener('change', () => {
+                if (fileInp.files.length > 0) {
+                    const file = fileInp.files[0];
+                    const title = zone.querySelector('.upload-zone__title');
+                    const text  = zone.querySelector('.upload-zone__text');
+                    title.textContent = file.name;
+                    text.textContent  = `${(file.size / 1024 / 1024).toFixed(2)} MB · Ready to upload`;
+                    btn.textContent   = 'Change File';
+                    zone.style.borderColor = 'var(--color-accent-warm)';
+                    zone.style.borderStyle = 'solid';
+                }
+            });
+
+            // Drag & Drop
+            zone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                zone.classList.add('upload-zone--dragover');
+            });
+
+            zone.addEventListener('dragleave', () => {
+                zone.classList.remove('upload-zone--dragover');
+            });
+
+            zone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                zone.classList.remove('upload-zone--dragover');
+                if (e.dataTransfer.files.length > 0) {
+                    fileInp.files = e.dataTransfer.files;
+                    fileInp.dispatchEvent(new Event('change'));
+                }
+            });
+        }
+
+
+        // ── 6. Sign Out ────────────────────────────────────
+        btnLogout.addEventListener('click', () => {
+            // Clear session by calling a logout endpoint (or simply redirect)
+            window.location.href = LOGIN_REDIRECT;
+        });
+
+
+        // ── Init ───────────────────────────────────────────
+        loadDoctorProfile();
+
+    })();
+    </script>
+
+</body>
+
+</html>

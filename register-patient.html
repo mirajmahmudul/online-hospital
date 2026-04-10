@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account — Online Hospital</title>
+    <meta name="description"
+        content="Create your Online Hospital patient account. Book consultations with world-class medical specialists.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+        rel="stylesheet">
+
+    <!-- Favicon -->
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚕</text></svg>">
+
+    <style>
+        /* ── Reset ──────────────────────────────── */
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        ::selection {
+            background: #B8956A;
+            color: #FFFFFF;
+        }
+
+        /* ── Tokens ─────────────────────────────── */
+        :root {
+            --color-bg: #FAFAFA;
+            --color-bg-pure: #FFFFFF;
+            --color-text: #111111;
+            --color-text-muted: #6B6B6B;
+            --color-text-light: #999999;
+            --color-accent: #111111;
+            --color-accent-warm: #B8956A;
+            --color-border: #E8E4DF;
+            --color-border-focus: #111111;
+            --color-error: #C43E3E;
+            --color-error-bg: #FEF2F2;
+            --color-success: #2D6A4F;
+            --color-success-bg: #F0FFF4;
+
+            --font-serif: 'Playfair Display', 'Georgia', serif;
+            --font-sans: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+
+            --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: var(--font-sans);
+            color: var(--color-text);
+            background-color: var(--color-bg);
+            line-height: 1.7;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            font-family: inherit;
+            cursor: pointer;
+            border: none;
+            background: none;
+        }
+
+
+        /* ── Top Bar ─────────────────────────────── */
+        .topbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 3rem;
+            background-color: rgba(250, 250, 250, 0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid #F0ECE8;
+        }
+
+        .topbar__inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 1280px;
+        }
+
+        .topbar__logo {
+            font-family: var(--font-serif);
+            font-weight: 700;
+            font-size: 1.15rem;
+            letter-spacing: 0.04em;
+            color: var(--color-text);
+        }
+
+        .topbar__back {
+            font-family: var(--font-sans);
+            font-weight: 500;
+            font-size: 0.68rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--color-text-light);
+            transition: color 0.3s var(--ease-smooth);
+        }
+
+        .topbar__back:hover {
+            color: var(--color-text);
+        }
+
+
+        /* ── Form Container ──────────────────────── */
+        .register-container {
+            width: 100%;
+            max-width: 420px;
+            padding: 0 1.5rem;
+            padding-top: calc(72px + 3rem);
+            padding-bottom: 3rem;
+            opacity: 0;
+            transform: translateY(16px);
+            animation: fadeInUp 0.7s var(--ease-smooth) 0.2s forwards;
+        }
+
+        /* ── Header ──────────────────────────────── */
+        .register-header {
+            margin-bottom: 2.5rem;
+        }
+
+        .register-header__overline {
+            font-family: var(--font-sans);
+            font-weight: 500;
+            font-size: 0.68rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--color-accent-warm);
+            display: block;
+            margin-bottom: 0.75rem;
+        }
+
+        .register-header__title {
+            font-family: var(--font-serif);
+            font-weight: 700;
+            font-size: 1.85rem;
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+            color: var(--color-text);
+            margin-bottom: 0.75rem;
+        }
+
+        .register-header__subtitle {
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            color: var(--color-text-muted);
+            line-height: 1.6;
+        }
+
+
+        /* ── Form Elements ───────────────────────── */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-family: var(--font-sans);
+            font-weight: 500;
+            font-size: 0.7rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--color-text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.875rem 0;
+            border: none;
+            border-bottom: 1px solid var(--color-border);
+            background: transparent;
+            font-family: var(--font-sans);
+            font-size: 0.95rem;
+            font-weight: 400;
+            color: var(--color-text);
+            outline: none;
+            transition: border-color 0.3s var(--ease-smooth);
+        }
+
+        .form-input::placeholder {
+            color: var(--color-text-light);
+            font-weight: 300;
+        }
+
+        .form-input:focus {
+            border-bottom-color: var(--color-border-focus);
+        }
+
+        .form-input--error {
+            border-bottom-color: var(--color-error);
+        }
+
+
+        /* ── Password Group ──────────────────────── */
+        .form-group--password {
+            position: relative;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 0;
+            bottom: 0.875rem;
+            font-family: var(--font-sans);
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--color-text-light);
+            transition: color 0.3s var(--ease-smooth);
+            padding: 0;
+        }
+
+        .password-toggle:hover {
+            color: var(--color-text);
+        }
+
+
+        /* ── Password Strength ───────────────────── */
+        .password-strength {
+            display: flex;
+            gap: 4px;
+            margin-top: 0.6rem;
+        }
+
+        .password-strength__bar {
+            height: 2px;
+            flex: 1;
+            background-color: var(--color-border);
+            border-radius: 1px;
+            transition: background-color 0.3s var(--ease-smooth);
+        }
+
+        .password-strength__bar--active-weak {
+            background-color: #E57373;
+        }
+
+        .password-strength__bar--active-fair {
+            background-color: #FFB74D;
+        }
+
+        .password-strength__bar--active-strong {
+            background-color: #81C784;
+        }
+
+        .password-strength__label {
+            font-size: 0.68rem;
+            color: var(--color-text-light);
+            margin-top: 0.35rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+        }
+
+
+        /* ── Submit Button ───────────────────────── */
+        .form-submit {
+            width: 100%;
+            padding: 1rem;
+            margin-top: 0.5rem;
+            background-color: var(--color-accent);
+            color: var(--color-bg-pure);
+            font-family: var(--font-sans);
+            font-weight: 600;
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            transition: background-color 0.3s var(--ease-smooth),
+                transform 0.15s var(--ease-smooth);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-submit:hover {
+            background-color: #1A1A2E;
+        }
+
+        .form-submit:active {
+            transform: scale(0.985);
+        }
+
+        .form-submit:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .form-submit__text {
+            transition: opacity 0.3s var(--ease-smooth);
+        }
+
+        .form-submit--loading .form-submit__text {
+            opacity: 0;
+        }
+
+        .form-submit__spinner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 18px;
+            height: 18px;
+            margin: -9px 0 0 -9px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: #FFFFFF;
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.3s var(--ease-smooth);
+            animation: spin 0.7s linear infinite;
+        }
+
+        .form-submit--loading .form-submit__spinner {
+            opacity: 1;
+        }
+
+
+        /* ── Alert Boxes ─────────────────────────── */
+        .form-alert {
+            margin-top: 1.25rem;
+            padding: 0.85rem 1rem;
+            font-family: var(--font-sans);
+            font-size: 0.82rem;
+            line-height: 1.5;
+            display: none;
+            opacity: 0;
+            transform: translateY(-6px);
+            transition: opacity 0.35s var(--ease-smooth),
+                transform 0.35s var(--ease-smooth);
+        }
+
+        .form-alert--error {
+            background-color: var(--color-error-bg);
+            border-left: 3px solid var(--color-error);
+            color: var(--color-error);
+        }
+
+        .form-alert--success {
+            background-color: var(--color-success-bg);
+            border-left: 3px solid var(--color-success);
+            color: var(--color-success);
+        }
+
+        .form-alert--visible {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+
+        /* ── Footer ──────────────────────────────── */
+        .form-footer {
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .form-footer__text {
+            font-size: 0.82rem;
+            color: var(--color-text-light);
+        }
+
+        .form-footer__link {
+            color: var(--color-text);
+            font-weight: 500;
+            border-bottom: 1px solid var(--color-border);
+            transition: border-color 0.3s var(--ease-smooth);
+        }
+
+        .form-footer__link:hover {
+            border-bottom-color: var(--color-text);
+        }
+
+
+        /* ── Terms ───────────────────────────────── */
+        .form-terms {
+            margin-top: 1.25rem;
+            font-size: 0.75rem;
+            color: var(--color-text-light);
+            line-height: 1.6;
+            text-align: center;
+        }
+
+        .form-terms a {
+            color: var(--color-text-muted);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .form-terms a:hover {
+            color: var(--color-text);
+        }
+
+
+        /* ── Animations ──────────────────────────── */
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ── Responsive ──────────────────────────── */
+        @media (max-width: 480px) {
+            .topbar {
+                padding: 0 1.25rem;
+            }
+
+            .register-container {
+                padding-left: 1.25rem;
+                padding-right: 1.25rem;
+            }
+
+            .register-header__title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ════════════════════════════════════════════
+         TOP BAR
+         ════════════════════════════════════════════ -->
+    <header class="topbar">
+        <div class="topbar__inner">
+            <a href="index.html" class="topbar__logo">ONLINE HOSPITAL</a>
+            <a href="register.html" class="topbar__back">← Back</a>
+        </div>
+    </header>
+
+
+    <!-- ════════════════════════════════════════════
+         REGISTRATION FORM
+         ════════════════════════════════════════════ -->
+    <div class="register-container">
+        <header class="register-header">
+            <span class="register-header__overline">Patient Registration</span>
+            <h1 class="register-header__title">Create Your<br>Client Account</h1>
+            <p class="register-header__subtitle">
+                Join thousands of patients who trust our platform for world-class consultations.
+            </p>
+        </header>
+
+        <form id="register-form" novalidate>
+            <div class="form-group">
+                <label for="full-name" class="form-label">Full Name</label>
+                <input type="text" id="full-name" name="name" class="form-input" placeholder="Your full name"
+                    autocomplete="name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email" class="form-label">Email Address</label>
+                <input type="email" id="email" name="email" class="form-input" placeholder="you@example.com"
+                    autocomplete="email" required>
+            </div>
+
+            <div class="form-group form-group--password">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" id="password" name="password" class="form-input"
+                    placeholder="Minimum 8 characters" autocomplete="new-password" required>
+                <button type="button" class="password-toggle" id="password-toggle">Show</button>
+                <div class="password-strength" id="password-strength">
+                    <div class="password-strength__bar" id="str-bar-1"></div>
+                    <div class="password-strength__bar" id="str-bar-2"></div>
+                    <div class="password-strength__bar" id="str-bar-3"></div>
+                    <div class="password-strength__bar" id="str-bar-4"></div>
+                </div>
+                <div class="password-strength__label" id="strength-label"></div>
+            </div>
+
+            <button type="submit" class="form-submit" id="submit-btn">
+                <span class="form-submit__text">Create Account</span>
+                <span class="form-submit__spinner"></span>
+            </button>
+
+            <div class="form-alert form-alert--error" id="form-error" role="alert"></div>
+            <div class="form-alert form-alert--success" id="form-success" role="status"></div>
+
+            <p class="form-terms">
+                By creating an account you agree to our
+                <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
+            </p>
+        </form>
+
+        <div class="form-footer">
+            <p class="form-footer__text">
+                Already have an account?
+                <a href="login.html" class="form-footer__link">Sign in</a>
+            </p>
+        </div>
+    </div>
+
+
+    <!-- ════════════════════════════════════════════
+         JAVASCRIPT
+         ════════════════════════════════════════════ -->
+    <script>
+        (function () {
+            'use strict';
+
+            const API_URL = 'api/register.php';
+            const ROLE = 'patient';
+            const REDIRECT = 'patient-dashboard.html';
+
+            // DOM
+            const form = document.getElementById('register-form');
+            const nameInput = document.getElementById('full-name');
+            const emailInput = document.getElementById('email');
+            const passInput = document.getElementById('password');
+            const submitBtn = document.getElementById('submit-btn');
+            const errorBox = document.getElementById('form-error');
+            const successBox = document.getElementById('form-success');
+            const passToggle = document.getElementById('password-toggle');
+            const strBars = [
+                document.getElementById('str-bar-1'),
+                document.getElementById('str-bar-2'),
+                document.getElementById('str-bar-3'),
+                document.getElementById('str-bar-4'),
+            ];
+            const strLabel = document.getElementById('strength-label');
+
+
+            // ── Password Toggle ─────────────────────
+            passToggle.addEventListener('click', () => {
+                const isPass = passInput.type === 'password';
+                passInput.type = isPass ? 'text' : 'password';
+                passToggle.textContent = isPass ? 'Hide' : 'Show';
+            });
+
+
+            // ── Password Strength ───────────────────
+            passInput.addEventListener('input', () => {
+                const val = passInput.value;
+                let score = 0;
+                if (val.length >= 8) score++;
+                if (/[A-Z]/.test(val)) score++;
+                if (/[0-9]/.test(val)) score++;
+                if (/[^A-Za-z0-9]/.test(val)) score++;
+
+                const levels = ['', 'Weak', 'Fair', 'Good', 'Strong'];
+                const classes = ['', 'weak', 'fair', 'strong', 'strong'];
+                strLabel.textContent = val.length > 0 ? levels[score] || '' : '';
+
+                strBars.forEach((bar, i) => {
+                    bar.className = 'password-strength__bar';
+                    if (i < score) {
+                        bar.classList.add('password-strength__bar--active-' + classes[score]);
+                    }
+                });
+            });
+
+
+            // ── Clear Errors on Input ───────────────
+            [nameInput, emailInput, passInput].forEach(input => {
+                input.addEventListener('input', () => {
+                    hideAlert(errorBox);
+                    input.classList.remove('form-input--error');
+                });
+            });
+
+
+            // ── Form Submission ─────────────────────
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                hideAlert(errorBox);
+                hideAlert(successBox);
+
+                const name = nameInput.value.trim();
+                const email = emailInput.value.trim();
+                const password = passInput.value;
+
+                // Validation
+                if (!name) {
+                    showAlert(errorBox, 'Please enter your full name.');
+                    nameInput.classList.add('form-input--error');
+                    nameInput.focus();
+                    return;
+                }
+                if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                    showAlert(errorBox, 'Please enter a valid email address.');
+                    emailInput.classList.add('form-input--error');
+                    emailInput.focus();
+                    return;
+                }
+                if (password.length < 8) {
+                    showAlert(errorBox, 'Password must be at least 8 characters.');
+                    passInput.classList.add('form-input--error');
+                    passInput.focus();
+                    return;
+                }
+
+                setLoading(true);
+
+                try {
+                    const res = await fetch(API_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ name, email, password, role: ROLE }),
+                    });
+
+                    const data = await res.json();
+
+                    if (!res.ok) {
+                        showAlert(errorBox, data.message || 'Registration failed. Please try again.');
+                        setLoading(false);
+                        return;
+                    }
+
+                    showAlert(successBox, 'Account created successfully! Redirecting…');
+                    setTimeout(() => {
+                        window.location.href = REDIRECT;
+                    }, 1200);
+
+                } catch (err) {
+                    console.error('Registration error:', err);
+                    showAlert(errorBox, 'Unable to connect to the server. Please try again later.');
+                    setLoading(false);
+                }
+            });
+
+
+            // ── Helpers ─────────────────────────────
+            function showAlert(el, msg) {
+                el.textContent = msg;
+                el.style.display = 'block';
+                requestAnimationFrame(() => el.classList.add('form-alert--visible'));
+            }
+
+            function hideAlert(el) {
+                el.classList.remove('form-alert--visible');
+                setTimeout(() => {
+                    if (!el.classList.contains('form-alert--visible')) {
+                        el.style.display = 'none';
+                    }
+                }, 350);
+            }
+
+            function setLoading(on) {
+                submitBtn.disabled = on;
+                submitBtn.classList.toggle('form-submit--loading', on);
+            }
+
+        })();
+    </script>
+
+</body>
+
+</html>
