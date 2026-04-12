@@ -65,7 +65,7 @@
         body {
             font-family: var(--font-sans);
             color: var(--color-text);
-            background-color: var(--color-bg);
+            background-color: transparent;
             line-height: 1.7;
             min-height: 100vh;
             display: flex;
@@ -453,6 +453,10 @@
 </head>
 
 <body>
+    <video autoplay loop muted playsinline style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; object-fit: cover; z-index: -999;">
+        <source src="assets/videos/bg-patient.mp4" type="video/mp4">
+    </video>
+    <div style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(10, 10, 12, 0.20); z-index: -998;"></div>
 
     <!-- ════════════════════════════════════════════
          TOP BAR
@@ -468,7 +472,7 @@
     <!-- ════════════════════════════════════════════
          REGISTRATION FORM
          ════════════════════════════════════════════ -->
-    <div class="register-container">
+    <div class="register-container" style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(15px); border-radius: 15px; padding: 45px; box-shadow: 0 20px 50px rgba(0,0,0,0.3); position: relative; z-index: 1; margin-top: 100px; margin-bottom: 40px; max-width: 500px; width: 100%;">
         <header class="register-header">
             <span class="register-header__overline">Patient Registration</span>
             <h1 class="register-header__title">Create Your<br>Client Account</h1>

@@ -61,7 +61,7 @@
         body {
             font-family: var(--font-sans);
             color: var(--color-text);
-            background-color: var(--color-bg);
+            background-color: transparent;
             line-height: 1.7;
             min-height: 100vh;
             display: flex;
@@ -437,6 +437,10 @@
 </head>
 
 <body>
+    <video autoplay loop muted playsinline style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; object-fit: cover; z-index: -999;">
+        <source src="assets/videos/bg-register.mp4" type="video/mp4">
+    </video>
+    <div style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(10, 10, 12, 0.20); z-index: -998;"></div>
 
     <!-- ════════════════════════════════════════════
          TOP BAR
@@ -452,7 +456,7 @@
     <!-- ════════════════════════════════════════════
          MAIN CONTENT
          ════════════════════════════════════════════ -->
-    <main class="register-page">
+    <main class="register-page" style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(15px); border-radius: 15px; padding: 45px; box-shadow: 0 20px 50px rgba(0,0,0,0.3); position: relative; z-index: 1; max-width: 900px; margin: 100px auto 40px auto; flex: none;">
 
         <!-- Header -->
         <div class="register-header">

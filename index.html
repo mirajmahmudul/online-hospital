@@ -52,15 +52,13 @@
     <!-- ═══════════════════════════════════════════════
          HERO SECTION
          ═══════════════════════════════════════════════ -->
-    <section class="hero" id="hero">
-        <div class="hero__media">
-            <img src="https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?q=80&w=2791&auto=format&fit=crop"
-                 alt="Modern luxury medical facility"
-                 loading="eager">
-        </div>
-        <div class="hero__overlay"></div>
+    <section class="hero" id="hero" style="position: relative; overflow: hidden; background-color: transparent !important; background-image: none !important;">
+        <video autoplay loop muted playsinline style="position: absolute; top: 0; left: 0; width: 100vw; height: 100%; object-fit: cover; z-index: 0; pointer-events: none;">
+          <source src="assets/videos/bg-index.mp4" type="video/mp4">
+        </video>
+        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(10, 10, 12, 0.40); z-index: 1; pointer-events: none;"></div>
 
-        <div class="hero__content">
+        <div class="hero__content" style="position: relative; z-index: 10;">
             <span class="text-overline hero__subtitle">The Future of Private Healthcare</span>
             <h1 class="heading-serif heading-serif--hero hero__title">
                 A New Standard<br>in Healthcare

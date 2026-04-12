@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Earnings — Online Hospital</title>
+    <meta name="description" content="Track your consultation earnings, available funds, and transaction history.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚕</text></svg>">
+
+    <style>
+        /* ═══════════════════════════════════════════════════════
+           EARNINGS — Luxury Concierge Aesthetic
+           ═══════════════════════════════════════════════════════ */
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html {
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        ::selection { background: #B8956A; color: #FFFFFF; }
+
+        :root {
+            --color-bg:             #FAFAFA;
+            --color-bg-pure:        #FFFFFF;
+            --color-bg-sidebar:     #111111;
+            --color-text:           #111111;
+            --color-text-muted:     #6B6B6B;
+            --color-text-light:     #999999;
+            --color-text-sidebar:   rgba(255, 255, 255, 0.55);
+            --color-accent:         #1A1A2E;
+            --color-accent-warm:    #B8956A;
+            --color-accent-gold:    #C9A96E;
+            --color-accent-taupe:   #C4B5A0;
+            --color-border:         #E8E4DF;
+            --color-border-light:   #F0ECE8;
+            --color-success:        #3D8B5F;
+            --color-success-bg:     #F0F9F4;
+            --color-pending:        #9A8355;
+            --color-pending-bg:     #FBF8F1;
+            --color-pending-border: #E8DFC8;
+            --color-error:          #C43E3E;
+            --color-error-bg:       #FEF2F2;
+
+            --font-serif: 'Playfair Display', 'Georgia', serif;
+            --font-sans:  'Inter', 'Helvetica Neue', Arial, sans-serif;
+
+            --space-xs: 0.5rem; --space-sm: 1rem; --space-md: 1.5rem;
+            --space-lg: 2.5rem; --space-xl: 4rem;
+            --sidebar-width: 260px;
+            --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+            --ease-out:    cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        body {
+            font-family: var(--font-sans); color: var(--color-text);
+            background-color: var(--color-bg); line-height: 1.7; overflow-x: hidden;
+        }
+
+        .dashboard { display: flex; min-height: 100vh; }
+
+
+        /* ── Sidebar (identical) ─────────────────────────── */
+        .sidebar {
+            position: fixed; top: 0; left: 0; bottom: 0;
+            width: var(--sidebar-width);
+            background-color: var(--color-bg-sidebar);
+            display: flex; flex-direction: column; z-index: 100;
+            transition: transform 0.4s var(--ease-smooth);
+        }
+
+        .sidebar__brand {
+            padding: 2.25rem 2rem 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .sidebar__brand a {
+            font-family: var(--font-serif); font-weight: 700;
+            font-size: 1.05rem; letter-spacing: 0.04em;
+            color: var(--color-bg-pure); text-decoration: none;
+        }
+
+        .sidebar__nav { flex: 1; padding: 2rem 0; overflow-y: auto; }
+
+        .sidebar__label {
+            font-family: var(--font-sans); font-weight: 500;
+            font-size: 0.58rem; letter-spacing: 0.25em;
+            text-transform: uppercase; color: rgba(255, 255, 255, 0.2);
+            padding: 0 2rem; margin-bottom: 1rem;
+        }
+
+        .sidebar__menu {
+            list-style: none; display: flex; flex-direction: column; gap: 0.15rem;
+        }
+
+        .sidebar__link {
+            display: flex; align-items: center; gap: 0.85rem;
+            padding: 0.7rem 2rem;
+            font-family: var(--font-sans); font-weight: 400; font-size: 0.8rem;
+            color: var(--color-text-sidebar); text-decoration: none;
+            transition: all 0.25s var(--ease-smooth);
+            position: relative; letter-spacing: 0.01em;
+        }
+
+        .sidebar__link::before {
+            content: '';
+            position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+            width: 3px; height: 0; background: var(--color-accent-warm);
+            border-radius: 0 2px 2px 0;
+            transition: height 0.25s var(--ease-smooth);
+        }
+
+        .sidebar__link:hover {
+            color: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .sidebar__link--active {
+            color: var(--color-bg-pure); font-weight: 500;
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .sidebar__link--active::before { height: 22px; }
+
+        .sidebar__icon { width: 17px; height: 17px; opacity: 0.55; flex-shrink: 0; }
+        .sidebar__link--active .sidebar__icon { opacity: 1; }
+
+        .sidebar__footer {
+            padding: 1.5rem 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .sidebar__logout {
+            display: flex; align-items: center; gap: 0.7rem;
+            font-family: var(--font-sans); font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.3);
+            text-decoration: none; transition: color 0.3s var(--ease-smooth);
+            background: none; border: none; cursor: pointer; padding: 0;
+        }
+
+        .sidebar__logout:hover { color: rgba(255, 255, 255, 0.65); }
+
+
+        /* ── Main ────────────────────────────────────────── */
+        .main {
+            flex: 1; margin-left: var(--sidebar-width); min-height: 100vh;
+        }
+
+        .main__inner {
+            max-width: 960px; margin: 0 auto;
+            padding: var(--space-xl) var(--space-lg);
+        }
+
+
+        /* ── Page Header ─────────────────────────────────── */
+        .page-header {
+            margin-bottom: var(--space-lg);
+            opacity: 0; transform: translateY(14px);
+            animation: fadeInUp 0.65s var(--ease-smooth) 0.1s forwards;
+        }
+
+        .page-header__overline {
+            font-family: var(--font-sans); font-weight: 500;
+            font-size: 0.62rem; letter-spacing: 0.28em;
+            text-transform: uppercase; color: var(--color-accent-warm);
+            margin-bottom: 0.5rem; display: block;
+        }
+
+        .page-header__title {
+            font-family: var(--font-serif); font-weight: 700;
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            line-height: 1.2; letter-spacing: -0.01em;
+            color: var(--color-text); margin-bottom: 0.35rem;
+        }
+
+        .page-header__desc {
+            font-family: var(--font-sans); font-size: 0.88rem;
+            color: var(--color-text-muted); font-weight: 400;
+        }
+
+
+        /* ── Earnings Grid ───────────────────────────────── */
+        .earnings-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.25rem;
+            margin-bottom: var(--space-lg);
+            opacity: 0; transform: translateY(14px);
+            animation: fadeInUp 0.65s var(--ease-smooth) 0.2s forwards;
+        }
+
+        .earn-card {
+            background: var(--color-bg-pure);
+            border: 1px solid var(--color-border-light);
+            padding: 2rem;
+            position: relative; overflow: hidden;
+            transition: all 0.4s var(--ease-smooth);
+        }
+
+        .earn-card::after {
+            content: '';
+            position: absolute; bottom: 0; left: 0; right: 0;
+            height: 2px; background: var(--color-accent-warm);
+            transform: scaleX(0); transform-origin: left;
+            transition: transform 0.5s var(--ease-smooth);
+        }
+
+        .earn-card:hover {
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .earn-card:hover::after { transform: scaleX(1); }
+
+        .earn-card__label {
+            font-family: var(--font-sans); font-weight: 500;
+            font-size: 0.58rem; letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--color-text-light);
+            margin-bottom: 0.75rem; display: block;
+        }
+
+        .earn-card__value {
+            font-family: var(--font-serif); font-weight: 700;
+            font-size: 2rem; line-height: 1.1;
+            color: var(--color-text); letter-spacing: -0.02em;
+        }
+
+        .earn-card__sub {
+            display: flex; align-items: center; gap: 0.4rem;
+            margin-top: 0.5rem;
+            font-family: var(--font-sans); font-size: 0.72rem;
+            color: var(--color-text-light);
+        }
+
+        .earn-card__action {
+            margin-top: 1.25rem;
+        }
+
+        .btn-withdraw {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            padding: 0.65rem 1.6rem;
+            font-family: var(--font-sans); font-weight: 600;
+            font-size: 0.6rem; letter-spacing: 0.18em;
+            text-transform: uppercase;
+            background: var(--color-text); color: var(--color-bg-pure);
+            border: none; cursor: pointer;
+            transition: all 0.35s var(--ease-smooth);
+        }
+
+        .btn-withdraw:hover {
+            background: var(--color-accent);
+        }
+
+
+        /* ── Transactions Table ───────────────────────────── */
+        .section-header {
+            display: flex; align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            opacity: 0; transform: translateY(14px);
+            animation: fadeInUp 0.65s var(--ease-smooth) 0.35s forwards;
+        }
+
+        .section-header__title {
+            font-family: var(--font-sans); font-weight: 600;
+            font-size: 0.62rem; letter-spacing: 0.2em;
+            text-transform: uppercase; color: var(--color-text-light);
+        }
+
+        .section-header__link {
+            font-family: var(--font-sans); font-weight: 600;
+            font-size: 0.6rem; letter-spacing: 0.12em;
+            text-transform: uppercase; color: var(--color-accent-warm);
+            text-decoration: none;
+            transition: color 0.3s var(--ease-smooth);
+        }
+
+        .section-header__link:hover { color: #A07B52; }
+
+        .card {
+            background: var(--color-bg-pure);
+            border: 1px solid var(--color-border-light);
+            overflow: hidden;
+            opacity: 0; transform: translateY(14px);
+            animation: fadeInUp 0.65s var(--ease-smooth) 0.4s forwards;
+        }
+
+        .data-table {
+            width: 100%; border-collapse: collapse;
+        }
+
+        .data-table thead th {
+            font-family: var(--font-sans); font-weight: 600;
+            font-size: 0.6rem; letter-spacing: 0.18em;
+            text-transform: uppercase; color: var(--color-text-light);
+            text-align: left; padding: 1rem 1.5rem;
+            background: var(--color-bg);
+            border-bottom: 1px solid var(--color-border-light);
+        }
+
+        .data-table tbody td {
+            padding: 1rem 1.5rem; font-size: 0.88rem;
+            color: var(--color-text-muted);
+            border-bottom: 1px solid var(--color-border-light);
+        }
+
+        .data-table tbody tr:last-child td { border-bottom: none; }
+
+        .data-table tbody tr {
+            transition: background 0.2s var(--ease-smooth);
+        }
+
+        .data-table tbody tr:hover { background: #FDFCFB; }
+
+        .empty-state {
+            text-align: center; padding: 4rem 2rem;
+        }
+
+        .empty-state__icon {
+            width: 56px; height: 56px; margin: 0 auto 1.25rem;
+            border-radius: 50%; background: var(--color-bg);
+            display: flex; align-items: center; justify-content: center;
+            color: var(--color-accent-taupe);
+        }
+
+        .empty-state__title {
+            font-family: var(--font-serif); font-weight: 600;
+            font-size: 1.1rem; color: var(--color-text);
+            margin-bottom: 0.4rem;
+        }
+
+        .empty-state__text {
+            font-size: 0.85rem; color: var(--color-text-light);
+            max-width: 340px; margin: 0 auto; line-height: 1.6;
+        }
+
+
+        /* ── Mobile ──────────────────────────────────────── */
+        .mobile-toggle {
+            display: none; position: fixed; top: 1.25rem; left: 1.25rem;
+            z-index: 200; width: 40px; height: 40px;
+            background: var(--color-bg-pure); border: 1px solid var(--color-border);
+            align-items: center; justify-content: center;
+            cursor: pointer; flex-direction: column; gap: 4px; padding: 0;
+        }
+
+        .mobile-toggle span {
+            display: block; width: 16px; height: 1.5px;
+            background: var(--color-text); transition: all 0.3s var(--ease-smooth);
+        }
+
+        .sidebar-overlay {
+            display: none; position: fixed; inset: 0;
+            background: rgba(0, 0, 0, 0.4); z-index: 90;
+            opacity: 0; transition: opacity 0.3s var(--ease-smooth);
+        }
+
+        .sidebar-overlay--visible { opacity: 1; }
+
+        @keyframes fadeInUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 1024px) {
+            :root { --sidebar-width: 220px; }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-toggle { display: flex; }
+            .sidebar { transform: translateX(-100%); }
+            .sidebar--open { transform: translateX(0); }
+            .main { margin-left: 0; }
+            .main__inner { padding: 5rem 1.25rem 2.5rem; }
+            .earnings-grid { grid-template-columns: 1fr; }
+            .sidebar-overlay--visible { display: block; }
+        }
+
+        @media (max-width: 480px) {
+            .main__inner { padding: 4.5rem 1rem 2rem; }
+            .earn-card { padding: 1.5rem; }
+        }
+    </style>
+</head>
+
+<body>
+    <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+    </button>
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+    <div class="dashboard">
+
+        <!-- ═══ SIDEBAR ═══ -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar__brand">
+                <a href="index.html">ONLINE HOSPITAL</a>
+            </div>
+            <nav class="sidebar__nav">
+                <p class="sidebar__label">Navigation</p>
+                <ul class="sidebar__menu">
+                    <li>
+                        <a href="doctor-dashboard.html" class="sidebar__link">
+                            <svg class="sidebar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li>
+                        <a href="appointments.html" class="sidebar__link">
+                            <svg class="sidebar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                            Appointments
+                        </a>
+                    </li>
+                    <li>
+                        <a href="services.html" class="sidebar__link">
+                            <svg class="sidebar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                            Services
+                        </a>
+                    </li>
+                    <li>
+                        <a href="earnings.html" class="sidebar__link sidebar__link--active">
+                            <svg class="sidebar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                            Earnings
+                        </a>
+                    </li>
+                </ul>
+                <p class="sidebar__label" style="margin-top: 2rem;">Account</p>
+                <ul class="sidebar__menu">
+                    <li>
+                        <a href="#" class="sidebar__link">
+                            <svg class="sidebar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                            Profile &amp; Credentials
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="sidebar__footer">
+                <button class="sidebar__logout" id="btn-logout">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                    Sign Out
+                </button>
+            </div>
+        </aside>
+
+
+        <!-- ═══ MAIN CONTENT ═══ -->
+        <main class="main">
+            <div class="main__inner">
+
+                <!-- Header -->
+                <header class="page-header">
+                    <span class="page-header__overline">Financial</span>
+                    <h1 class="page-header__title">Earnings Overview</h1>
+                    <p class="page-header__desc">Track your consultation revenue, manage withdrawals, and review your complete transaction history.</p>
+                </header>
+
+                <!-- Earnings Cards -->
+                <div class="earnings-grid">
+                    <div class="earn-card">
+                        <span class="earn-card__label">Available Funds</span>
+                        <div class="earn-card__value">$0</div>
+                        <p class="earn-card__sub">Ready to withdraw</p>
+                        <div class="earn-card__action">
+                            <button class="btn-withdraw">Withdraw</button>
+                        </div>
+                    </div>
+
+                    <div class="earn-card">
+                        <span class="earn-card__label">Clearing</span>
+                        <div class="earn-card__value">$0</div>
+                        <p class="earn-card__sub">Payments being processed</p>
+                    </div>
+
+                    <div class="earn-card">
+                        <span class="earn-card__label">Total Earnings</span>
+                        <div class="earn-card__value">$0</div>
+                        <p class="earn-card__sub">Lifetime revenue to date</p>
+                    </div>
+                </div>
+
+                <!-- Recent Transactions -->
+                <div class="section-header">
+                    <h2 class="section-header__title">Recent Transactions</h2>
+                    <a href="#" class="section-header__link">Export CSV →</a>
+                </div>
+
+                <div class="card">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Description</th>
+                                <th>Patient</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody id="txn-body"></tbody>
+                    </table>
+
+                    <div class="empty-state" id="empty-state">
+                        <div class="empty-state__icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                        </div>
+                        <h3 class="empty-state__title">No Transactions Yet</h3>
+                        <p class="empty-state__text">Your earnings from patient consultations will be recorded here as they are processed.</p>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+
+    </div>
+
+
+    <!-- ═══ JAVASCRIPT ═══ -->
+    <script>
+    (function () {
+        'use strict';
+
+        const API_PROFILE_URL = 'api/doctor_profile.php';
+        const LOGIN_REDIRECT  = 'login.html';
+
+        // Auth guard
+        async function checkAuth() {
+            try {
+                const response = await fetch(API_PROFILE_URL, {
+                    method: 'GET',
+                    credentials: 'same-origin',
+                    headers: { 'Accept': 'application/json' }
+                });
+                if (response.status === 401) {
+                    window.location.href = LOGIN_REDIRECT;
+                }
+            } catch (err) {
+                console.error('Auth check failed:', err);
+            }
+        }
+
+        // Sidebar mobile toggle
+        const sidebar = document.getElementById('sidebar');
+        const mobileToggle = document.getElementById('mobile-toggle');
+        const sidebarOverlay = document.getElementById('sidebar-overlay');
+
+        mobileToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('sidebar--open');
+            sidebarOverlay.classList.toggle('sidebar-overlay--visible');
+            sidebarOverlay.style.display = sidebar.classList.contains('sidebar--open') ? 'block' : 'none';
+        });
+
+        sidebarOverlay.addEventListener('click', () => {
+            sidebar.classList.remove('sidebar--open');
+            sidebarOverlay.classList.remove('sidebar-overlay--visible');
+            setTimeout(() => { sidebarOverlay.style.display = 'none'; }, 300);
+        });
+
+        // Sign Out
+        document.getElementById('btn-logout').addEventListener('click', () => {
+            window.location.href = LOGIN_REDIRECT;
+        });
+
+        checkAuth();
+    })();
+    </script>
+
+</body>
+</html>

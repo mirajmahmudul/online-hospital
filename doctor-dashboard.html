@@ -19,7 +19,7 @@
         /* ═══════════════════════════════════════════════════════
            DOCTOR DASHBOARD — Luxury Concierge Aesthetic
            Playfair Display (Serif) + Inter (Sans)
-           Pure White / Alabaster / Deep Charcoal / Soft Gold
+           Alabaster / Onyx / Warm Gold / Deep Navy
            ═══════════════════════════════════════════════════════ */
 
         /* ── 0. Reset & Design Tokens ────────────────────── */
@@ -41,18 +41,18 @@
         }
 
         :root {
-            /* Palette */
+            /* Palette — Luxury Concierge */
             --color-bg:             #FAFAFA;
             --color-bg-pure:        #FFFFFF;
             --color-bg-sidebar:     #111111;
-            --color-text:           #1A1A1A;
+            --color-text:           #111111;
             --color-text-muted:     #6B6B6B;
             --color-text-light:     #999999;
             --color-text-sidebar:   rgba(255, 255, 255, 0.55);
+            --color-accent:         #1A1A2E;
             --color-accent-warm:    #B8956A;
             --color-accent-gold:    #C9A96E;
             --color-accent-taupe:   #C4B5A0;
-            --color-accent-navy:    #1A1A2E;
             --color-border:         #E8E4DF;
             --color-border-light:   #F0ECE8;
             --color-success:        #3D8B5F;
@@ -75,7 +75,7 @@
             --space-xl:  4rem;
 
             /* Layout */
-            --sidebar-width: 280px;
+            --sidebar-width: 260px;
 
             /* Transitions */
             --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
@@ -120,7 +120,7 @@
         .sidebar__brand a {
             font-family: var(--font-serif);
             font-weight: 700;
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             letter-spacing: 0.04em;
             color: var(--color-bg-pure);
             text-decoration: none;
@@ -135,7 +135,7 @@
         .sidebar__label {
             font-family: var(--font-sans);
             font-weight: 500;
-            font-size: 0.6rem;
+            font-size: 0.58rem;
             letter-spacing: 0.25em;
             text-transform: uppercase;
             color: rgba(255, 255, 255, 0.2);
@@ -147,17 +147,17 @@
             list-style: none;
             display: flex;
             flex-direction: column;
-            gap: 0.2rem;
+            gap: 0.15rem;
         }
 
         .sidebar__link {
             display: flex;
             align-items: center;
-            gap: 0.9rem;
-            padding: 0.75rem 2rem;
+            gap: 0.85rem;
+            padding: 0.7rem 2rem;
             font-family: var(--font-sans);
             font-weight: 400;
-            font-size: 0.82rem;
+            font-size: 0.8rem;
             color: var(--color-text-sidebar);
             text-decoration: none;
             transition: all 0.25s var(--ease-smooth);
@@ -190,13 +190,13 @@
         }
 
         .sidebar__link--active::before {
-            height: 24px;
+            height: 22px;
         }
 
         .sidebar__icon {
-            width: 18px;
-            height: 18px;
-            opacity: 0.6;
+            width: 17px;
+            height: 17px;
+            opacity: 0.55;
             flex-shrink: 0;
         }
 
@@ -212,10 +212,10 @@
         .sidebar__logout {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 0.7rem;
             font-family: var(--font-sans);
-            font-size: 0.78rem;
-            color: rgba(255, 255, 255, 0.35);
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.3);
             text-decoration: none;
             transition: color 0.3s var(--ease-smooth);
             background: none;
@@ -225,11 +225,11 @@
         }
 
         .sidebar__logout:hover {
-            color: rgba(255, 255, 255, 0.7);
+            color: rgba(255, 255, 255, 0.65);
         }
 
 
-        /* ── 3. Main Content ─────────────────────────────── */
+        /* ── 3. Main Content Area ────────────────────────── */
         .main {
             flex: 1;
             margin-left: var(--sidebar-width);
@@ -237,65 +237,500 @@
         }
 
         .main__inner {
-            max-width: 960px;
+            max-width: 1050px;
             margin: 0 auto;
             padding: var(--space-xl) var(--space-lg);
         }
 
 
-        /* ── 4. Header / Welcome ─────────────────────────── */
+        /* ── 4. 2-Column Grid ────────────────────────────── */
+        .dash-grid {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+
+        /* ── 5. Header / Welcome ─────────────────────────── */
         .dash-header {
-            margin-bottom: var(--space-xl);
+            grid-column: 1 / -1;
+            margin-bottom: var(--space-sm);
             opacity: 0;
-            transform: translateY(16px);
-            animation: fadeInUp 0.7s var(--ease-smooth) 0.1s forwards;
+            transform: translateY(14px);
+            animation: fadeInUp 0.65s var(--ease-smooth) 0.1s forwards;
         }
 
         .dash-header__overline {
             font-family: var(--font-sans);
             font-weight: 500;
-            font-size: 0.65rem;
-            letter-spacing: 0.3em;
+            font-size: 0.62rem;
+            letter-spacing: 0.28em;
             text-transform: uppercase;
             color: var(--color-accent-warm);
-            margin-bottom: 0.6rem;
+            margin-bottom: 0.5rem;
             display: block;
         }
 
         .dash-header__title {
             font-family: var(--font-serif);
             font-weight: 700;
-            font-size: clamp(1.6rem, 3vw, 2.2rem);
+            font-size: clamp(1.5rem, 3vw, 2rem);
             line-height: 1.2;
             letter-spacing: -0.01em;
             color: var(--color-text);
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.35rem;
         }
 
-        .dash-header__welcome {
+        .dash-header__subtitle {
             font-family: var(--font-sans);
-            font-size: 0.92rem;
+            font-size: 0.88rem;
             color: var(--color-text-muted);
             font-weight: 400;
         }
 
-        .dash-header__welcome strong {
+        .dash-header__subtitle strong {
             color: var(--color-text);
             font-weight: 600;
         }
 
 
-        /* ── 5. Verification Status Banner ───────────────── */
+        /* ── 6. Card — Base ───────────────────────────────── */
+        .card {
+            background: var(--color-bg-pure);
+            border: 1px solid var(--color-border-light);
+            position: relative;
+            overflow: hidden;
+            transition: box-shadow 0.4s var(--ease-smooth), transform 0.4s var(--ease-smooth);
+        }
+
+        .card:hover {
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .card + .card {
+            margin-top: 1.5rem;
+        }
+
+
+        /* ── 7. Identity Card (Left Column) ──────────────── */
+        .identity-card {
+            text-align: center;
+            padding: 2.5rem 2rem 2rem;
+            opacity: 0;
+            transform: translateY(14px);
+            animation: fadeInUp 0.65s var(--ease-smooth) 0.2s forwards;
+        }
+
+        .identity__avatar-wrap {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 1.25rem;
+        }
+
+        .identity__avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, var(--color-accent-warm) 0%, #A07B52 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-serif);
+            font-size: 2rem;
+            font-weight: 700;
+            color: white;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            object-fit: cover;
+            border: none;
+        }
+
+        .identity__avatar-label {
+            display: block;
+            position: relative;
+            cursor: pointer;
+            border-radius: 50%;
+            overflow: hidden;
+            width: 100px;
+            height: 100px;
+            margin: 0 auto;
+        }
+
+        .identity__avatar-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            opacity: 0;
+            transition: opacity 0.3s var(--ease-smooth);
+            border-radius: 50%;
+        }
+
+        .identity__avatar-label:hover .identity__avatar-overlay {
+            opacity: 1;
+        }
+
+        .identity__online-dot {
+            position: absolute;
+            bottom: 4px;
+            right: 4px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--color-success);
+            border: 3px solid var(--color-bg-pure);
+        }
+
+        .identity__name-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 0.3rem;
+            flex-wrap: wrap;
+        }
+
+        .identity__name {
+            font-family: var(--font-serif);
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--color-text);
+        }
+
+        /* Verification Badge */
+        .identity__badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 2px 8px;
+            border-radius: 2px;
+            font-family: var(--font-sans);
+            font-size: 0.58rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .identity__badge--verified {
+            background: var(--color-success-bg);
+            color: var(--color-success);
+            border: 1px solid #C8E6D5;
+        }
+
+        .identity__badge--pending {
+            background: var(--color-pending-bg);
+            color: var(--color-pending);
+            border: 1px solid var(--color-pending-border);
+        }
+
+        .identity__badge--rejected {
+            background: var(--color-error-bg);
+            color: var(--color-error);
+            border: 1px solid #F5D5D5;
+        }
+
+        .identity__specialty {
+            font-family: var(--font-sans);
+            font-size: 0.88rem;
+            color: var(--color-text-muted);
+            margin-bottom: 1.25rem;
+        }
+
+        .identity__meta {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .identity__meta-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.78rem;
+            color: var(--color-text-light);
+        }
+
+        .identity__meta-icon {
+            width: 14px;
+            height: 14px;
+            color: var(--color-accent-taupe);
+            flex-shrink: 0;
+        }
+
+        .identity__divider {
+            height: 1px;
+            background: var(--color-border-light);
+            margin: 0.25rem 0 1.25rem;
+        }
+
+        /* License row */
+        .identity__license {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            font-family: var(--font-sans);
+            font-size: 0.72rem;
+            color: var(--color-text-light);
+            letter-spacing: 0.04em;
+        }
+
+        .identity__license-icon {
+            width: 14px;
+            height: 14px;
+            color: var(--color-accent-warm);
+        }
+
+        /* Fee display */
+        .identity__fee {
+            margin-top: 1.25rem;
+            padding-top: 1.25rem;
+            border-top: 1px solid var(--color-border-light);
+            display: flex;
+            align-items: baseline;
+            justify-content: center;
+            gap: 0.3rem;
+        }
+
+        .identity__fee-value {
+            font-family: var(--font-serif);
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--color-text);
+            letter-spacing: -0.02em;
+        }
+
+        .identity__fee-label {
+            font-family: var(--font-sans);
+            font-size: 0.72rem;
+            color: var(--color-text-light);
+            font-weight: 400;
+        }
+
+
+        /* ── 8. Profile Strength Card ────────────────────── */
+        .strength-card {
+            padding: 1.75rem 2rem;
+            opacity: 0;
+            transform: translateY(14px);
+            animation: fadeInUp 0.65s var(--ease-smooth) 0.3s forwards;
+        }
+
+        .strength__header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .strength__title {
+            font-family: var(--font-sans);
+            font-weight: 600;
+            font-size: 0.62rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--color-text-light);
+        }
+
+        .strength__count {
+            font-family: var(--font-sans);
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--color-accent-warm);
+        }
+
+        .strength__bar-track {
+            width: 100%;
+            height: 4px;
+            background: var(--color-border-light);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: 0.85rem;
+        }
+
+        .strength__bar-fill {
+            height: 100%;
+            border-radius: 2px;
+            background: linear-gradient(90deg, var(--color-accent-warm), var(--color-accent-gold));
+            transition: width 1s var(--ease-smooth);
+        }
+
+        .strength__hint {
+            font-size: 0.76rem;
+            color: var(--color-text-light);
+            line-height: 1.55;
+        }
+
+        /* ── 8.5 Trust & Verification Card ───────────────── */
+        .verification-card {
+            text-align: center;
+            padding: 2.25rem 2rem;
+        }
+
+        .verification__title {
+            font-family: var(--font-serif);
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--color-text);
+            margin-bottom: 0.5rem;
+        }
+
+        .verification__desc {
+            font-size: 0.8rem;
+            color: var(--color-text-muted);
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+        }
+
+        .verification__btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            width: 100%;
+            cursor: pointer;
+        }
+
+        .right-col {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .right-col .card + .card {
+            margin-top: 0;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.25rem;
+            opacity: 0;
+            transform: translateY(14px);
+            animation: fadeInUp 0.65s var(--ease-smooth) 0.25s forwards;
+        }
+
+        .stat-card {
+            background: var(--color-bg-pure);
+            border: 1px solid var(--color-border-light);
+            padding: 1.75rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s var(--ease-smooth);
+        }
+
+        .stat-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--color-accent-warm);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s var(--ease-smooth);
+        }
+
+        .stat-card:hover {
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .stat-card:hover::after {
+            transform: scaleX(1);
+        }
+
+        .stat-card__icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            color: var(--color-accent-warm);
+        }
+
+        .stat-card__icon--navy { background: #EDEFF5; color: var(--color-accent); }
+        .stat-card__icon--gold { background: #F7F4F0; color: var(--color-accent-warm); }
+        .stat-card__icon--green { background: var(--color-success-bg); color: var(--color-success); }
+        .stat-card__icon--taupe { background: #F3F0ED; color: var(--color-accent-taupe); }
+
+        .stat-card__label {
+            font-family: var(--font-sans);
+            font-weight: 500;
+            font-size: 0.58rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--color-text-light);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .stat-card__value {
+            font-family: var(--font-serif);
+            font-weight: 700;
+            font-size: 1.75rem;
+            line-height: 1.1;
+            color: var(--color-text);
+            letter-spacing: -0.02em;
+            margin-bottom: 0.1rem;
+        }
+
+        .stat-card__sub {
+            font-family: var(--font-sans);
+            font-size: 0.72rem;
+            color: var(--color-text-light);
+        }
+
+        .stat-card__link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            margin-top: 1rem;
+            font-family: var(--font-sans);
+            font-weight: 600;
+            font-size: 0.6rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--color-accent-warm);
+            text-decoration: none;
+            transition: gap 0.3s var(--ease-smooth), color 0.3s var(--ease-smooth);
+        }
+
+        .stat-card__link:hover {
+            gap: 0.65rem;
+            color: #A07B52;
+        }
+
+        .stat-card__link-arrow {
+            transition: transform 0.3s var(--ease-smooth);
+            font-size: 0.85rem;
+        }
+
+        .stat-card:hover .stat-card__link-arrow {
+            transform: translateX(2px);
+        }
+
+
+        /* ── 10. Verification Banner (Right Column) ──────── */
         .status-banner {
             padding: 1.25rem 1.5rem;
-            border-radius: 2px;
-            margin-bottom: var(--space-lg);
             display: flex;
             align-items: flex-start;
-            gap: 1rem;
+            gap: 0.85rem;
             opacity: 0;
-            transform: translateY(16px);
-            animation: fadeInUp 0.7s var(--ease-smooth) 0.2s forwards;
+            transform: translateY(14px);
+            animation: fadeInUp 0.65s var(--ease-smooth) 0.35s forwards;
         }
 
         .status-banner--pending {
@@ -314,371 +749,99 @@
         }
 
         .status-banner__icon {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             flex-shrink: 0;
             margin-top: 0.1rem;
         }
 
-        .status-banner__content {
-            flex: 1;
-        }
+        .status-banner__content { flex: 1; }
 
         .status-banner__label {
             font-family: var(--font-sans);
             font-weight: 600;
-            font-size: 0.7rem;
+            font-size: 0.62rem;
             letter-spacing: 0.12em;
             text-transform: uppercase;
-            margin-bottom: 0.3rem;
+            margin-bottom: 0.25rem;
             display: block;
         }
 
-        .status-banner--pending .status-banner__label {
-            color: var(--color-pending);
-        }
-
-        .status-banner--verified .status-banner__label {
-            color: var(--color-success);
-        }
-
-        .status-banner--rejected .status-banner__label {
-            color: var(--color-error);
-        }
+        .status-banner--pending .status-banner__label { color: var(--color-pending); }
+        .status-banner--verified .status-banner__label { color: var(--color-success); }
+        .status-banner--rejected .status-banner__label { color: var(--color-error); }
 
         .status-banner__text {
-            font-size: 0.84rem;
-            line-height: 1.55;
-            color: var(--color-text-muted);
-        }
-
-
-        /* ── 6. Metrics Grid ─────────────────────────────── */
-        .metrics {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.25rem;
-            margin-bottom: var(--space-xl);
-            opacity: 0;
-            transform: translateY(16px);
-            animation: fadeInUp 0.7s var(--ease-smooth) 0.3s forwards;
-        }
-
-        .metric-card {
-            background: var(--color-bg-pure);
-            border: 1px solid var(--color-border-light);
-            padding: 1.75rem;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.4s var(--ease-smooth);
-        }
-
-        .metric-card::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: var(--color-accent-warm);
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.5s var(--ease-smooth);
-        }
-
-        .metric-card:hover {
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
-            transform: translateY(-2px);
-        }
-
-        .metric-card:hover::after {
-            transform: scaleX(1);
-        }
-
-        .metric-card__label {
-            font-family: var(--font-sans);
-            font-weight: 500;
-            font-size: 0.6rem;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--color-text-light);
-            margin-bottom: 0.75rem;
-            display: block;
-        }
-
-        .metric-card__value {
-            font-family: var(--font-serif);
-            font-weight: 700;
-            font-size: 2rem;
-            line-height: 1.1;
-            color: var(--color-text);
-            letter-spacing: -0.02em;
-        }
-
-        .metric-card__value span {
-            font-family: var(--font-sans);
-            font-weight: 400;
-            font-size: 0.85rem;
-            color: var(--color-text-light);
-            margin-left: 0.15rem;
-        }
-
-        .metric-card__sub {
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-            margin-top: 0.6rem;
-            font-family: var(--font-sans);
-            font-size: 0.72rem;
-            color: var(--color-text-light);
-        }
-
-        .metric-card__sub .star {
-            color: var(--color-accent-warm);
             font-size: 0.8rem;
-        }
-
-
-        /* ── 7. Section Titles ────────────────────────────── */
-        .section-title {
-            margin-bottom: var(--space-lg);
-            opacity: 0;
-            transform: translateY(16px);
-            animation: fadeInUp 0.7s var(--ease-smooth) 0.4s forwards;
-        }
-
-        .section-title__overline {
-            font-family: var(--font-sans);
-            font-weight: 500;
-            font-size: 0.6rem;
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
-            color: var(--color-accent-warm);
-            display: block;
-            margin-bottom: 0.5rem;
-        }
-
-        .section-title__heading {
-            font-family: var(--font-serif);
-            font-weight: 700;
-            font-size: 1.4rem;
-            line-height: 1.25;
-            letter-spacing: -0.01em;
-            color: var(--color-text);
-        }
-
-        .section-title__desc {
-            font-size: 0.88rem;
-            color: var(--color-text-muted);
-            margin-top: 0.4rem;
-            line-height: 1.6;
-        }
-
-
-        /* ── 8. The Vault — Upload Zones ─────────────────── */
-        .vault {
-            opacity: 0;
-            transform: translateY(16px);
-            animation: fadeInUp 0.7s var(--ease-smooth) 0.45s forwards;
-        }
-
-        .vault__grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.25rem;
-        }
-
-        .upload-zone {
-            background: var(--color-bg-pure);
-            border: 1.5px dashed var(--color-border);
-            padding: 2.5rem 1.5rem;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.4s var(--ease-smooth);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .upload-zone::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, rgba(184, 149, 106, 0.03) 0%, transparent 60%);
-            opacity: 0;
-            transition: opacity 0.4s var(--ease-smooth);
-        }
-
-        .upload-zone:hover {
-            border-color: var(--color-accent-warm);
-            border-style: solid;
-            background: #FDFCFB;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 32px rgba(184, 149, 106, 0.08);
-        }
-
-        .upload-zone:hover::before {
-            opacity: 1;
-        }
-
-        .upload-zone--dragover {
-            border-color: var(--color-accent-warm);
-            border-style: solid;
-            background: var(--color-pending-bg);
-            transform: scale(1.01);
-        }
-
-        .upload-zone__icon {
-            position: relative;
-            z-index: 1;
-            width: 48px;
-            height: 48px;
-            margin: 0 auto 1.25rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            background: var(--color-bg);
-            color: var(--color-accent-warm);
-            font-size: 1.2rem;
-            transition: all 0.3s var(--ease-smooth);
-        }
-
-        .upload-zone:hover .upload-zone__icon {
-            background: rgba(184, 149, 106, 0.12);
-            transform: scale(1.05);
-        }
-
-        .upload-zone__title {
-            position: relative;
-            z-index: 1;
-            font-family: var(--font-serif);
-            font-weight: 600;
-            font-size: 1rem;
-            color: var(--color-text);
-            margin-bottom: 0.5rem;
-        }
-
-        .upload-zone__text {
-            position: relative;
-            z-index: 1;
-            font-family: var(--font-sans);
-            font-size: 0.78rem;
-            color: var(--color-text-light);
             line-height: 1.55;
-            margin-bottom: 1.25rem;
+            color: var(--color-text-muted);
         }
 
-        .upload-zone__btn {
-            position: relative;
-            z-index: 1;
-            display: inline-block;
-            padding: 0.6rem 1.6rem;
-            border: 1px solid var(--color-text);
-            background: transparent;
+
+        /* ── 11. Quick Actions Card ──────────────────────── */
+        .actions-card {
+            padding: 1.75rem 2rem;
+            opacity: 0;
+            transform: translateY(14px);
+            animation: fadeInUp 0.65s var(--ease-smooth) 0.4s forwards;
+        }
+
+        .actions__title {
             font-family: var(--font-sans);
             font-weight: 600;
             font-size: 0.62rem;
             letter-spacing: 0.2em;
             text-transform: uppercase;
-            color: var(--color-text);
-            cursor: pointer;
-            transition: all 0.35s var(--ease-smooth);
-        }
-
-        .upload-zone__btn:hover {
-            background: var(--color-text);
-            color: var(--color-bg-pure);
-        }
-
-        .upload-zone__formats {
-            position: relative;
-            z-index: 1;
-            margin-top: 0.85rem;
-            font-family: var(--font-sans);
-            font-size: 0.65rem;
             color: var(--color-text-light);
-            letter-spacing: 0.06em;
+            margin-bottom: 1.25rem;
         }
 
-        /* Hidden file inputs */
-        .upload-zone input[type="file"] {
-            display: none;
+        .actions__list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
         }
 
-
-        /* ── 9. Profile Overview Cards ───────────────────── */
-        .profile-section {
-            margin-top: var(--space-xl);
-            opacity: 0;
-            transform: translateY(16px);
-            animation: fadeInUp 0.7s var(--ease-smooth) 0.55s forwards;
-        }
-
-        .profile-card {
-            background: var(--color-bg-pure);
-            border: 1px solid var(--color-border-light);
-            padding: 2rem;
-        }
-
-        .profile-card__row {
+        .actions__link {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            padding: 1rem 0;
-            border-bottom: 1px solid var(--color-border-light);
-        }
-
-        .profile-card__row:last-child {
-            border-bottom: none;
-            padding-bottom: 0;
-        }
-
-        .profile-card__row:first-child {
-            padding-top: 0;
-        }
-
-        .profile-card__key {
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--color-border-light);
+            text-decoration: none;
             font-family: var(--font-sans);
+            font-size: 0.82rem;
             font-weight: 500;
-            font-size: 0.68rem;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            color: var(--color-text-light);
-        }
-
-        .profile-card__value {
-            font-family: var(--font-sans);
-            font-weight: 500;
-            font-size: 0.92rem;
             color: var(--color-text);
-            text-align: right;
+            transition: all 0.3s var(--ease-smooth);
+        }
+
+        .actions__link:hover {
+            border-color: var(--color-accent-warm);
+            background: #FDFCFB;
+            transform: translateX(4px);
+        }
+
+        .actions__link-icon {
+            width: 18px;
+            height: 18px;
+            color: var(--color-accent-taupe);
+            flex-shrink: 0;
+        }
+
+        .actions__link-arrow {
+            margin-left: auto;
+            font-size: 0.75rem;
+            color: var(--color-text-light);
+            transition: color 0.3s var(--ease-smooth);
+        }
+
+        .actions__link:hover .actions__link-arrow {
+            color: var(--color-accent-warm);
         }
 
 
-        /* ── 10. Loading / Skeleton ───────────────────────── */
-        .skeleton {
-            background: linear-gradient(110deg, #F0ECE8 30%, #FAF8F6 50%, #F0ECE8 70%);
-            background-size: 200% 100%;
-            animation: shimmer 1.5s infinite;
-            border-radius: 2px;
-        }
-
-        .skeleton--text {
-            height: 14px;
-            width: 60%;
-            margin-bottom: 0.5rem;
-        }
-
-        .skeleton--heading {
-            height: 28px;
-            width: 45%;
-            margin-bottom: 0.75rem;
-        }
-
-        .skeleton--block {
-            height: 80px;
-            width: 100%;
-        }
-
+        /* ── 12. Loading ─────────────────────────────────── */
         .loading-overlay {
             display: flex;
             align-items: center;
@@ -689,8 +852,8 @@
         }
 
         .loading-spinner {
-            width: 32px;
-            height: 32px;
+            width: 28px;
+            height: 28px;
             border: 2px solid var(--color-border);
             border-top-color: var(--color-accent-warm);
             border-radius: 50%;
@@ -699,14 +862,14 @@
 
         .loading-text {
             font-family: var(--font-sans);
-            font-size: 0.78rem;
+            font-size: 0.72rem;
             letter-spacing: 0.15em;
             text-transform: uppercase;
             color: var(--color-text-light);
         }
 
 
-        /* ── 11. Mobile Toggle ───────────────────────────── */
+        /* ── 13. Mobile Toggle ───────────────────────────── */
         .mobile-toggle {
             display: none;
             position: fixed;
@@ -717,7 +880,6 @@
             height: 40px;
             background: var(--color-bg-pure);
             border: 1px solid var(--color-border);
-            border-radius: 2px;
             align-items: center;
             justify-content: center;
             cursor: pointer;
@@ -749,7 +911,7 @@
         }
 
 
-        /* ── 12. Animations ──────────────────────────────── */
+        /* ── 14. Animations ──────────────────────────────── */
         @keyframes fadeInUp {
             to {
                 opacity: 1;
@@ -757,20 +919,18 @@
             }
         }
 
-        @keyframes shimmer {
-            0%   { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
-        }
-
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
 
 
-        /* ── 13. Responsive ──────────────────────────────── */
+        /* ── 15. Responsive ──────────────────────────────── */
         @media (max-width: 1024px) {
-            :root {
-                --sidebar-width: 240px;
+            :root { --sidebar-width: 220px; }
+
+            .dash-grid {
+                grid-template-columns: 280px 1fr;
+                gap: 1.5rem;
             }
         }
 
@@ -795,11 +955,11 @@
                 padding: 5rem 1.25rem 2.5rem;
             }
 
-            .metrics {
+            .dash-grid {
                 grid-template-columns: 1fr;
             }
 
-            .vault__grid {
+            .stat-grid {
                 grid-template-columns: 1fr;
             }
 
@@ -813,7 +973,7 @@
                 padding: 4.5rem 1rem 2rem;
             }
 
-            .metric-card {
+            .stat-card {
                 padding: 1.25rem;
             }
         }
@@ -846,18 +1006,18 @@
                 <p class="sidebar__label">Navigation</p>
                 <ul class="sidebar__menu">
                     <li>
-                        <a href="#overview" class="sidebar__link sidebar__link--active" data-section="overview">
+                        <a href="doctor-dashboard.html" class="sidebar__link sidebar__link--active">
                             <svg class="sidebar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                                 <rect x="3" y="3" width="7" height="7"/>
                                 <rect x="14" y="3" width="7" height="7"/>
                                 <rect x="3" y="14" width="7" height="7"/>
                                 <rect x="14" y="14" width="7" height="7"/>
                             </svg>
-                            Overview
+                            Dashboard
                         </a>
                     </li>
                     <li>
-                        <a href="#appointments" class="sidebar__link" data-section="appointments">
+                        <a href="appointments.html" class="sidebar__link">
                             <svg class="sidebar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                                 <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
                                 <line x1="16" y1="2" x2="16" y2="6"/>
@@ -868,16 +1028,18 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#credentials" class="sidebar__link" data-section="credentials">
+                        <a href="services.html" class="sidebar__link">
                             <svg class="sidebar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-                                <circle cx="12" cy="7" r="4"/>
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                <polyline points="14 2 14 8 20 8"/>
+                                <line x1="16" y1="13" x2="8" y2="13"/>
+                                <line x1="16" y1="17" x2="8" y2="17"/>
                             </svg>
-                            Profile &amp; Credentials
+                            Services
                         </a>
                     </li>
                     <li>
-                        <a href="#earnings" class="sidebar__link" data-section="earnings">
+                        <a href="earnings.html" class="sidebar__link">
                             <svg class="sidebar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                                 <line x1="12" y1="1" x2="12" y2="23"/>
                                 <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
@@ -886,11 +1048,24 @@
                         </a>
                     </li>
                 </ul>
+
+                <p class="sidebar__label" style="margin-top: 2rem;">Account</p>
+                <ul class="sidebar__menu">
+                    <li>
+                        <a href="#" class="sidebar__link">
+                            <svg class="sidebar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                <circle cx="12" cy="7" r="4"/>
+                            </svg>
+                            Profile &amp; Credentials
+                        </a>
+                    </li>
+                </ul>
             </nav>
 
             <div class="sidebar__footer">
                 <button class="sidebar__logout" id="btn-logout">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
                         <polyline points="16 17 21 12 16 7"/>
                         <line x1="21" y1="12" x2="9" y2="12"/>
@@ -914,121 +1089,183 @@
 
             <!-- Dashboard Content (hidden until data loads) -->
             <div class="main__inner" id="dashboard-content" style="display: none;">
+                <div class="dash-grid">
 
-                <!-- ── Header / Welcome ──────────────────── -->
-                <header class="dash-header">
-                    <span class="dash-header__overline">Doctor Command Center</span>
-                    <h1 class="dash-header__title" id="dash-title">Welcome Back</h1>
-                    <p class="dash-header__welcome" id="dash-welcome">Loading your profile...</p>
-                </header>
-
-
-                <!-- ── Verification Status Banner ────────── -->
-                <div class="status-banner" id="status-banner" style="display: none;">
-                    <span class="status-banner__icon" id="status-icon"></span>
-                    <div class="status-banner__content">
-                        <span class="status-banner__label" id="status-label"></span>
-                        <p class="status-banner__text" id="status-text"></p>
-                    </div>
-                </div>
+                    <!-- ── Header (Full Width) ──────────── -->
+                    <header class="dash-header">
+                        <span class="dash-header__overline">Doctor Command Center</span>
+                        <h1 class="dash-header__title" id="dash-title">Welcome Back</h1>
+                        <p class="dash-header__subtitle" id="dash-welcome">Loading your profile…</p>
+                    </header>
 
 
-                <!-- ── Metrics Grid ──────────────────────── -->
-                <div class="metrics" id="metrics-grid">
-                    <div class="metric-card">
-                        <span class="metric-card__label">Consultation Fee</span>
-                        <div class="metric-card__value" id="metric-fee">—</div>
-                        <div class="metric-card__sub">Per session</div>
-                    </div>
-                    <div class="metric-card">
-                        <span class="metric-card__label">Star Rating</span>
-                        <div class="metric-card__value" id="metric-rating">—</div>
-                        <div class="metric-card__sub">
-                            <span class="star">★★★★★</span>
-                        </div>
-                    </div>
-                    <div class="metric-card">
-                        <span class="metric-card__label">Reviews</span>
-                        <div class="metric-card__value" id="metric-reviews">—</div>
-                        <div class="metric-card__sub">Patient reviews</div>
-                    </div>
-                </div>
+                    <!-- ── LEFT COLUMN ──────────────────── -->
+                    <div class="left-col">
 
-
-                <!-- ── The Vault — Document Upload Zone ──── -->
-                <div class="section-title">
-                    <span class="section-title__overline">The Vault</span>
-                    <h2 class="section-title__heading">Credential Documents</h2>
-                    <p class="section-title__desc">Upload your medical license and insurance documents securely. All files are encrypted and stored with bank-grade security.</p>
-                </div>
-
-                <div class="vault">
-                    <div class="vault__grid">
-                        <!-- Medical License -->
-                        <div class="upload-zone" id="upload-license">
-                            <input type="file" id="file-license" accept=".pdf,.jpg,.jpeg,.png">
-                            <div class="upload-zone__icon">
-                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                                    <polyline points="14 2 14 8 20 8"/>
-                                    <line x1="12" y1="18" x2="12" y2="12"/>
-                                    <line x1="9" y1="15" x2="15" y2="15"/>
-                                </svg>
+                        <!-- Identity Card -->
+                        <div class="card identity-card">
+                            <div class="identity__avatar-wrap">
+                                <label class="identity__avatar-label" for="upload-avatar" id="ui-avatar-upload-label">
+                                    <div class="identity__avatar" id="ui-avatar">DR</div>
+                                    <div class="identity__avatar-overlay">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:24px;height:24px;"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                                    </div>
+                                </label>
+                                <input type="file" id="upload-avatar" accept="image/png, image/jpeg, image/webp" style="display: none;">
+                                <div class="identity__online-dot"></div>
                             </div>
-                            <h3 class="upload-zone__title">Medical License</h3>
-                            <p class="upload-zone__text">Upload a clear scan or photograph of your current and valid medical license issued by your governing body.</p>
-                            <button type="button" class="upload-zone__btn" id="btn-upload-license">Select File</button>
-                            <p class="upload-zone__formats">PDF, JPG, PNG · Max 10MB</p>
-                        </div>
 
-                        <!-- Malpractice Insurance -->
-                        <div class="upload-zone" id="upload-insurance">
-                            <input type="file" id="file-insurance" accept=".pdf,.jpg,.jpeg,.png">
-                            <div class="upload-zone__icon">
-                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                                </svg>
+                            <div class="identity__name-row">
+                                <h2 class="identity__name" id="ui-name">Doctor Name</h2>
+                                <span class="identity__badge identity__badge--pending" id="ui-badge">
+                                    <span id="ui-badge-text">Pending</span>
+                                </span>
                             </div>
-                            <h3 class="upload-zone__title">Malpractice Insurance</h3>
-                            <p class="upload-zone__text">Upload proof of active malpractice insurance or professional liability coverage documentation.</p>
-                            <button type="button" class="upload-zone__btn" id="btn-upload-insurance">Select File</button>
-                            <p class="upload-zone__formats">PDF, JPG, PNG · Max 10MB</p>
+
+                            <p class="identity__specialty" id="ui-specialty">Medical Specialist</p>
+
+                            <div class="identity__meta">
+                                <span class="identity__meta-item">
+                                    <svg class="identity__meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                                    South Korea
+                                </span>
+                                <span class="identity__meta-item">
+                                    <svg class="identity__meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                                    Speaks English
+                                </span>
+                            </div>
+
+                            <div class="identity__divider"></div>
+
+                            <div class="identity__license" id="ui-license-row">
+                                <svg class="identity__license-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                                <span id="ui-license">License: —</span>
+                            </div>
+
+                            <div class="identity__fee">
+                                <span class="identity__fee-value" id="ui-fee">$—</span>
+                                <span class="identity__fee-label">/ consultation</span>
+                            </div>
+                        </div>
+
+                        <!-- Trust & Verification -->
+                        <div class="card verification-card" id="ui-verification-card">
+                            <h3 class="verification__title">Trust & Verification</h3>
+                            <p class="verification__desc">Upload your medical license or credentials to get verified.</p>
+                            <label class="btn btn--outline verification__btn" for="upload-certificate">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                                <span id="ui-cert-btn-text">Upload License</span>
+                            </label>
+                            <input type="file" id="upload-certificate" accept=".jpg,.png,.webp,.pdf" style="display: none;">
+                        </div>
+
+                        <!-- Profile Strength -->
+                        <div class="card strength-card">
+                            <div class="strength__header">
+                                <span class="strength__title">Profile Strength</span>
+                                <span class="strength__count" id="ui-strength-count">— %</span>
+                            </div>
+                            <div class="strength__bar-track">
+                                <div class="strength__bar-fill" id="ui-strength-bar" style="width: 0%;"></div>
+                            </div>
+                            <p class="strength__hint" id="ui-strength-hint">Calculating your profile strength…</p>
                         </div>
                     </div>
-                </div>
 
 
-                <!-- ── Profile Details Card ──────────────── -->
-                <div class="profile-section">
-                    <div class="section-title" style="animation-delay: 0.55s;">
-                        <span class="section-title__overline">Your Profile</span>
-                        <h2 class="section-title__heading">Account Details</h2>
+                    <!-- ── RIGHT COLUMN ─────────────────── -->
+                    <div class="right-col">
+
+                        <!-- Verification Status Banner -->
+                        <div class="status-banner" id="status-banner" style="display: none;">
+                            <span class="status-banner__icon" id="status-icon"></span>
+                            <div class="status-banner__content">
+                                <span class="status-banner__label" id="status-label"></span>
+                                <p class="status-banner__text" id="status-text"></p>
+                            </div>
+                        </div>
+
+                        <!-- Quick Stat Cards -->
+                        <div class="stat-grid">
+                            <div class="stat-card">
+                                <div class="stat-card__icon stat-card__icon--navy">
+                                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                                </div>
+                                <span class="stat-card__label">Active Appointments</span>
+                                <div class="stat-card__value">0</div>
+                                <p class="stat-card__sub">Pending this week</p>
+                                <a href="appointments.html" class="stat-card__link">
+                                    View All <span class="stat-card__link-arrow">→</span>
+                                </a>
+                            </div>
+
+                            <div class="stat-card">
+                                <div class="stat-card__icon stat-card__icon--gold">
+                                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                                </div>
+                                <span class="stat-card__label">Profile Views</span>
+                                <div class="stat-card__value">0</div>
+                                <p class="stat-card__sub">Total impressions</p>
+                                <a href="#" class="stat-card__link">
+                                    View Insights <span class="stat-card__link-arrow">→</span>
+                                </a>
+                            </div>
+
+                            <div class="stat-card">
+                                <div class="stat-card__icon stat-card__icon--green">
+                                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                                </div>
+                                <span class="stat-card__label">Total Earnings</span>
+                                <div class="stat-card__value">$0</div>
+                                <p class="stat-card__sub">Lifetime revenue</p>
+                                <a href="earnings.html" class="stat-card__link">
+                                    View Earnings <span class="stat-card__link-arrow">→</span>
+                                </a>
+                            </div>
+
+                            <div class="stat-card">
+                                <div class="stat-card__icon stat-card__icon--taupe">
+                                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                                </div>
+                                <span class="stat-card__label">Active Services</span>
+                                <div class="stat-card__value">0</div>
+                                <p class="stat-card__sub">Listed consultations</p>
+                                <a href="services.html" class="stat-card__link">
+                                    Manage Services <span class="stat-card__link-arrow">→</span>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Quick Actions -->
+                        <div class="card actions-card">
+                            <h3 class="actions__title">Quick Actions</h3>
+                            <ul class="actions__list">
+                                <li>
+                                    <a href="appointments.html" class="actions__link">
+                                        <svg class="actions__link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                                        Manage Appointments
+                                        <span class="actions__link-arrow">→</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="services.html" class="actions__link">
+                                        <svg class="actions__link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                                        Configure Consultation Services
+                                        <span class="actions__link-arrow">→</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="earnings.html" class="actions__link">
+                                        <svg class="actions__link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                                        View Earnings & Withdrawals
+                                        <span class="actions__link-arrow">→</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
 
-                    <div class="profile-card">
-                        <div class="profile-card__row">
-                            <span class="profile-card__key">Full Name</span>
-                            <span class="profile-card__value" id="profile-name">—</span>
-                        </div>
-                        <div class="profile-card__row">
-                            <span class="profile-card__key">Email Address</span>
-                            <span class="profile-card__value" id="profile-email">—</span>
-                        </div>
-                        <div class="profile-card__row">
-                            <span class="profile-card__key">Specialty</span>
-                            <span class="profile-card__value" id="profile-specialty">—</span>
-                        </div>
-                        <div class="profile-card__row">
-                            <span class="profile-card__key">License Number</span>
-                            <span class="profile-card__value" id="profile-license">—</span>
-                        </div>
-                        <div class="profile-card__row">
-                            <span class="profile-card__key">Verification</span>
-                            <span class="profile-card__value" id="profile-verification">—</span>
-                        </div>
-                    </div>
-                </div>
-
+                </div><!-- /dash-grid -->
             </div><!-- /main__inner -->
         </main>
 
@@ -1055,14 +1292,13 @@
         const statusIcon        = document.getElementById('status-icon');
         const statusLabel       = document.getElementById('status-label');
         const statusText        = document.getElementById('status-text');
-        const metricFee         = document.getElementById('metric-fee');
-        const metricRating      = document.getElementById('metric-rating');
-        const metricReviews     = document.getElementById('metric-reviews');
-        const profileName       = document.getElementById('profile-name');
-        const profileEmail      = document.getElementById('profile-email');
-        const profileSpecialty  = document.getElementById('profile-specialty');
-        const profileLicense    = document.getElementById('profile-license');
-        const profileVerification = document.getElementById('profile-verification');
+        const uiName            = document.getElementById('ui-name');
+        const uiSpecialty       = document.getElementById('ui-specialty');
+        const uiLicense         = document.getElementById('ui-license');
+        const uiFee             = document.getElementById('ui-fee');
+        const uiAvatar          = document.getElementById('ui-avatar');
+        const uiBadge           = document.getElementById('ui-badge');
+        const uiBadgeText       = document.getElementById('ui-badge-text');
         const sidebar           = document.getElementById('sidebar');
         const mobileToggle      = document.getElementById('mobile-toggle');
         const sidebarOverlay    = document.getElementById('sidebar-overlay');
@@ -1097,7 +1333,7 @@
                     <div style="text-align:center; padding: 2rem;">
                         <p style="font-family: var(--font-serif); font-size: 1.2rem; margin-bottom: 0.75rem; color: var(--color-text);">Unable to Load Dashboard</p>
                         <p style="font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 1.5rem;">We couldn't connect to the server. Please try again.</p>
-                        <button onclick="location.reload()" style="padding: 0.7rem 2rem; border: 1px solid #111; background: transparent; cursor: pointer; font-family: var(--font-sans); font-weight: 600; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; transition: all 0.3s;">Retry</button>
+                        <button onclick="location.reload()" style="padding: 0.7rem 2rem; border: 1px solid #111; background: transparent; cursor: pointer; font-family: var(--font-sans); font-weight: 600; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--color-text); transition: all 0.3s;" onmouseover="this.style.background='#111';this.style.color='#FFF'" onmouseout="this.style.background='transparent';this.style.color='var(--color-text)'">Retry</button>
                     </div>
                 `;
             }
@@ -1106,12 +1342,27 @@
 
         // ── 2. Populate the Dashboard DOM ──────────────────
         function populateDashboard(data) {
-            // Extract first name for friendly welcome
             const fullName  = data.name || 'Doctor';
             const firstName = fullName.split(' ')[0];
             const lastName  = fullName.includes(' ') ? fullName.split(' ').slice(1).join(' ') : '';
 
-            // Build a dynamic greeting based on time of day
+            // Initials or Image for avatar
+            const nameParts = fullName.split(' ').filter(Boolean);
+            const initials  = nameParts.length >= 2
+                ? (nameParts[0][0] + nameParts[nameParts.length - 1][0]).toUpperCase()
+                : fullName.substring(0, 2).toUpperCase();
+
+            if (data.avatar_url) {
+                // Remove initials text & insert an image tag gracefully
+                uiAvatar.textContent = '';
+                uiAvatar.style.background = 'transparent'; // Let the image cover it
+                uiAvatar.innerHTML = `<img src="${data.avatar_url}" alt="Avatar" style="width:100%; height:100%; object-fit:cover; border-radius:50%;">`;
+            } else {
+                uiAvatar.innerHTML = '';
+                uiAvatar.textContent = initials;
+            }
+
+            // Time-based greeting
             const hour     = new Date().getHours();
             let greeting   = 'Good evening';
             if (hour < 12)      greeting = 'Good morning';
@@ -1120,48 +1371,75 @@
             dashTitle.textContent  = `Welcome, Dr. ${lastName || firstName}`;
             dashWelcome.innerHTML  = `${greeting}, <strong>Dr. ${fullName}</strong>. Here's your practice at a glance.`;
 
-            // ── Verification Status ──
+            // ── Name & Specialty ──
+            uiName.textContent     = fullName;
+            uiSpecialty.textContent = data.specialty || 'Medical Specialist';
+
+            // ── License ──
+            if (data.medical_license) {
+                uiLicense.textContent = `License: ${data.medical_license}`;
+            }
+
+            // ── Consultation Fee ──
+            const fee = parseFloat(data.consultation_fee) || 0;
+            uiFee.textContent = fee > 0 ? `$${fee.toFixed(0)}` : '$—';
+
+            // ── Verification Badge ──
             const status = (data.verification_status || 'pending').toLowerCase();
+
+            uiBadge.className = 'identity__badge';
+            if (status === 'verified') {
+                uiBadge.classList.add('identity__badge--verified');
+                uiBadgeText.textContent = 'Verified';
+            } else if (status === 'rejected') {
+                uiBadge.classList.add('identity__badge--rejected');
+                uiBadgeText.textContent = 'Rejected';
+            } else {
+                uiBadge.classList.add('identity__badge--pending');
+                uiBadgeText.textContent = 'Pending';
+            }
+
+            // ── Verification Status Banner ──
             statusBanner.style.display = 'flex';
 
             if (status === 'pending') {
                 statusBanner.className = 'status-banner status-banner--pending';
                 statusIcon.textContent  = '◉';
                 statusLabel.textContent = 'Verification Pending';
-                statusText.textContent  = 'Your medical credentials and certificates are currently under review by our verification team. This typically takes 1–3 business days. You will be notified once your profile is approved.';
+                statusText.textContent  = 'Your medical credentials are under review by our verification team. This typically takes 1–3 business days.';
             } else if (status === 'verified') {
                 statusBanner.className = 'status-banner status-banner--verified';
                 statusIcon.textContent  = '✓';
                 statusLabel.textContent = 'Verified Practitioner';
-                statusText.textContent  = 'Your credentials have been verified. Your profile is now live and visible to patients on the marketplace.';
+                statusText.textContent  = 'Your credentials have been verified. Your profile is live and visible to patients on the marketplace.';
+                
+                // Hide the upload card if already verified
+                document.getElementById('ui-verification-card').style.display = 'none';
             } else {
                 statusBanner.className = 'status-banner status-banner--rejected';
                 statusIcon.textContent  = '✕';
                 statusLabel.textContent = 'Verification Issue';
-                statusText.textContent  = 'There was an issue verifying your credentials. Please re-upload your documents or contact our support team for assistance.';
+                statusText.textContent  = 'There was an issue verifying your credentials. Please re-upload your documents or contact support.';
             }
 
-            // ── Metrics ──
-            const fee = parseFloat(data.consultation_fee) || 0;
-            metricFee.innerHTML     = `$${fee.toFixed(0)}<span>/session</span>`;
-            metricRating.innerHTML  = `${parseFloat(data.rating || 5.0).toFixed(1)}`;
-            metricReviews.innerHTML = `${parseInt(data.review_count || 0).toLocaleString()}`;
+            // ── Profile Strength ──
+            const completion = parseInt(data.profile_completion) || 0;
+            const strengthBar   = document.getElementById('ui-strength-bar');
+            const strengthCount = document.getElementById('ui-strength-count');
+            const strengthHint  = document.getElementById('ui-strength-hint');
 
-            // Update star display based on rating
-            const ratingVal    = parseFloat(data.rating || 5.0);
-            const fullStars    = Math.floor(ratingVal);
-            const emptyStars   = 5 - fullStars;
-            const starContainer = metricRating.closest('.metric-card').querySelector('.star');
-            if (starContainer) {
-                starContainer.textContent = '★'.repeat(fullStars) + '☆'.repeat(emptyStars);
+            if (strengthBar)   strengthBar.style.width     = completion + '%';
+            if (strengthCount) strengthCount.textContent    = completion + '%';
+
+            if (strengthHint) {
+                if (completion >= 100) {
+                    strengthHint.textContent = 'Your profile is complete! You\'re fully visible to patients on the marketplace.';
+                } else if (completion >= 60) {
+                    strengthHint.textContent = 'Almost there — complete your remaining credentials to unlock maximum visibility.';
+                } else {
+                    strengthHint.textContent = 'A strong profile helps you stand out. Add your specialty, license, and fee to reach 100%.';
+                }
             }
-
-            // ── Profile Details ──
-            profileName.textContent         = fullName;
-            profileEmail.textContent        = data.email || '—';
-            profileSpecialty.textContent     = data.specialty || 'Not specified';
-            profileLicense.textContent      = data.medical_license || '—';
-            profileVerification.textContent = status.charAt(0).toUpperCase() + status.slice(1);
 
             // ── Reveal Dashboard ──
             loadingState.style.display     = 'none';
@@ -1169,20 +1447,7 @@
         }
 
 
-        // ── 3. Sidebar Navigation ──────────────────────────
-        document.querySelectorAll('.sidebar__link').forEach(link => {
-            link.addEventListener('click', function (e) {
-                // Remove active from all
-                document.querySelectorAll('.sidebar__link').forEach(l => l.classList.remove('sidebar__link--active'));
-                this.classList.add('sidebar__link--active');
-
-                // Close mobile sidebar
-                closeSidebar();
-            });
-        });
-
-
-        // ── 4. Mobile Sidebar ──────────────────────────────
+        // ── 3. Mobile Sidebar ──────────────────────────────
         mobileToggle.addEventListener('click', () => {
             sidebar.classList.toggle('sidebar--open');
             sidebarOverlay.classList.toggle('sidebar-overlay--visible');
@@ -1198,65 +1463,70 @@
         }
 
 
-        // ── 5. Upload Zone Interactions (UI Only) ──────────
-        setupUploadZone('upload-license', 'file-license', 'btn-upload-license');
-        setupUploadZone('upload-insurance', 'file-insurance', 'btn-upload-insurance');
-
-        function setupUploadZone(zoneId, fileId, btnId) {
-            const zone    = document.getElementById(zoneId);
-            const fileInp = document.getElementById(fileId);
-            const btn     = document.getElementById(btnId);
-
-            // Click to upload
-            btn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                fileInp.click();
-            });
-
-            zone.addEventListener('click', () => {
-                fileInp.click();
-            });
-
-            // File selected
-            fileInp.addEventListener('change', () => {
-                if (fileInp.files.length > 0) {
-                    const file = fileInp.files[0];
-                    const title = zone.querySelector('.upload-zone__title');
-                    const text  = zone.querySelector('.upload-zone__text');
-                    title.textContent = file.name;
-                    text.textContent  = `${(file.size / 1024 / 1024).toFixed(2)} MB · Ready to upload`;
-                    btn.textContent   = 'Change File';
-                    zone.style.borderColor = 'var(--color-accent-warm)';
-                    zone.style.borderStyle = 'solid';
-                }
-            });
-
-            // Drag & Drop
-            zone.addEventListener('dragover', (e) => {
-                e.preventDefault();
-                zone.classList.add('upload-zone--dragover');
-            });
-
-            zone.addEventListener('dragleave', () => {
-                zone.classList.remove('upload-zone--dragover');
-            });
-
-            zone.addEventListener('drop', (e) => {
-                e.preventDefault();
-                zone.classList.remove('upload-zone--dragover');
-                if (e.dataTransfer.files.length > 0) {
-                    fileInp.files = e.dataTransfer.files;
-                    fileInp.dispatchEvent(new Event('change'));
-                }
-            });
-        }
-
-
-        // ── 6. Sign Out ────────────────────────────────────
+        // ── 4. Sign Out ────────────────────────────────────
         btnLogout.addEventListener('click', () => {
-            // Clear session by calling a logout endpoint (or simply redirect)
             window.location.href = LOGIN_REDIRECT;
         });
+
+
+        // ── 5. Media Upload Handlers ───────────────────────
+        const API_UPLOAD_URL = 'api/upload_media.php';
+
+        async function handleMediaUpload(event, uploadType) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            // Reset input so it can be picked again if needed
+            const formData = new FormData();
+            formData.append('upload_type', uploadType);
+            formData.append('file', file);
+
+            // Light UI feedback
+            const isCert = uploadType === 'certificate';
+            const certText = document.getElementById('ui-cert-btn-text');
+            if (isCert && certText) certText.textContent = 'Uploading…';
+            
+            try {
+                const res = await fetch(API_UPLOAD_URL, {
+                    method: 'POST',
+                    body: formData,
+                    credentials: 'same-origin',
+                    headers: { 'Accept': 'application/json' }
+                });
+
+                if (res.status === 401) {
+                    window.location.href = LOGIN_REDIRECT;
+                    return;
+                }
+
+                const data = await res.json();
+                
+                if (!res.ok) {
+                    alert(data.message || 'Upload failed.');
+                } else {
+                    // Success updates
+                    if (uploadType === 'avatar') {
+                        uiAvatar.textContent = '';
+                        uiAvatar.style.background = 'transparent';
+                        uiAvatar.innerHTML = `<img src="${data.url}?t=${Date.now()}" alt="Avatar" style="width:100%; height:100%; object-fit:cover; border-radius:50%;">`;
+                    } else if (uploadType === 'certificate') {
+                        if (certText) certText.textContent = 'Uploaded Successfully';
+                        // Optionally reload doctor profile to refresh status (if we auto-verified or just to sync)
+                    }
+                }
+            } catch (err) {
+                console.error('Upload Error:', err);
+                alert('Connection error during upload.');
+            } finally {
+                if (isCert && certText && certText.textContent === 'Uploading…') {
+                    certText.textContent = 'Upload License';
+                }
+                event.target.value = ''; // Reset
+            }
+        }
+
+        document.getElementById('upload-avatar').addEventListener('change', (e) => handleMediaUpload(e, 'avatar'));
+        document.getElementById('upload-certificate').addEventListener('change', (e) => handleMediaUpload(e, 'certificate'));
 
 
         // ── Init ───────────────────────────────────────────

@@ -14,6 +14,9 @@
  *   500  { message: "Internal server error." }
  */
 
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Methods: GET, OPTIONS");
@@ -59,6 +62,10 @@ try {
     exit;
 }
 
+// Gracefully ensure new media columns exist to prevent SELECT query fatal crash
+try { $db->exec("ALTER TABLE doctor_profiles ADD COLUMN avatar_url VARCHAR(255) DEFAULT NULL"); } catch (PDOException $e) {}
+try { $db->exec("ALTER TABLE doctor_profiles ADD COLUMN certificate_url VARCHAR(255) DEFAULT NULL"); } catch (PDOException $e) {}
+
 // Query — direct JOIN, no specialties tables
 try {
     $query = "SELECT 
@@ -70,7 +77,8 @@ try {
                 dp.consultation_fee,
                 dp.rating,
                 dp.review_count,
-                dp.bio
+                dp.bio,
+                dp.avatar_url
               FROM users u
               JOIN doctor_profiles dp ON u.id = dp.user_id
               WHERE u.uuid = :uuid AND u.role = 'doctor'
@@ -88,6 +96,14 @@ try {
         exit;
     }
 
+    // ── Profile Completion Calculation ─────────────
+    $completion = 0;
+    if (!empty($doctor['name']))                          $completion += 20;
+    if (!empty($doctor['specialty']))                     $completion += 20;
+    if (!empty($doctor['medical_license']))               $completion += 20;
+    if (floatval($doctor['consultation_fee']) > 0)        $completion += 20;
+    if ($doctor['verification_status'] === 'verified')    $completion += 20;
+
     http_response_code(200);
     echo json_encode([
         "name"                => $doctor['name'],
@@ -99,6 +115,8 @@ try {
         "rating"              => floatval($doctor['rating']),
         "review_count"        => intval($doctor['review_count']),
         "bio"                 => $doctor['bio'] ?? '',
+        "avatar_url"          => $doctor['avatar_url'] ?? null,
+        "profile_completion"  => $completion,
     ]);
 
 } catch (PDOException $e) {
