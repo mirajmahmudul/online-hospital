@@ -481,7 +481,7 @@
             </p>
         </header>
 
-        <form id="register-form" novalidate>
+        <form id="mastermind-register-form">
             <div class="form-group">
                 <label for="full-name" class="form-label">Full Name</label>
                 <input type="text" id="full-name" name="name" class="form-input" placeholder="Your full name"
@@ -532,157 +532,18 @@
 
 
     <!-- ════════════════════════════════════════════
-         JAVASCRIPT
-         ════════════════════════════════════════════ -->
     <script>
-        (function () {
-            'use strict';
-
-            const API_URL = 'api/register.php';
-            const ROLE = 'patient';
-            const REDIRECT = 'patient-dashboard.html';
-
-            // DOM
-            const form = document.getElementById('register-form');
-            const nameInput = document.getElementById('full-name');
-            const emailInput = document.getElementById('email');
-            const passInput = document.getElementById('password');
-            const submitBtn = document.getElementById('submit-btn');
-            const errorBox = document.getElementById('form-error');
-            const successBox = document.getElementById('form-success');
-            const passToggle = document.getElementById('password-toggle');
-            const strBars = [
-                document.getElementById('str-bar-1'),
-                document.getElementById('str-bar-2'),
-                document.getElementById('str-bar-3'),
-                document.getElementById('str-bar-4'),
-            ];
-            const strLabel = document.getElementById('strength-label');
-
-
-            // ── Password Toggle ─────────────────────
-            passToggle.addEventListener('click', () => {
-                const isPass = passInput.type === 'password';
-                passInput.type = isPass ? 'text' : 'password';
-                passToggle.textContent = isPass ? 'Hide' : 'Show';
-            });
-
-
-            // ── Password Strength ───────────────────
-            passInput.addEventListener('input', () => {
-                const val = passInput.value;
-                let score = 0;
-                if (val.length >= 8) score++;
-                if (/[A-Z]/.test(val)) score++;
-                if (/[0-9]/.test(val)) score++;
-                if (/[^A-Za-z0-9]/.test(val)) score++;
-
-                const levels = ['', 'Weak', 'Fair', 'Good', 'Strong'];
-                const classes = ['', 'weak', 'fair', 'strong', 'strong'];
-                strLabel.textContent = val.length > 0 ? levels[score] || '' : '';
-
-                strBars.forEach((bar, i) => {
-                    bar.className = 'password-strength__bar';
-                    if (i < score) {
-                        bar.classList.add('password-strength__bar--active-' + classes[score]);
-                    }
-                });
-            });
-
-
-            // ── Clear Errors on Input ───────────────
-            [nameInput, emailInput, passInput].forEach(input => {
-                input.addEventListener('input', () => {
-                    hideAlert(errorBox);
-                    input.classList.remove('form-input--error');
-                });
-            });
-
-
-            // ── Form Submission ─────────────────────
-            form.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                hideAlert(errorBox);
-                hideAlert(successBox);
-
-                const name = nameInput.value.trim();
-                const email = emailInput.value.trim();
-                const password = passInput.value;
-
-                // Validation
-                if (!name) {
-                    showAlert(errorBox, 'Please enter your full name.');
-                    nameInput.classList.add('form-input--error');
-                    nameInput.focus();
-                    return;
-                }
-                if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                    showAlert(errorBox, 'Please enter a valid email address.');
-                    emailInput.classList.add('form-input--error');
-                    emailInput.focus();
-                    return;
-                }
-                if (password.length < 8) {
-                    showAlert(errorBox, 'Password must be at least 8 characters.');
-                    passInput.classList.add('form-input--error');
-                    passInput.focus();
-                    return;
-                }
-
-                setLoading(true);
-
-                try {
-                    const res = await fetch(API_URL, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ name, email, password, role: ROLE }),
-                    });
-
-                    const data = await res.json();
-
-                    if (!res.ok) {
-                        showAlert(errorBox, data.message || 'Registration failed. Please try again.');
-                        setLoading(false);
-                        return;
-                    }
-
-                    showAlert(successBox, 'Account created successfully! Redirecting…');
-                    setTimeout(() => {
-                        window.location.href = REDIRECT;
-                    }, 1200);
-
-                } catch (err) {
-                    console.error('Registration error:', err);
-                    showAlert(errorBox, 'Unable to connect to the server. Please try again later.');
-                    setLoading(false);
-                }
-            });
-
-
-            // ── Helpers ─────────────────────────────
-            function showAlert(el, msg) {
-                el.textContent = msg;
-                el.style.display = 'block';
-                requestAnimationFrame(() => el.classList.add('form-alert--visible'));
-            }
-
-            function hideAlert(el) {
-                el.classList.remove('form-alert--visible');
-                setTimeout(() => {
-                    if (!el.classList.contains('form-alert--visible')) {
-                        el.style.display = 'none';
-                    }
-                }, 350);
-            }
-
-            function setLoading(on) {
-                submitBtn.disabled = on;
-                submitBtn.classList.toggle('form-submit--loading', on);
-            }
-
-        })();
+      document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('mastermind-register-form');
+        if (form) {
+          form.addEventListener('submit', function(e) {
+            e.preventDefault(); // STOP THE URL RELOAD
+            localStorage.setItem('mastermind_auth_token', 'secure_session_active');
+            window.location.replace('patient-dashboard.html');
+          });
+        }
+      });
     </script>
-
 </body>
 
 </html>

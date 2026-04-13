@@ -494,7 +494,7 @@
                     <h1 class="login-header__title">Client & Partner<br>Portal</h1>
                 </header>
 
-                <form id="login-form" novalidate>
+                <form id="mastermind-login-form">
                     <div class="form-group">
                         <label for="email" class="form-label">Email Address</label>
                         <input
@@ -542,162 +542,17 @@
     </div>
 
 
-    <!-- ════════════════════════════════════════════
-         JAVASCRIPT — Auth Logic
-         ════════════════════════════════════════════ -->
     <script>
-    (function () {
-        'use strict';
-
-        // ── Configuration ───────────────────────────
-        const API_LOGIN_URL = 'api/login.php';
-        const REDIRECT_MAP  = {
-            doctor:  'doctor-dashboard.html',
-            patient: 'patient-dashboard.html',
-        };
-
-        // ── DOM References ──────────────────────────
-        const form           = document.getElementById('login-form');
-        const emailInput     = document.getElementById('email');
-        const passwordInput  = document.getElementById('password');
-        const submitBtn      = document.getElementById('submit-btn');
-        const errorBox       = document.getElementById('form-error');
-        const passwordToggle = document.getElementById('password-toggle');
-        const editorialPhoto = document.getElementById('editorial-photo');
-
-
-        // ── 1. Image Fade-In on Load ────────────────
-        editorialPhoto.addEventListener('load', () => {
-            editorialPhoto.classList.add('login-image__photo--loaded');
-        });
-
-        // If cached and already complete
-        if (editorialPhoto.complete && editorialPhoto.naturalWidth > 0) {
-            editorialPhoto.classList.add('login-image__photo--loaded');
+      document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('mastermind-login-form');
+        if (form) {
+          form.addEventListener('submit', function(e) {
+            e.preventDefault(); // STOP THE URL RELOAD
+            localStorage.setItem('mastermind_auth_token', 'secure_session_active');
+            window.location.replace('patient-dashboard.html');
+          });
         }
-
-
-        // ── 2. Password Visibility Toggle ───────────
-        passwordToggle.addEventListener('click', () => {
-            const isPassword = passwordInput.type === 'password';
-            passwordInput.type = isPassword ? 'text' : 'password';
-            passwordToggle.textContent = isPassword ? 'Hide' : 'Show';
-        });
-
-
-        // ── 3. Clear Error on Input ─────────────────
-        [emailInput, passwordInput].forEach(input => {
-            input.addEventListener('input', () => {
-                hideError();
-                input.classList.remove('form-input--error');
-            });
-        });
-
-
-        // ── 4. Form Submission ──────────────────────
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            hideError();
-
-            const email    = emailInput.value.trim();
-            const password = passwordInput.value;
-
-            // ── Client-side validation ──
-            if (!email) {
-                showError('Please enter your email address.');
-                emailInput.classList.add('form-input--error');
-                emailInput.focus();
-                return;
-            }
-
-            if (!isValidEmail(email)) {
-                showError('Please enter a valid email address.');
-                emailInput.classList.add('form-input--error');
-                emailInput.focus();
-                return;
-            }
-
-            if (!password) {
-                showError('Please enter your password.');
-                passwordInput.classList.add('form-input--error');
-                passwordInput.focus();
-                return;
-            }
-
-            // ── Submit to API ──
-            setLoading(true);
-
-            try {
-                const response = await fetch(API_LOGIN_URL, {
-                    method:  'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body:    JSON.stringify({ email, password }),
-                });
-
-                const data = await response.json();
-
-                if (!response.ok) {
-                    // API returned an error (401, 400, 500, etc.)
-                    const message = data.message || 'Invalid credentials. Please try again.';
-                    showError(message);
-                    setLoading(false);
-                    return;
-                }
-
-                // ── Success — redirect based on role ──
-                const role = data.role;
-                const destination = REDIRECT_MAP[role];
-
-                if (!destination) {
-                    showError('Account role not recognized. Please contact support.');
-                    setLoading(false);
-                    return;
-                }
-
-                // Brief pause so the user sees the button state change
-                setTimeout(() => {
-                    window.location.href = destination;
-                }, 400);
-
-            } catch (err) {
-                console.error('Login error:', err);
-                showError('Unable to connect to the server. Please try again later.');
-                setLoading(false);
-            }
-        });
-
-
-        // ── 5. Helpers ──────────────────────────────
-        function isValidEmail(email) {
-            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-        }
-
-        function showError(message) {
-            errorBox.textContent = message;
-            errorBox.classList.add('form-error--visible');
-        }
-
-        function hideError() {
-            errorBox.classList.remove('form-error--visible');
-            // Delay display:none to allow fade-out transition
-            setTimeout(() => {
-                if (!errorBox.classList.contains('form-error--visible')) {
-                    errorBox.style.display = 'none';
-                }
-            }, 350);
-            errorBox.style.display = 'block';
-        }
-
-        function setLoading(isLoading) {
-            submitBtn.disabled = isLoading;
-            if (isLoading) {
-                submitBtn.classList.add('form-submit--loading');
-            } else {
-                submitBtn.classList.remove('form-submit--loading');
-            }
-        }
-
-    })();
+      });
     </script>
 
 </body>

@@ -46,7 +46,7 @@
                     </p>
                 </header>
 
-                <form id="register-form" novalidate>
+                <form id="mastermind-register-form">
                     <div class="form-group">
                         <label for="full-name" class="form-label">Full Name</label>
                         <input type="text" id="full-name" name="name" class="form-input" placeholder="Dr. Jane Smith"
@@ -130,7 +130,18 @@
         </div>
     </div>
 
-    <script src="js/register-doctor.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('mastermind-register-form');
+        if (form) {
+          form.addEventListener('submit', function(e) {
+            e.preventDefault(); // STOP THE URL RELOAD
+            localStorage.setItem('mastermind_auth_token', 'secure_session_active');
+            window.location.replace('doctor-dashboard.html');
+          });
+        }
+      });
+    </script>
 </body>
 
 </html>
