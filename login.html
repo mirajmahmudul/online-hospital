@@ -526,6 +526,7 @@
                     </button>
 
                     <div class="form-error" id="form-error" role="alert"></div>
+                    <div class="form-success" id="form-success" role="status" style="display:none; margin-top: 1.25rem; padding: 0.85rem 1rem; background-color: #F0FFF4; border-left: 3px solid #2D6A4F; font-family: var(--font-sans); font-size: 0.82rem; color: #2D6A4F; line-height: 1.5;"></div>
                 </form>
 
                 <div class="form-divider">or</div>
@@ -545,12 +546,112 @@
     <script>
       document.addEventListener('DOMContentLoaded', function() {
         const form = document.getElementById('mastermind-login-form');
-        if (form) {
-          form.addEventListener('submit', function(e) {
-            e.preventDefault(); // STOP THE URL RELOAD
-            localStorage.setItem('mastermind_auth_token', 'secure_session_active');
-            window.location.replace('patient-dashboard.html');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const submitBtn = document.getElementById('submit-btn');
+        const errorBox = document.getElementById('form-error');
+        const successBox = document.getElementById('form-success');
+        const passwordToggle = document.getElementById('password-toggle');
+
+        // Password toggle functionality
+        if (passwordToggle) {
+          passwordToggle.addEventListener('click', function() {
+            const isPassword = passwordInput.type === 'password';
+            passwordInput.type = isPassword ? 'text' : 'password';
+            passwordToggle.textContent = isPassword ? 'Hide' : 'Show';
           });
+        }
+
+        // Clear errors on input
+        [emailInput, passwordInput].forEach(function(input) {
+          if (input) {
+            input.addEventListener('input', function() {
+              if (errorBox) {
+                errorBox.style.display = 'none';
+                errorBox.classList.remove('form-error--visible');
+              }
+              input.classList.remove('form-input--error');
+            });
+          }
+        });
+
+        // Form submission with API call
+        if (form) {
+          form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const email = emailInput.value.trim();
+            const password = passwordInput.value;
+
+            // Basic validation
+            if (!email || !password) {
+              showError('Please enter both email and password.');
+              return;
+            }
+
+            // Set loading state
+            setLoading(true);
+
+            try {
+              const response = await fetch('api/login.php', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email: email, password: password })
+              });
+
+              const data = await response.json();
+
+              if (response.ok && data.message === 'Login successful.') {
+                // Show success message briefly
+                if (successBox) {
+                  successBox.textContent = 'Login successful! Redirecting...';
+                  successBox.style.display = 'block';
+                }
+
+                // Store auth token and redirect based on role
+                localStorage.setItem('mastermind_auth_token', 'secure_session_active');
+                localStorage.setItem('user_role', data.role || 'patient');
+                localStorage.setItem('user_email', email);
+
+                setTimeout(function() {
+                  if (data.role === 'doctor') {
+                    window.location.replace('doctor-dashboard.html');
+                  } else {
+                    window.location.replace('patient-dashboard.html');
+                  }
+                }, 800);
+              } else {
+                showError(data.message || 'Invalid credentials. Please try again.');
+              }
+            } catch (err) {
+              console.error('Login error:', err);
+              showError('Connection error. Please check your internet and try again.');
+            } finally {
+              setLoading(false);
+            }
+          });
+        }
+
+        function showError(msg) {
+          if (errorBox) {
+            errorBox.textContent = msg;
+            errorBox.style.display = 'block';
+            requestAnimationFrame(function() {
+              errorBox.classList.add('form-error--visible');
+            });
+          }
+          if (successBox) {
+            successBox.style.display = 'none';
+          }
+        }
+
+        function setLoading(isLoading) {
+          if (submitBtn) {
+            submitBtn.disabled = isLoading;
+            submitBtn.classList.toggle('form-submit--loading', isLoading);
+          }
         }
       });
     </script>
