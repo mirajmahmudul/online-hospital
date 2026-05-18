@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Doctors - Online Hospital</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0f172a;
+            --secondary: #334155;
+            --accent: #0ea5e9;
+            --accent-hover: #0284c7;
+            --gold: #d4af37;
+            --light: #f8fafc;
+            --white: #ffffff;
+            --glass: rgba(255, 255, 255, 0.95);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f1f5f9;
+            color: var(--primary);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Header */
+        header {
+            background: var(--white);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 1rem 0;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo i {
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--secondary);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: var(--white);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+        }
+
+        /* Search Hero Section */
+        .search-hero {
+            background: linear-gradient(135deg, var(--primary) 0%, #1e293b 100%);
+            padding: 3rem 0;
+            color: var(--white);
+            text-align: center;
+        }
+
+        .search-box-container {
+            max-width: 700px;
+            margin: 2rem auto 0;
+            position: relative;
+        }
+
+        .search-form {
+            display: flex;
+            background: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 1.25rem;
+            border: none;
+            outline: none;
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .search-btn {
+            background: var(--accent);
+            color: var(--white);
+            border: none;
+            padding: 0 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .search-btn:hover {
+            background: var(--accent-hover);
+        }
+
+        /* Filters */
+        .filters-bar {
+            background: var(--white);
+            padding: 1rem 0;
+            border-bottom: 1px solid #e2e8f0;
+            margin-bottom: 2rem;
+        }
+
+        .filters-content {
+            display: flex;
+            gap: 1rem;
+            overflow-x: auto;
+            padding-bottom: 0.5rem;
+        }
+
+        .filter-chip {
+            padding: 0.5rem 1.25rem;
+            background: #f1f5f9;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--secondary);
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.3s;
+            border: 1px solid transparent;
+        }
+
+        .filter-chip:hover, .filter-chip.active {
+            background: var(--white);
+            border-color: var(--accent);
+            color: var(--accent);
+            box-shadow: var(--shadow);
+        }
+
+        /* Doctor Grid (Fiverr Style) */
+        .doctors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            padding-bottom: 4rem;
+        }
+
+        .doctor-card {
+            background: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #e2e8f0;
+        }
+
+        .doctor-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .card-header {
+            position: relative;
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .doctor-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .doctor-card:hover .doctor-img {
+            transform: scale(1.05);
+        }
+
+        .verified-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .verified-badge i {
+            color: var(--accent);
+        }
+
+        .card-body {
+            padding: 1.25rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .doctor-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            color: var(--primary);
+        }
+
+        .doctor-specialty {
+            font-size: 0.9rem;
+            color: var(--secondary);
+            margin-bottom: 0.75rem;
+        }
+
+        .rating-row {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .stars {
+            color: var(--gold);
+        }
+
+        .review-count {
+            color: var(--secondary);
+            font-size: 0.85rem;
+        }
+
+        .divider {
+            height: 1px;
+            background: #e2e8f0;
+            margin: 0.75rem 0;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+
+        .price-label {
+            font-size: 0.85rem;
+            color: var(--secondary);
+        }
+
+        .price-value {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .book-btn-small {
+            background: var(--primary);
+            color: var(--white);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: background 0.3s;
+        }
+
+        .book-btn-small:hover {
+            background: var(--accent);
+        }
+
+        /* Modal Styles (Reused from dashboard) */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(4px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .consultation-modal {
+            background: var(--white);
+            width: 90%;
+            max-width: 500px;
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active .consultation-modal {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--secondary);
+            cursor: pointer;
+            padding: 0.25rem;
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .doctor-info-mini {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 8px;
+        }
+
+        .mini-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .action-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .action-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            background: var(--white);
+            cursor: pointer;
+            transition: all 0.3s;
+            gap: 0.75rem;
+        }
+
+        .action-btn:hover {
+            border-color: var(--accent);
+            background: #f0f9ff;
+            transform: translateY(-2px);
+        }
+
+        .action-btn i {
+            font-size: 1.5rem;
+            color: var(--accent);
+        }
+
+        .action-btn span {
+            font-weight: 500;
+            color: var(--primary);
+        }
+
+        .message-area {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .chat-display {
+            height: 200px;
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 1rem;
+            overflow-y: auto;
+            border: 1px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .chat-message {
+            max-width: 80%;
+            padding: 0.75rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .chat-message.sent {
+            background: var(--accent);
+            color: var(--white);
+            align-self: flex-end;
+            border-bottom-right-radius: 2px;
+        }
+
+        .chat-message.received {
+            background: var(--white);
+            color: var(--primary);
+            align-self: flex-start;
+            border: 1px solid #e2e8f0;
+            border-bottom-left-radius: 2px;
+        }
+
+        .chat-input-group {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 0.75rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            outline: none;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .chat-input:focus {
+            border-color: var(--accent);
+        }
+
+        .send-btn {
+            background: var(--accent);
+            color: var(--white);
+            border: none;
+            padding: 0 1.25rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background 0.3s;
+        }
+
+        .send-btn:hover {
+            background: var(--accent-hover);
+        }
+
+        .status-msg {
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--secondary);
+            margin-top: 0.5rem;
+            font-style: italic;
+            min-height: 1.2em;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .doctors-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="container nav-content">
+            <a href="index.html" class="logo">
+                <i class="fas fa-heartbeat"></i>
+                <span>Online Hospital</span>
+            </a>
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="find-doctors.html" style="color: var(--accent);">Find Doctors</a>
+                <a href="login.html">Login</a>
+            </nav>
+            <a href="login.html" class="btn-primary">Book Now</a>
+        </div>
+    </header>
+
+    <!-- Search Hero -->
+    <section class="search-hero">
+        <div class="container">
+            <h1>Find Your Specialist</h1>
+            <p style="opacity: 0.9; margin-top: 0.5rem;">Browse top-rated doctors for your specific condition</p>
+            
+            <div class="search-box-container">
+                <form class="search-form" id="searchForm">
+                    <input type="text" class="search-input" id="searchInput" placeholder="Search by disease, specialty, or doctor name..." value="">
+                    <button type="submit" class="search-btn">
+                        <i class="fas fa-search"></i> Search
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filters -->
+    <div class="filters-bar">
+        <div class="container">
+            <div class="filters-content" id="filterContainer">
+                <div class="filter-chip active" data-filter="all">All Specialties</div>
+                <div class="filter-chip" data-filter="Cardiology">Cardiology</div>
+                <div class="filter-chip" data-filter="Neurology">Neurology</div>
+                <div class="filter-chip" data-filter="Dermatology">Dermatology</div>
+                <div class="filter-chip" data-filter="Pediatrics">Pediatrics</div>
+                <div class="filter-chip" data-filter="Orthopedics">Orthopedics</div>
+                <div class="filter-chip" data-filter="General">General Practice</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Doctors Grid -->
+    <section class="container">
+        <div class="doctors-grid" id="doctorsGrid">
+            <!-- Doctors will be injected here via JS -->
+        </div>
+        <div id="noResults" style="text-align: center; padding: 4rem; display: none;">
+            <i class="fas fa-search" style="font-size: 3rem; color: #cbd5e1; margin-bottom: 1rem;"></i>
+            <h3>No doctors found</h3>
+            <p style="color: var(--secondary);">Try adjusting your search terms or filters.</p>
+        </div>
+    </section>
+
+    <!-- Consultation Modal -->
+    <div class="modal-overlay" id="consultModal">
+        <div class="consultation-modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Consultation Options</h3>
+                <button class="close-modal" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="doctor-info-mini">
+                    <img src="" alt="Doctor" class="mini-avatar" id="modalDocImg">
+                    <div>
+                        <h4 id="modalDocName" style="font-size: 1.1rem; font-weight: 600;">Dr. Name</h4>
+                        <p id="modalDocSpec" style="font-size: 0.9rem; color: var(--secondary);">Specialty</p>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <div class="action-btn" onclick="startCall('video')">
+                        <i class="fas fa-video"></i>
+                        <span>Video Call</span>
+                    </div>
+                    <div class="action-btn" onclick="startCall('audio')">
+                        <i class="fas fa-phone-alt"></i>
+                        <span>Audio Call</span>
+                    </div>
+                </div>
+
+                <div class="message-area">
+                    <h4 style="font-size: 1rem; margin-bottom: 0.5rem;">Send a Message</h4>
+                    <div class="chat-display" id="chatDisplay">
+                        <div class="chat-message received">Hello! How can I help you today?</div>
+                    </div>
+                    <div class="chat-input-group">
+                        <input type="text" class="chat-input" id="chatInput" placeholder="Type your message...">
+                        <button class="send-btn" onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+                    </div>
+                    <div class="status-msg" id="callStatus"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample Doctor Data
+        const doctors = [
+            {
+                id: 1,
+                name: "Dr. Sarah Johnson",
+                specialty: "Cardiology",
+                image: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&q=80&w=300&h=300",
+                rating: 4.9,
+                reviews: 124,
+                price: 150,
+                verified: true,
+                diseases: ["Heart Disease", "Hypertension", "Arrhythmia"]
+            },
+            {
+                id: 2,
+                name: "Dr. Michael Chen",
+                specialty: "Neurology",
+                image: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&q=80&w=300&h=300",
+                rating: 4.8,
+                reviews: 98,
+                price: 180,
+                verified: true,
+                diseases: ["Migraine", "Epilepsy", "Stroke"]
+            },
+            {
+                id: 3,
+                name: "Dr. Emily Rodriguez",
+                specialty: "Dermatology",
+                image: "https://images.unsplash.com/photo-1594824476967-48c8b964273f?auto=format&fit=crop&q=80&w=300&h=300",
+                rating: 5.0,
+                reviews: 215,
+                price: 120,
+                verified: true,
+                diseases: ["Acne", "Eczema", "Skin Cancer"]
+            },
+            {
+                id: 4,
+                name: "Dr. James Wilson",
+                specialty: "Pediatrics",
+                image: "https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&q=80&w=300&h=300",
+                rating: 4.9,
+                reviews: 156,
+                price: 100,
+                verified: true,
+                diseases: ["Flu", "Asthma", "Allergies"]
+            },
+            {
+                id: 5,
+                name: "Dr. Lisa Thompson",
+                specialty: "Orthopedics",
+                image: "https://images.unsplash.com/photo-1537368910025-700350fe46c7?auto=format&fit=crop&q=80&w=300&h=300",
+                rating: 4.7,
+                reviews: 89,
+                price: 160,
+                verified: true,
+                diseases: ["Fractures", "Arthritis", "Back Pain"]
+            },
+            {
+                id: 6,
+                name: "Dr. Robert Brown",
+                specialty: "General",
+                image: "https://images.unsplash.com/photo-1638202993928-7267aad84c31?auto=format&fit=crop&q=80&w=300&h=300",
+                rating: 4.6,
+                reviews: 342,
+                price: 80,
+                verified: false,
+                diseases: ["Cold", "Fever", "Checkup"]
+            }
+        ];
+
+        const grid = document.getElementById('doctorsGrid');
+        const searchInput = document.getElementById('searchInput');
+        const noResults = document.getElementById('noResults');
+        const filterChips = document.querySelectorAll('.filter-chip');
+
+        // Render Doctors
+        function renderDoctors(filterText = '', specialtyFilter = 'all') {
+            grid.innerHTML = '';
+            
+            const filtered = doctors.filter(doc => {
+                const matchesSearch = 
+                    doc.name.toLowerCase().includes(filterText.toLowerCase()) ||
+                    doc.specialty.toLowerCase().includes(filterText.toLowerCase()) ||
+                    doc.diseases.some(d => d.toLowerCase().includes(filterText.toLowerCase()));
+                
+                const matchesSpecialty = specialtyFilter === 'all' || doc.specialty === specialtyFilter;
+
+                return matchesSearch && matchesSpecialty;
+            });
+
+            if (filtered.length === 0) {
+                noResults.style.display = 'block';
+                return;
+            } else {
+                noResults.style.display = 'none';
+            }
+
+            filtered.forEach(doc => {
+                const card = document.createElement('div');
+                card.className = 'doctor-card';
+                card.innerHTML = `
+                    <div class="card-header">
+                        <img src="${doc.image}" alt="${doc.name}" class="doctor-img">
+                        ${doc.verified ? '<div class="verified-badge"><i class="fas fa-check-circle"></i> Verified</div>' : ''}
+                    </div>
+                    <div class="card-body">
+                        <h3 class="doctor-name">${doc.name}</h3>
+                        <p class="doctor-specialty">${doc.specialty}</p>
+                        <div class="rating-row">
+                            <div class="stars">
+                                ${getStars(doc.rating)}
+                            </div>
+                            <span class="review-count">(${doc.reviews})</span>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="card-footer">
+                            <div>
+                                <div class="price-label">Starting at</div>
+                                <div class="price-value">$${doc.price}</div>
+                            </div>
+                            <button class="book-btn-small" onclick="openModal(${doc.id})">Book Consult</button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function getStars(rating) {
+            let stars = '';
+            for (let i = 1; i <= 5; i++) {
+                if (i <= Math.floor(rating)) {
+                    stars += '<i class="fas fa-star"></i>';
+                } else if (i === Math.ceil(rating) && !Number.isInteger(rating)) {
+                    stars += '<i class="fas fa-star-half-alt"></i>';
+                } else {
+                    stars += '<i class="far fa-star"></i>';
+                }
+            }
+            return stars;
+        }
+
+        // Search Functionality
+        document.getElementById('searchForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const query = searchInput.value;
+            renderDoctors(query, 'all');
+            // Reset specialty filters visually
+            filterChips.forEach(chip => chip.classList.remove('active'));
+            document.querySelector('[data-filter="all"]').classList.add('active');
+        });
+
+        // Filter Chips
+        filterChips.forEach(chip => {
+            chip.addEventListener('click', () => {
+                filterChips.forEach(c => c.classList.remove('active'));
+                chip.classList.add('active');
+                const specialty = chip.dataset.filter;
+                renderDoctors(searchInput.value, specialty);
+            });
+        });
+
+        // Initial Render
+        renderDoctors();
+
+        // Modal Logic
+        const modal = document.getElementById('consultModal');
+        let currentDoctor = null;
+
+        function openModal(id) {
+            currentDoctor = doctors.find(d => d.id === id);
+            if (!currentDoctor) return;
+
+            document.getElementById('modalDocName').textContent = currentDoctor.name;
+            document.getElementById('modalDocSpec').textContent = currentDoctor.specialty;
+            document.getElementById('modalDocImg').src = currentDoctor.image;
+            document.getElementById('chatDisplay').innerHTML = '<div class="chat-message received">Hello! How can I help you today?</div>';
+            document.getElementById('callStatus').textContent = '';
+            
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+            currentDoctor = null;
+        }
+
+        // Close on outside click
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+
+        // Call/Messaging Logic
+        function startCall(type) {
+            const statusEl = document.getElementById('callStatus');
+            const icon = type === 'video' ? 'Video' : 'Audio';
+            
+            statusEl.textContent = `Connecting ${icon} call to ${currentDoctor.name}...`;
+            statusEl.style.color = 'var(--accent)';
+            
+            setTimeout(() => {
+                statusEl.textContent = `Connected! (Simulation)`;
+                statusEl.style.color = '#10b981'; // Green
+                
+                // Add system message to chat
+                const chatDisplay = document.getElementById('chatDisplay');
+                const sysMsg = document.createElement('div');
+                sysMsg.style.fontSize = '0.8rem';
+                sysMsg.style.color = '#64748b';
+                sysMsg.style.textAlign = 'center';
+                sysMsg.style.margin = '0.5rem 0';
+                sysMsg.textContent = `--- ${icon} Call Started ---`;
+                chatDisplay.appendChild(sysMsg);
+                chatDisplay.scrollTop = chatDisplay.scrollHeight;
+            }, 1500);
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            if (!message) return;
+
+            const chatDisplay = document.getElementById('chatDisplay');
+            
+            // Add user message
+            const userMsg = document.createElement('div');
+            userMsg.className = 'chat-message sent';
+            userMsg.textContent = message;
+            chatDisplay.appendChild(userMsg);
+            
+            input.value = '';
+            chatDisplay.scrollTop = chatDisplay.scrollHeight;
+
+            // Simulate reply
+            setTimeout(() => {
+                const replyMsg = document.createElement('div');
+                replyMsg.className = 'chat-message received';
+                replyMsg.textContent = "Thank you for your message. I'll review your case and get back to you shortly.";
+                chatDisplay.appendChild(replyMsg);
+                chatDisplay.scrollTop = chatDisplay.scrollHeight;
+            }, 1000);
+        }
+
+        // Enter key to send
+        document.getElementById('chatInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+
+        // Check URL params for search
+        window.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const query = urlParams.get('q');
+            if (query) {
+                searchInput.value = query;
+                renderDoctors(query, 'all');
+            }
+        });
+    </script>
+</body>
+</html>
