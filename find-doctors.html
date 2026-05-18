@@ -787,6 +787,11 @@
         document.getElementById('searchForm').addEventListener('submit', (e) => {
             e.preventDefault();
             const query = searchInput.value;
+            
+            // Update URL with search query for shareability
+            const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?q=' + encodeURIComponent(query);
+            window.history.pushState({path: newUrl}, '', newUrl);
+            
             renderDoctors(query, 'all');
             // Reset specialty filters visually
             filterChips.forEach(chip => chip.classList.remove('active'));
