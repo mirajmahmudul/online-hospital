@@ -1,36 +1,7 @@
-```gitignore
-# Compiled and build artifacts
-*.pyc
-__pycache__/
+# Examples and documentation
+DOCTOR_FEATURES_README.md
 
-# Dependencies
-vendor/
-node_modules/
-
-# Logs and temp files
-*.log
-*.tmp
-*.swp
-
-# Environment
-.env
-.env.local
-*.env.*
-
-# Editors
-.vscode/
-.idea/
-
-# Database
-*.sql.bak
-*.db-journal
-
-# Coverage
-coverage/
-htmlcov/
-.coverage
-
-# OS generated files
-.DS_Store
-Thumbs.db
-```
+# HTML files
+billing-payments.html
+records-prescriptions.html
+doctor-dashboard.html
