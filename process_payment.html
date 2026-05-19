@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment — Online Hospital</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚕</text></svg>">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        h1, h2, h3 { font-family: 'Playfair Display', serif; }
+        
+        .payment-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.3);
+            max-width: 500px;
+            width: 100%;
+            overflow: hidden;
+        }
+        
+        .payment-header {
+            background: #0a0a0c;
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .payment-header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .payment-header p {
+            color: rgba(255,255,255,0.7);
+            font-size: 14px;
+        }
+        
+        .payment-body {
+            padding: 40px;
+        }
+        
+        .order-summary {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .order-summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 14px;
+            color: #555;
+        }
+        
+        .order-summary-row.total {
+            border-top: 2px solid #ddd;
+            padding-top: 15px;
+            margin-top: 15px;
+            margin-bottom: 0;
+            font-weight: 700;
+            font-size: 18px;
+            color: #0a0a0c;
+        }
+        
+        .payment-methods {
+            margin-bottom: 30px;
+        }
+        
+        .payment-methods h3 {
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .method-option {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            border: 2px solid #eee;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .method-option:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+        
+        .method-option.selected {
+            border-color: #667eea;
+            background: #f0f2ff;
+        }
+        
+        .method-option input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            accent-color: #667eea;
+        }
+        
+        .method-icon {
+            width: 40px;
+            height: 40px;
+            background: #f0f0f0;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        
+        .card-details {
+            display: none;
+            margin-top: 20px;
+        }
+        
+        .card-details.active {
+            display: block;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 8px;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #eee;
+            border-radius: 10px;
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-group input:focus {
+            border-color: #667eea;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .pay-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+        
+        .pay-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+        
+        .pay-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .secure-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 20px;
+            color: #888;
+            font-size: 12px;
+        }
+        
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .success-message.active {
+            display: block;
+        }
+        
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: #3D8B5F;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            margin: 0 auto 25px;
+        }
+        
+        .success-message h2 {
+            font-size: 26px;
+            color: #0a0a0c;
+            margin-bottom: 10px;
+        }
+        
+        .success-message p {
+            color: #666;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+        
+        .transaction-id {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-family: monospace;
+            font-size: 14px;
+            color: #333;
+        }
+        
+        .back-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 14px 30px;
+            background: #0a0a0c;
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            background: #333;
+        }
+        
+        .loading-spinner {
+            display: none;
+            width: 40px;
+            height: 40px;
+            border: 3px solid #f0f0f0;
+            border-top-color: #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        
+        .loading-spinner.active {
+            display: block;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="payment-container">
+        <div class="payment-header">
+            <h1>Secure Payment</h1>
+            <p>Complete your appointment booking</p>
+        </div>
+        
+        <div class="payment-body">
+            <!-- Order Summary -->
+            <div class="order-summary">
+                <div class="order-summary-row">
+                    <span>Doctor:</span>
+                    <span id="summary-doctor">Dr. Sarah Chen</span>
+                </div>
+                <div class="order-summary-row">
+                    <span>Date:</span>
+                    <span id="summary-date">Oct 24, 2024</span>
+                </div>
+                <div class="order-summary-row">
+                    <span>Time:</span>
+                    <span id="summary-time">10:00 AM</span>
+                </div>
+                <div class="order-summary-row">
+                    <span>Specialty:</span>
+                    <span id="summary-specialty">Cardiology</span>
+                </div>
+                <div class="order-summary-row total">
+                    <span>Total Amount:</span>
+                    <span id="summary-amount">$150.00</span>
+                </div>
+            </div>
+            
+            <!-- Payment Form -->
+            <form id="payment-form" onsubmit="processPayment(event)">
+                <div class="payment-methods">
+                    <h3>Select Payment Method</h3>
+                    
+                    <label class="method-option selected">
+                        <input type="radio" name="payment_method" value="card" checked onchange="toggleCardDetails()">
+                        <div class="method-icon">💳</div>
+                        <div>
+                            <div style="font-weight: 600; color: #333;">Credit/Debit Card</div>
+                            <div style="font-size: 12px; color: #888;">Visa, Mastercard, American Express</div>
+                        </div>
+                    </label>
+                    
+                    <label class="method-option">
+                        <input type="radio" name="payment_method" value="bank_transfer" onchange="toggleCardDetails()">
+                        <div class="method-icon">🏦</div>
+                        <div>
+                            <div style="font-weight: 600; color: #333;">Bank Transfer</div>
+                            <div style="font-size: 12px; color: #888;">Direct bank transfer</div>
+                        </div>
+                    </label>
+                </div>
+                
+                <div class="card-details active" id="card-details">
+                    <div class="form-group">
+                        <label>Card Number</label>
+                        <input type="text" id="card-number" placeholder="1234 5678 9012 3456" maxlength="19" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Cardholder Name</label>
+                        <input type="text" id="card-name" placeholder="John Doe" required>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Expiry Date</label>
+                            <input type="text" id="card-expiry" placeholder="MM/YY" maxlength="5" required>
+                        </div>
+                        <div class="form-group">
+                            <label>CVV</label>
+                            <input type="text" id="card-cvv" placeholder="123" maxlength="4" required>
+                        </div>
+                    </div>
+                </div>
+                
+                <button type="submit" class="pay-btn" id="pay-btn">
+                    Pay $<span id="btn-amount">150.00</span>
+                </button>
+                
+                <div class="loading-spinner" id="loading-spinner"></div>
+                
+                <div class="secure-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                    </svg>
+                    <span>256-bit SSL Encrypted Payment</span>
+                </div>
+            </form>
+            
+            <!-- Success Message -->
+            <div class="success-message" id="success-message">
+                <div class="success-icon">✓</div>
+                <h2>Payment Successful!</h2>
+                <p>Your appointment has been confirmed and paid for.</p>
+                <div class="transaction-id">
+                    Transaction ID: <strong id="transaction-id">TXN12345678</strong>
+                </div>
+                <p style="margin-top: 20px;">A confirmation email has been sent to your registered email address.</p>
+                <a href="patient-dashboard.html" class="back-btn">Back to Dashboard</a>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Get payment details from URL or use demo data
+        const urlParams = new URLSearchParams(window.location.search);
+        const paymentId = urlParams.get('payment_id');
+        
+        // Demo appointment data (in production, fetch from API)
+        const appointmentData = {
+            doctor_name: 'Dr. Sarah Chen',
+            specialty: 'Cardiology',
+            date: '2024-10-24',
+            time: '10:00',
+            amount: 150.00
+        };
+        
+        // Populate summary
+        document.getElementById('summary-doctor').textContent = appointmentData.doctor_name;
+        document.getElementById('summary-date').textContent = formatDate(appointmentData.date);
+        document.getElementById('summary-time').textContent = formatTime(appointmentData.time);
+        document.getElementById('summary-specialty').textContent = appointmentData.specialty;
+        document.getElementById('summary-amount').textContent = '$' + appointmentData.amount.toFixed(2);
+        document.getElementById('btn-amount').textContent = appointmentData.amount.toFixed(2);
+        
+        function toggleCardDetails() {
+            const method = document.querySelector('input[name="payment_method"]:checked').value;
+            const cardDetails = document.getElementById('card-details');
+            
+            if (method === 'card') {
+                cardDetails.classList.add('active');
+            } else {
+                cardDetails.classList.remove('active');
+            }
+        }
+        
+        function processPayment(event) {
+            event.preventDefault();
+            
+            const btn = document.getElementById('pay-btn');
+            const spinner = document.getElementById('loading-spinner');
+            
+            btn.disabled = true;
+            btn.textContent = 'Processing...';
+            spinner.classList.add('active');
+            
+            // Simulate payment processing (in production: call API)
+            setTimeout(() => {
+                // Generate random transaction ID
+                const transactionId = 'TXN' + Math.random().toString(36).substr(2, 9).toUpperCase();
+                
+                // Hide form, show success
+                document.getElementById('payment-form').style.display = 'none';
+                document.getElementById('success-message').classList.add('active');
+                document.getElementById('transaction-id').textContent = transactionId;
+                
+                console.log('Payment processed:', {
+                    payment_id: paymentId,
+                    transaction_id: transactionId,
+                    amount: appointmentData.amount
+                });
+            }, 2000);
+        }
+        
+        function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        }
+        
+        function formatTime(timeStr) {
+            const [hours, minutes] = timeStr.split(':');
+            const hour = parseInt(hours);
+            const ampm = hour >= 12 ? 'PM' : 'AM';
+            const displayHour = hour % 12 || 12;
+            return `${displayHour}:${minutes} ${ampm}`;
+        }
+        
+        // Format card number with spaces
+        document.getElementById('card-number').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\s/g, '');
+            let formatted = value.match(/.{1,4}/g)?.join(' ') || value;
+            e.target.value = formatted;
+        });
+        
+        // Format expiry date
+        document.getElementById('card-expiry').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length >= 2) {
+                value = value.substr(0, 2) + '/' + value.substr(2, 2);
+            }
+            e.target.value = value;
+        });
+    </script>
+</body>
+</html>
