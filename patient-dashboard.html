@@ -339,6 +339,134 @@
             display: none;
         }
         .call-status--active { display: block; }
+        
+        /* Booking Modal Styles */
+        .booking-modal-content {
+            max-width: 550px;
+        }
+        .booking-form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .booking-form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #666;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .booking-form-group input, .booking-form-group select, .booking-form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+        .booking-form-group input:focus, .booking-form-group select:focus, .booking-form-group textarea:focus {
+            border-color: #0a0a0c;
+        }
+        .booking-form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        .time-slots-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .time-slot-btn {
+            padding: 10px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .time-slot-btn:hover {
+            border-color: #0a0a0c;
+            background: #f8f9fa;
+        }
+        .time-slot-btn.selected {
+            background: #0a0a0c;
+            color: white;
+            border-color: #0a0a0c;
+        }
+        .time-slot-btn.disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            background: #f0f0f0;
+        }
+        .booking-summary {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        .booking-summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        .booking-summary-row:last-child {
+            margin-bottom: 0;
+            padding-top: 10px;
+            border-top: 1px solid #ddd;
+            font-weight: 600;
+            font-size: 16px;
+        }
+        .btn-book {
+            background: #0a0a0c;
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            border-radius: 50px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+        .btn-book:hover {
+            background: #333;
+            transform: translateY(-2px);
+        }
+        .btn-book:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .status-badge.pending {
+            background: #FBF8F1;
+            color: #9A8355;
+            border: 1px solid #E8DFC8;
+        }
+        .status-badge.confirmed {
+            background: #F0F9F4;
+            color: #3D8B5F;
+            border: 1px solid #C8E6D5;
+        }
+        .status-badge.paid {
+            background: #E8F4FD;
+            color: #1E6FA8;
+            border: 1px solid #B8D9ED;
+        }
     </style>
 </head>
 <body>
@@ -374,6 +502,56 @@
                         <button class="message-send-btn" onclick="sendMessage()">Send</button>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Booking Modal -->
+    <div class="modal-overlay" id="booking-modal">
+        <div class="modal-wrapper">
+            <button class="modal-close" onclick="closeBookingModal()">&times;</button>
+            <div class="modal-content booking-modal-content">
+                <img src="" alt="Doctor" class="modal-avatar" id="booking-doctor-avatar">
+                <h3 class="modal-title" id="booking-doctor-name">Dr. Name</h3>
+                <p class="modal-subtitle" id="booking-doctor-specialty">Specialty</p>
+                
+                <form id="booking-form" onsubmit="submitBooking(event)">
+                    <div class="booking-form-group">
+                        <label>Select Date</label>
+                        <input type="date" id="booking-date" required min="">
+                    </div>
+                    
+                    <div class="booking-form-group">
+                        <label>Select Time Slot</label>
+                        <div class="time-slots-grid" id="time-slots-container">
+                            <p style="grid-column: 1/-1; color: #666; font-size: 13px;">Select a date first to see available slots</p>
+                        </div>
+                        <input type="hidden" id="selected-time" required>
+                    </div>
+                    
+                    <div class="booking-form-group">
+                        <label>Patient Name</label>
+                        <input type="text" id="patient-name" placeholder="Your full name" required>
+                    </div>
+                    
+                    <div class="booking-form-group">
+                        <label>Reason for Visit (Optional)</label>
+                        <textarea id="booking-notes" placeholder="Briefly describe your symptoms or reason for consultation"></textarea>
+                    </div>
+                    
+                    <div class="booking-summary" id="booking-summary" style="display: none;">
+                        <div class="booking-summary-row">
+                            <span>Consultation Fee:</span>
+                            <span id="summary-fee">$150.00</span>
+                        </div>
+                        <div class="booking-summary-row">
+                            <span>Total Amount:</span>
+                            <span id="summary-total">$150.00</span>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn-book" id="btn-submit-booking" disabled>Request Appointment</button>
+                </form>
             </div>
         </div>
     </div>
@@ -567,7 +745,7 @@
                         <div style="font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 600; color: #0a0a0c;">${doc.name}</div>
                         <div style="font-size: 15px; color: #666; margin-top: 4px; font-weight: 500;">${doc.specialty}</div>
                     </div>
-                    <button class="btn" style="margin-top: 0; padding: 12px 25px; align-self: center;" onclick="openConsultationModal('${doc.name}', '${doc.specialty}'); return false;">Book Consult →</button>
+                    <button class="btn" style="margin-top: 0; padding: 12px 25px; align-self: center;" onclick="openBookingModal('${doc.name}', '${doc.specialty}', '${doc.img}'); return false;">Book Consult →</button>
                 `;
                 searchResults.appendChild(card);
             });
@@ -683,6 +861,152 @@
                 });
             }
         });
+
+        // 6. Booking System Functions
+        let bookingDoctor = { name: '', specialty: '', img: '', id: 1, fee: 150 };
+
+        function openBookingModal(doctorName, specialty, img) {
+            bookingDoctor = { 
+                name: doctorName, 
+                specialty: specialty, 
+                img: img,
+                id: getDoctorIdByName(doctorName),
+                fee: getDoctorFeeBySpecialty(specialty)
+            };
+            
+            document.getElementById('booking-doctor-name').textContent = doctorName;
+            document.getElementById('booking-doctor-specialty').textContent = specialty;
+            document.getElementById('booking-doctor-avatar').src = img;
+            
+            // Set minimum date to today
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('booking-date').min = today;
+            
+            // Reset form
+            document.getElementById('booking-form').reset();
+            document.getElementById('time-slots-container').innerHTML = '<p style="grid-column: 1/-1; color: #666; font-size: 13px;">Select a date first to see available slots</p>';
+            document.getElementById('selected-time').value = '';
+            document.getElementById('booking-summary').style.display = 'none';
+            document.getElementById('btn-submit-booking').disabled = true;
+            
+            document.getElementById('booking-modal').classList.add('modal-overlay--active');
+        }
+
+        function closeBookingModal() {
+            document.getElementById('booking-modal').classList.remove('modal-overlay--active');
+        }
+
+        function getDoctorIdByName(name) {
+            const doctorMap = {
+                'Dr. Sarah Chen': 1,
+                'Dr. James Wilson': 2,
+                'Dr. Elena Rodriguez': 3,
+                'Dr. David Park': 4
+            };
+            return doctorMap[name] || 1;
+        }
+
+        function getDoctorFeeBySpecialty(specialty) {
+            const feeMap = {
+                'Cardiology': 150,
+                'Neurology': 200,
+                'Pediatrics': 120,
+                'Orthopedics': 180
+            };
+            return feeMap[specialty] || 150;
+        }
+
+        // Date change handler - load available slots
+        document.getElementById('booking-date').addEventListener('change', function(e) {
+            const selectedDate = e.target.value;
+            if (selectedDate) {
+                loadAvailableSlots(selectedDate);
+            }
+        });
+
+        function loadAvailableSlots(date) {
+            const container = document.getElementById('time-slots-container');
+            container.innerHTML = '<p style="grid-column: 1/-1; color: #666; font-size: 13px;">Loading...</p>';
+            
+            // Demo: Generate time slots (in production, call API)
+            const demoSlots = ['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30'];
+            
+            setTimeout(() => {
+                container.innerHTML = '';
+                demoSlots.forEach(slot => {
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = 'time-slot-btn';
+                    btn.textContent = slot;
+                    btn.onclick = () => selectTimeSlot(slot, btn);
+                    container.appendChild(btn);
+                });
+            }, 500);
+        }
+
+        function selectTimeSlot(time, btnElement) {
+            // Remove previous selection
+            document.querySelectorAll('.time-slot-btn').forEach(b => b.classList.remove('selected'));
+            
+            // Add selection to clicked button
+            btnElement.classList.add('selected');
+            document.getElementById('selected-time').value = time;
+            
+            // Show summary and enable submit
+            document.getElementById('summary-fee').textContent = '$' + bookingDoctor.fee.toFixed(2);
+            document.getElementById('summary-total').textContent = '$' + bookingDoctor.fee.toFixed(2);
+            document.getElementById('booking-summary').style.display = 'block';
+            document.getElementById('btn-submit-booking').disabled = false;
+        }
+
+        function submitBooking(event) {
+            event.preventDefault();
+            
+            const patientName = document.getElementById('patient-name').value.trim();
+            const notes = document.getElementById('booking-notes').value.trim();
+            const selectedDate = document.getElementById('booking-date').value;
+            const selectedTime = document.getElementById('selected-time').value;
+            
+            if (!patientName || !selectedDate || !selectedTime) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+
+            const btn = document.getElementById('btn-submit-booking');
+            btn.disabled = true;
+            btn.textContent = 'Processing...';
+
+            // Demo appointment data
+            const appointmentData = {
+                patient_id: 1, // In production, get from session/token
+                doctor_id: bookingDoctor.id,
+                patient_name: patientName,
+                doctor_name: bookingDoctor.name,
+                specialty: bookingDoctor.specialty,
+                appointment_date: selectedDate,
+                appointment_time: selectedTime,
+                amount: bookingDoctor.fee,
+                notes: notes
+            };
+
+            // Simulate API call (in production: fetch('api/appointments.php?action=create', ...))
+            console.log('Creating appointment:', appointmentData);
+            
+            setTimeout(() => {
+                // Success simulation
+                btn.textContent = 'Appointment Requested!';
+                
+                alert(`✓ Appointment request sent successfully!\n\nDoctor: ${bookingDoctor.name}\nDate: ${selectedDate}\nTime: ${selectedTime}\nAmount: $${bookingDoctor.fee.toFixed(2)}\n\nWait for the doctor to confirm your appointment. You will be notified to proceed with payment once confirmed.`);
+                
+                closeBookingModal();
+                
+                // Reset button after delay
+                setTimeout(() => {
+                    btn.disabled = false;
+                    btn.textContent = 'Request Appointment';
+                }, 1000);
+            }, 1500);
+        }
     });
     </script>
 </body>
